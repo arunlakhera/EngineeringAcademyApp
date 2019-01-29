@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">EngineeingAcademy</string>
+
+    <!-- Sign In Screen -->
+
+    <string name="logo_description">EA Logo</string>
+    <string name="email_id_hint">Email Id</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="not_registered">Not Registered ?</string>
+    <string name="sign_up">Sign Up</string>
+
+    <!-- Sign Up Screen -->
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone">Phone Number</string>
+    <string name="already_registered">Already Registered ?</string>
+</resources>

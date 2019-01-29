@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="logo_width_default">130dp</dimen>
+    <dimen name="logo_height_default">130dp</dimen>
+
+    <dimen name="margin_default">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+
+    <dimen name="padding_def">2dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_medium">6dp</dimen>
+    <dimen name="padding_large">8dp</dimen>
+
+    <dimen name="text_default">12sp</dimen>
+    <dimen name="text_small">16sp</dimen>
+    <dimen name="text_medium">20sp</dimen>
+    <dimen name="text_large">24sp</dimen>
+</resources>
