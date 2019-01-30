@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ArticlesActivity">
+    tools:context=".AnswersActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/toolbar_layout"
+        android:id="@+id/toolbar"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ea_bg"
+        android:layout_below="@id/toolbar"
+        android:scaleType="fitXY"
+        />
+
+
+
+</RelativeLayout>

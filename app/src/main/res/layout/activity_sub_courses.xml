@@ -16,8 +16,17 @@
         android:src="@drawable/ea_bg"
         android:layout_below="@id/toolbar"
         android:scaleType="fitXY"
+        android:alpha="0.8"
         />
 
+    <ListView
+        android:id="@+id/listView_Sub_Courses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:divider="@color/colorAccent"
+        android:footerDividersEnabled="false"
+        />
 
 
 </RelativeLayout>
