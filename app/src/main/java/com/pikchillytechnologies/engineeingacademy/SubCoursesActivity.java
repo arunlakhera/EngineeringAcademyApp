@@ -24,9 +24,12 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_RecyclerView_Course_Package = findViewById(R.id.recyclerView_Sub_Courses);
         m_Sub_Course_Package_Adapter = new SubCoursesPackageAdapter(m_Sub_Course_Package_List);
 
+        m_RecyclerView_Course_Package.setHasFixedSize(true);
+
         RecyclerView.LayoutManager m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
         m_RecyclerView_Course_Package.setLayoutManager(m_Layout_Manager);
-        m_RecyclerView_Course_Package.setItemAnimator(new DefaultItemAnimator());
+
+        //m_RecyclerView_Course_Package.setItemAnimator(new DefaultItemAnimator());
         m_RecyclerView_Course_Package.setAdapter(m_Sub_Course_Package_Adapter);
 
         prepareCoursePackageData();
