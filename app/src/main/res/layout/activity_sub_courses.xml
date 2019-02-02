@@ -19,13 +19,13 @@
         android:alpha="0.8"
         />
 
-    <ListView
-        android:id="@+id/listView_Sub_Courses"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_Sub_Courses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:divider="@color/colorAccent"
-        android:footerDividersEnabled="false"
+        android:scrollbars="vertical"
         />
 
 
