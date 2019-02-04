@@ -4,20 +4,251 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExamActivity">
+    tools:context=".Activity.ExamActivity">
 
-    <include layout="@layout/toolbar_layout"
+    <include
         android:id="@+id/toolbar"
-        />
+        layout="@layout/toolbar_layout" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ea_bg"
         android:layout_below="@id/toolbar"
         android:scaleType="fitXY"
-        />
+        android:src="@drawable/ea_bg" />
 
+    <!-- Replace with Recycler view horizontal-->
+    <ImageView
+        android:id="@+id/recyclerView_Questions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:scaleType="fitXY"
+        android:src="@drawable/nav_base" />
+
+    <LinearLayout
+        android:id="@+id/layout_Information"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/course_red_bg"
+        android:layout_below="@id/recyclerView_Questions"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView_Current_Question"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_small"
+            android:gravity="center"
+            android:text="3/10"
+            android:textColor="@color/colorOffWhiteBg"
+            android:textSize="@dimen/text_small" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/clock" />
+
+            <TextView
+                android:id="@+id/textView_Time_Remaining"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_small"
+                android:gravity="center"
+                android:text="00:45 min"
+                android:textColor="@color/colorOffWhiteBg"
+                android:textSize="@dimen/text_small" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView_Info"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_small"
+            android:src="@drawable/instruction_icon" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_Information"
+        android:layout_above="@id/layout_Bottom"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/layout_Question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/margin_default"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/margin_default"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:layout_marginRight="@dimen/margin_default"
+                    android:layout_marginEnd="@dimen/margin_default"
+                    >
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_red_flat"
+                        android:text="English"
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/colorOffWhiteBg"
+                        />
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_flat"
+                        android:text="Hindi"
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/colorOffWhiteBg"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView_Question"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:padding="@dimen/padding_small"
+                    android:layout_marginLeft="@dimen/margin_default"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:layout_marginRight="@dimen/margin_default"
+                    android:layout_marginEnd="@dimen/margin_default"
+                    android:background="@drawable/question_base"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_small"
+                    android:text="Question:"
+                    android:scrollbars="vertical"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/layout_Answers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:background="@drawable/question_base"
+                    >
+
+                    <RadioGroup
+                        android:id="@+id/radio_group_answer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
+                        >
+
+                        <RadioButton
+                            android:id="@+id/radio_answer1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_default"
+                            android:text="Answer 1"
+                            android:textSize="@dimen/text_small"
+                            android:textColor="@android:color/white"
+                            />
+
+                        <RadioButton
+                            android:id="@+id/radio_answer2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_default"
+                            android:text="Answer 1"
+                            android:textSize="@dimen/text_small"
+                            android:textColor="@android:color/white"
+                            />
+
+                        <RadioButton
+                            android:id="@+id/radio_answer3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_default"
+                            android:text="Answer 1"
+                            android:textSize="@dimen/text_small"
+                            android:textColor="@android:color/white"
+                            />
+
+                        <RadioButton
+                            android:id="@+id/radio_answer4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_default"
+                            android:text="Answer 1"
+                            android:textSize="@dimen/text_small"
+                            android:textColor="@android:color/white"
+                            />
+                    </RadioGroup>
+
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layout_Bottom"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_default"
+        android:layout_marginBottom="@dimen/margin_medium"
+        >
+
+        <Button
+            android:id="@+id/button_Previous"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/nav_prev" />
+
+        <Button
+            android:id="@+id/button_Submit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_red_flat"
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            />
+        <Button
+            android:id="@+id/button_Next"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/nav_next" />
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.pikchillytechnologies.engineeingacademy;
+package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.pikchillytechnologies.engineeingacademy.R;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -25,7 +27,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(SignInActivity.this,CoursesActivity.class));
+                startActivity(new Intent(SignInActivity.this, CoursesActivity.class));
 
             }
         });

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".SubCoursesActivity">
+    tools:context=".Activity.SubCoursesActivity">
 
     <include layout="@layout/toolbar_layout"
         android:id="@+id/toolbar"
@@ -16,7 +16,7 @@
         android:src="@drawable/ea_bg"
         android:layout_below="@id/toolbar"
         android:scaleType="fitXY"
-        android:alpha="0.8"
+        android:alpha="0.2"
         />
 
     <android.support.v7.widget.RecyclerView
@@ -26,6 +26,7 @@
         android:layout_below="@id/toolbar"
         android:divider="@color/colorAccent"
         android:scrollbars="vertical"
+        android:layout_marginBottom="@dimen/margin_small"
         />
 
 

@@ -1,10 +1,16 @@
-package com.pikchillytechnologies.engineeingacademy;
+package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.pikchillytechnologies.engineeingacademy.R;
+import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
+import com.pikchillytechnologies.engineeingacademy.Model.SubCoursePackage;
+import com.pikchillytechnologies.engineeingacademy.Adapter.SubCoursesPackageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +39,20 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_RecyclerView_Course_Package.setAdapter(m_Sub_Course_Package_Adapter);
 
         prepareCoursePackageData();
+
+        m_RecyclerView_Course_Package.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Course_Package, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                SubCoursePackage scp = m_Sub_Course_Package_List.get(position);
+                startActivity(new Intent(SubCoursesActivity.this, ExamListActivity.class));
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                    // Nothing
+            }
+        }));
+
 
     }
 

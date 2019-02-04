@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExamListActivity">
+    tools:context=".Activity.ExamListActivity">
 
     <include layout="@layout/toolbar_layout"
         android:id="@+id/toolbar"
@@ -18,5 +18,17 @@
         android:scaleType="fitXY"
         android:alpha="0.8"
         />
+
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/recyclerView_Exam_List"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/toolbar"
+       android:divider="@color/colorAccent"
+       android:scrollbars="vertical"
+       android:layout_marginBottom="@dimen/margin_small"
+       >
+
+   </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.pikchillytechnologies.engineeingacademy;
+package com.pikchillytechnologies.engineeingacademy.Model;
 
 public class SubCoursePackage {
 

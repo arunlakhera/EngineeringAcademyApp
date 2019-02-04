@@ -1,5 +1,6 @@
-package com.pikchillytechnologies.engineeingacademy;
+package com.pikchillytechnologies.engineeingacademy.Adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,17 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pikchillytechnologies.engineeingacademy.R;
+import com.pikchillytechnologies.engineeingacademy.Model.SubCoursePackage;
+
 import java.util.List;
 
 public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPackageAdapter.MyViewHolder>{
 
     private List<SubCoursePackage> m_Sub_Course_Packages_List;
+    private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         private TextView m_TextView_Sub_Category;
         private TextView m_TextView_Cost;
         private TextView m_TextView_Total_Exams;
+
         //private ImageView m_ImageView_Lock;
         //private Button m_Button_Buy;
 
@@ -39,6 +45,7 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.sub_courses_listview, parent, false);
+        mContext = parent.getContext();
         return new MyViewHolder(itemView);
     }
 
