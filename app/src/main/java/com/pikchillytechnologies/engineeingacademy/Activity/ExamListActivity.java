@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamListAdapter;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamListModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
@@ -22,6 +23,8 @@ public class ExamListActivity extends AppCompatActivity {
     private TextView m_TextView_Activity_Title;
     private Button m_Button_Back;
 
+    private EAHelper m_Helper;
+
     private List<ExamListModel> m_Exam_List;
     private RecyclerView m_RecyclerView_Exam_List;
     private ExamListAdapter m_Exam_List_Adapter;
@@ -30,6 +33,8 @@ public class ExamListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_list);
+
+        m_Helper = new EAHelper();
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_TextView_Activity_Title.setText("Exam List");
@@ -54,7 +59,7 @@ public class ExamListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 ExamListModel exam = m_Exam_List.get(position);
-                startActivity(new Intent(ExamListActivity.this, ExamInstructionActivity.class));
+                m_Helper.start_Activity(ExamListActivity.this, ExamInstructionActivity.class);
             }
 
             @Override
@@ -62,6 +67,13 @@ public class ExamListActivity extends AppCompatActivity {
                 // Nothing
             }
         }));
+
+        m_Button_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_Helper.start_Activity(ExamListActivity.this, SubCoursesActivity.class,"");
+            }
+        });
     }
 
     public void prepareExamListData(){
@@ -101,10 +113,6 @@ public class ExamListActivity extends AppCompatActivity {
 
         exam = new ExamListModel("Exam 12","13/02/2019","25/02/2019");
         m_Exam_List.add(exam);
-
-
-
-
 
     }
 
