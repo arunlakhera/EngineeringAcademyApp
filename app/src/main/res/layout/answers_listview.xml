@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/darker_gray"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView_Ans_Ques_Number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:text="Question 1"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textView_Ans_Question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_Ans_Ques_Number"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:text="Question "
+        android:textColor="@android:color/white" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup_Ans_Group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_Ans_Question"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        >
+
+        <RadioButton
+            android:id="@+id/radio_Ans_Ans1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Answer 1"
+            android:layout_margin="@dimen/margin_default"
+            android:textColor="@android:color/white"
+            />
+        <RadioButton
+            android:id="@+id/radio_Ans_Ans2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Answer 2"
+            android:layout_margin="@dimen/margin_default"
+            android:textColor="@android:color/white"
+            />
+        <RadioButton
+            android:id="@+id/radio_Ans_Ans3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Answer 3"
+            android:layout_margin="@dimen/margin_default"
+            android:textColor="@android:color/white"
+            />
+        <RadioButton
+            android:id="@+id/radio_Ans_Ans4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Answer 4"
+            android:layout_margin="@dimen/margin_default"
+            android:textColor="@android:color/white"
+            />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView_Ans_Explain_Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_below="@id/radioGroup_Ans_Group"
+        android:text="Explaination"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textView_Ans_Explaination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_below="@id/textView_Ans_Explain_Title"
+        android:text="----------"
+        android:textColor="@android:color/white" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/holo_red_dark"
+        android:layout_below="@id/textView_Ans_Explaination"
+        android:layout_marginTop="@dimen/margin_default"
+        />
+
+</RelativeLayout>

@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Scroller;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pikchillytechnologies.engineeingacademy.R;
 
 public class ExamActivity extends AppCompatActivity {
 
+    private TextView m_TextView_Activity_Title;
     TextView m_TextView_Question;
     Button m_Button_Submit;
 
@@ -20,6 +22,9 @@ public class ExamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
+
+        m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
+        m_TextView_Activity_Title.setText("Exam");
 
         m_TextView_Question = findViewById(R.id.textView_Question);
         m_Button_Submit = findViewById(R.id.button_Submit);
@@ -33,6 +38,7 @@ public class ExamActivity extends AppCompatActivity {
                 startActivity(new Intent(ExamActivity.this, ResultActivity.class));
             }
         });
+
 
     }
 }

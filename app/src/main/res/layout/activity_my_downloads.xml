@@ -16,15 +16,5 @@
         android:src="@drawable/ea_bg"
         android:layout_below="@id/toolbar"
         android:scaleType="fitXY"
-        android:alpha="0.8"
         />
-
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_red_base"
-        />
-
 </RelativeLayout>

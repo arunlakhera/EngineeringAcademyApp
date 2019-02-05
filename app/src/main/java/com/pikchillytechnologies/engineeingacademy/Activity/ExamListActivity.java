@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamListAdapter;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamListModel;
@@ -17,6 +19,9 @@ import java.util.List;
 
 public class ExamListActivity extends AppCompatActivity {
 
+    private TextView m_TextView_Activity_Title;
+    private Button m_Button_Back;
+
     private List<ExamListModel> m_Exam_List;
     private RecyclerView m_RecyclerView_Exam_List;
     private ExamListAdapter m_Exam_List_Adapter;
@@ -25,6 +30,12 @@ public class ExamListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_list);
+
+        m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
+        m_TextView_Activity_Title.setText("Exam List");
+
+        m_Button_Back = findViewById(R.id.button_Back);
+        m_Button_Back.setVisibility(View.VISIBLE);
 
         m_Exam_List = new ArrayList<>();
         m_RecyclerView_Exam_List = findViewById(R.id.recyclerView_Exam_List);
