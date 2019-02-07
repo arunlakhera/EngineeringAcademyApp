@@ -23,7 +23,8 @@ public class ExamInstructionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exam_instruction);
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_TextView_Activity_Title.setText("Exam");
+        m_TextView_Activity_Title.setText(getResources().getString(R.string.exam));
+
         m_Helper = new EAHelper();
 
         m_Button_Back = findViewById(R.id.button_Back);

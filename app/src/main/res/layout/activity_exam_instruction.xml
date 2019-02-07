@@ -15,7 +15,9 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:scaleType="fitXY"
-        android:src="@drawable/ea_bg" />
+        android:src="@drawable/ea_bg"
+        android:alpha="0.8"
+        />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,207 +28,177 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            >
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardView_Title"
+            <LinearLayout
+                android:id="@+id/layout_Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                app:cardBackgroundColor="@color/colorPrimaryDark"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="4dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/exam_inst_blue_base" />
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/exam_list_base"
+                >
 
                 <TextView
+                    android:id="@+id/textView_Instruction_Title"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:layout_gravity="center"
                     android:text="Instructions for Exam"
                     android:textColor="@color/colorOffWhiteBg"
                     android:textSize="@dimen/text_large" />
 
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardView_Instructions"
+            <LinearLayout
+                android:id="@+id/layout_Instruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cardView_Title"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:scrollbars="vertical"
-                app:cardBackgroundColor="@color/colorPrimaryDark"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="4dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/exam_inst_blue_base" />
+                android:layout_marginTop="@dimen/margin_default"
+                android:background="@drawable/exam_list_base"
+                android:layout_below="@id/layout_Title"
+                >
 
                 <TextView
                     android:id="@+id/textView_Instructions"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/margin_small"
-                    android:gravity="left"
-                    android:text="Instructions"
-                    android:textColor="@color/textColorYellow"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text="Instructions for Exam"
+                    android:textColor="@color/colorOffWhiteBg"
                     android:textSize="@dimen/text_large" />
 
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardView_Info"
+            <LinearLayout
+                android:id="@+id/layout_Info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cardView_Instructions"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:scrollbars="vertical"
-                app:cardBackgroundColor="@color/colorPrimaryDark"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="4dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/exam_inst_blue_base" />
+                android:layout_marginTop="@dimen/margin_default"
+                android:background="@drawable/exam_list_base"
+                android:layout_below="@id/layout_Instruction"
+                android:orientation="vertical"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
-                    android:orientation="vertical">
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:id="@+id/imageView_Correct"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/correct" />
+
+                    <TextView
+                        android:id="@+id/textView_Correct"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginLeft="@dimen/margin_small"
-                        android:layout_marginTop="@dimen/margin_default"
-                        android:layout_marginEnd="@dimen/margin_small"
-                        android:layout_marginRight="@dimen/margin_small"
-                        android:layout_marginBottom="@dimen/margin_default"
-                        android:orientation="horizontal">
+                        android:text="1 mark for correct answer"
+                        android:textColor="@color/textColorYellow" />
 
-                        <ImageView
-                            android:id="@+id/imageView_Correct"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/correct" />
-
-                        <TextView
-                            android:id="@+id/textView_Correct"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_small"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:text="1 mark for correct answer"
-                            android:textColor="@color/textColorYellow" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginLeft="@dimen/margin_small"
-                        android:layout_marginEnd="@dimen/margin_small"
-                        android:layout_marginRight="@dimen/margin_small"
-                        android:layout_marginBottom="@dimen/margin_default"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/imageView_Wrong"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/wrong" />
-
-                        <TextView
-                            android:id="@+id/textView_Wrong"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_small"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:text="0 mark for wrong answer"
-                            android:textColor="@color/textColorYellow" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginLeft="@dimen/margin_small"
-                        android:layout_marginEnd="@dimen/margin_small"
-                        android:layout_marginRight="@dimen/margin_small"
-                        android:layout_marginBottom="@dimen/margin_default"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/imageView_Clock"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/clock" />
-
-                        <TextView
-                            android:id="@+id/textView_Clock"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/margin_small"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:text="1 hour duration"
-                            android:textColor="@color/textColorYellow" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginLeft="@dimen/margin_small"
-                        android:layout_marginEnd="@dimen/margin_small"
-                        android:layout_marginRight="@dimen/margin_small"
-                        android:layout_marginBottom="@dimen/margin_default"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/imageView_Total_Questions"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/doc" />
-
-                        <TextView
-                            android:id="@+id/textView_Total_Questions"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/margin_small"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:text="100 Questions"
-                            android:textColor="@color/textColorYellow" />
-
-                    </LinearLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView_Wrong"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/wrong" />
+
+                    <TextView
+                        android:id="@+id/textView_Wrong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:text="0 mark for wrong answer"
+                        android:textColor="@color/textColorYellow" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView_Clock"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/clock" />
+
+                    <TextView
+                        android:id="@+id/textView_Clock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:text="1 hour duration"
+                        android:textColor="@color/textColorYellow" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView_Total_Questions"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/doc" />
+
+                    <TextView
+                        android:id="@+id/textView_Total_Questions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:text="100 Questions"
+                        android:textColor="@color/textColorYellow" />
+
+                </LinearLayout>
+            </LinearLayout>
+
         </RelativeLayout>
     </ScrollView>
 
