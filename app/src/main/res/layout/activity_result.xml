@@ -15,7 +15,9 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:scaleType="fitXY"
-        android:src="@drawable/ea_bg" />
+        android:src="@drawable/ea_bg"
+        android:alpha="0.8"
+        />
 
     <TextView
         android:id="@+id/textView_Res_Title"

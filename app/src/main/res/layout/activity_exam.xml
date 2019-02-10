@@ -15,7 +15,9 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:scaleType="fitXY"
-        android:src="@drawable/ea_bg" />
+        android:src="@drawable/ea_bg"
+        android:alpha="0.8"
+        />
 
     <!-- Replace with Recycler view horizontal-->
     <ImageView
@@ -29,7 +31,7 @@
     <LinearLayout
         android:id="@+id/layout_Information"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:background="@drawable/course_red_bg"
         android:layout_below="@id/recyclerView_Questions"
         android:layout_gravity="center"

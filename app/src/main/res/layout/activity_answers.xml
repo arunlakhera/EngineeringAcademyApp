@@ -16,6 +16,7 @@
         android:src="@drawable/ea_bg"
         android:layout_below="@id/toolbar"
         android:scaleType="fitXY"
+        android:alpha="0.8"
         />
 
     <TextView

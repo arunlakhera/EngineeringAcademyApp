@@ -33,7 +33,9 @@
                     android:layout_height="@dimen/logo_height_default"
                     android:layout_gravity="center"
                     android:contentDescription="@string/logo_description"
-                    android:src="@drawable/logo" />
+                    android:src="@drawable/logo"
+
+                    />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"

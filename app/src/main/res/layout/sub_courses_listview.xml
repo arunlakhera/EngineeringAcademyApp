@@ -5,67 +5,62 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView_Mechanical"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_medium"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp">
+        android:layout_height="@dimen/image_height"
+        android:background="@drawable/exam_list_base"
+        android:layout_marginTop="@dimen/margin_default"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_default"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/image_height"
-            android:background="@drawable/ea_bg"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginLeft="@dimen/margin_small"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginRight="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView_Sub_Category"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center|start"
-                    android:layout_weight="1"
-                    android:text="Package"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/text_medium"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView_Cost"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center|end"
-                    android:text="Rs. 200"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/text_small"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imageView_Lock"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+            <TextView
+                android:id="@+id/textView_Sub_Category"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:scaleType="center"
-                android:src="@drawable/lock_icon"
+                android:gravity="center|start"
                 android:text="Package"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorOffWhiteBg"
                 android:textSize="@dimen/text_medium"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView_Cost"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|end"
+                android:text="Rs. 200"
+                android:textColor="@color/colorOffWhiteBg"
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView_Lock"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="center"
+            android:src="@drawable/lock_icon"
+            android:text="Package"
+            android:textColor="@color/colorOffWhiteBg"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,31 +71,31 @@
                 android:id="@+id/textView_Total_Exams"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_weight="1"
                 android:gravity="start|center"
                 android:text="100 Exams"
                 android:textColor="@color/colorOffWhiteBg"
                 android:textSize="@dimen/text_small"
                 android:textStyle="bold" />
+
             <Button
                 android:id="@+id/button_Buy"
                 android:layout_width="80dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_small"
-                android:gravity="center"
                 android:background="@drawable/button_base_red_full"
+                android:gravity="center"
                 android:text="Buy"
                 android:textColor="@color/colorOffWhiteBg"
                 android:textSize="15sp" />
         </LinearLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 </RelativeLayout>
