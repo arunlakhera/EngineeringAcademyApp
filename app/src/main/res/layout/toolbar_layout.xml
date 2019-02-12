@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
     android:orientation="horizontal"
-    android:background="@drawable/menu_bar">
+    android:background="@drawable/menu_bar"
+    >
 
     <Button
         android:id="@+id/button_Menu"

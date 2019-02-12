@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -23,6 +24,7 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
         private TextView m_TextView_Sub_Category;
         private TextView m_TextView_Cost;
         private TextView m_TextView_Total_Exams;
+        //private ImageView m_Background_ImageView;
 
         //private ImageView m_ImageView_Lock;
         //private Button m_Button_Buy;
@@ -30,9 +32,11 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
         public MyViewHolder(View view){
             super(view);
 
+            //m_Background_ImageView = view.findViewById(R.id.imageview_Background);
             m_TextView_Sub_Category = view.findViewById(R.id.textView_Sub_Category);
             m_TextView_Cost = view.findViewById(R.id.textView_Cost);
             m_TextView_Total_Exams = view.findViewById(R.id.textView_Total_Exams);
+
         }
     }
 
@@ -53,6 +57,7 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         SubCoursePackage course = m_Sub_Course_Packages_List.get(position);
+        //holder.m_Background_ImageView.setImageResource(R.drawable.misc_bg);
         holder.m_TextView_Sub_Category.setText(course.getM_Sub_Course_Name());
         holder.m_TextView_Cost.setText(course.getM_Cost());
         holder.m_TextView_Total_Exams.setText(course.getM_Total_Exams());

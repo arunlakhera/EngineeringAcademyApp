@@ -1,6 +1,7 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
@@ -30,6 +33,7 @@ public class SubCoursesActivity extends AppCompatActivity {
     private List<SubCoursePackage> m_Sub_Course_Package_List;
     private RecyclerView m_RecyclerView_Course_Package;
     private SubCoursesPackageAdapter m_Sub_Course_Package_Adapter;
+    private ImageView m_Background_ImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class SubCoursesActivity extends AppCompatActivity {
         // Get variable from prev activity
         m_Course_Bundle = getIntent().getExtras();
         String m_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
+
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_TextView_Activity_Title.setText(m_Title);
