@@ -117,7 +117,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 params.put("firstname", m_First_Name_EditText.getText().toString());
                 params.put("lastname", m_Last_Name_EditText.getText().toString());
-                params.put("phonenumber", m_Phone_EditText.getText().toString());
+                params.put("phone", m_Phone_EditText.getText().toString());
                 params.put("username", m_Email_Id_EditText.getText().toString());
                 params.put("password", m_Password_EditText.getText().toString());
 
