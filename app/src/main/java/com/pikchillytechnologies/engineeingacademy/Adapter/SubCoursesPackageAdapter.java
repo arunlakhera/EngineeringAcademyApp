@@ -19,28 +19,8 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
     private List<SubCoursePackage> m_Sub_Course_Packages_List;
     private Context mContext;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-
-        private TextView m_TextView_Sub_Category;
-        private TextView m_TextView_Cost;
-        private TextView m_TextView_Total_Exams;
-        //private ImageView m_Background_ImageView;
-
-        //private ImageView m_ImageView_Lock;
-        //private Button m_Button_Buy;
-
-        public MyViewHolder(View view){
-            super(view);
-
-            //m_Background_ImageView = view.findViewById(R.id.imageview_Background);
-            m_TextView_Sub_Category = view.findViewById(R.id.textView_Sub_Category);
-            m_TextView_Cost = view.findViewById(R.id.textView_Cost);
-            m_TextView_Total_Exams = view.findViewById(R.id.textView_Total_Exams);
-
-        }
-    }
-
-    public SubCoursesPackageAdapter(List<SubCoursePackage> subCoursesPackage){
+    public SubCoursesPackageAdapter(Context context, List<SubCoursePackage> subCoursesPackage){
+        this.mContext = context;
         this.m_Sub_Course_Packages_List = subCoursesPackage;
     }
 
@@ -66,5 +46,26 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
     @Override
     public int getItemCount() {
         return m_Sub_Course_Packages_List.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView m_TextView_Sub_Category;
+        private TextView m_TextView_Cost;
+        private TextView m_TextView_Total_Exams;
+        //private ImageView m_Background_ImageView;
+
+        //private ImageView m_ImageView_Lock;
+        //private Button m_Button_Buy;
+
+        public MyViewHolder(View view){
+            super(view);
+
+            //m_Background_ImageView = view.findViewById(R.id.imageview_Background);
+            m_TextView_Sub_Category = view.findViewById(R.id.textView_Sub_Category);
+            m_TextView_Cost = view.findViewById(R.id.textView_Cost);
+            m_TextView_Total_Exams = view.findViewById(R.id.textView_Total_Exams);
+
+        }
     }
 }

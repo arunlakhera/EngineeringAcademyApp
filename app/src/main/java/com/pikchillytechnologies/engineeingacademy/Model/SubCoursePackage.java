@@ -8,7 +8,7 @@ public class SubCoursePackage {
     private String m_Total_Exams;
     private String m_Paid_Flag;
 
-    //public SubCoursePackage(){ }
+    public SubCoursePackage(){ }
 
     public SubCoursePackage(String course_Name, String sub_Course_Name, String cost, String total_Exam, String paid_Flag){
 

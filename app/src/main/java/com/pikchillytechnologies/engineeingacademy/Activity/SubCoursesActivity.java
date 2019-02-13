@@ -1,5 +1,6 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +14,20 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.R;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
 import com.pikchillytechnologies.engineeingacademy.Model.SubCoursePackage;
 import com.pikchillytechnologies.engineeingacademy.Adapter.SubCoursesPackageAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +44,8 @@ public class SubCoursesActivity extends AppCompatActivity {
     private RecyclerView m_RecyclerView_Course_Package;
     private SubCoursesPackageAdapter m_Sub_Course_Package_Adapter;
     private ImageView m_Background_ImageView;
+
+    private String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +67,8 @@ public class SubCoursesActivity extends AppCompatActivity {
 
         m_Sub_Course_Package_List = new ArrayList<>();
         m_RecyclerView_Course_Package = findViewById(R.id.recyclerView_Sub_Courses);
-        m_Sub_Course_Package_Adapter = new SubCoursesPackageAdapter(m_Sub_Course_Package_List);
+
+        m_Sub_Course_Package_Adapter = new SubCoursesPackageAdapter(getApplicationContext(),m_Sub_Course_Package_List);
 
         m_RecyclerView_Course_Package.setHasFixedSize(true);
 
@@ -91,6 +104,48 @@ public class SubCoursesActivity extends AppCompatActivity {
     }
 
     public void prepareCoursePackageData(){
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(i);
+
+                        SubCoursePackage scp = new SubCoursePackage();
+                        scp.setM_Course_Name(jsonObject.getString("name"));
+                        scp.setM_Cost(jsonObject.getString("cost"));
+
+                        m_Sub_Course_Package_List.add(scp);
+
+                    } catch (JSONException e) {
+                        Log.e("Error JSON", e.getMessage());
+                        e.printStackTrace();
+                        progressDialog.dismiss();
+                    }
+                }
+
+                m_Sub_Course_Package_Adapter.notifyDataSetChanged();
+                progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.e("Volley", error.toString());
+                progressDialog.dismiss();
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonArrayRequest);
+
+        /*
         SubCoursePackage cp = new SubCoursePackage("Mechanical","JEE","Rs. 299","100","N");
         m_Sub_Course_Package_List.add(cp);
 
@@ -109,8 +164,9 @@ public class SubCoursesActivity extends AppCompatActivity {
         cp = new SubCoursePackage("Mechanical","Sub Cat 6","Rs. 499","200","N");
         m_Sub_Course_Package_List.add(cp);
 
-
         m_Sub_Course_Package_Adapter.notifyDataSetChanged();
+        */
+
     }
 
 
