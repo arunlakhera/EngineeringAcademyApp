@@ -59,7 +59,7 @@ public class CoursesActivity extends AppCompatActivity {
     private RecyclerView m_RecyclerView_Courses;
     private CoursesAdapter m_Courses_Adapter;
 
-    private String url = "";
+    private String url = "http://onlineengineeringacademy.co.in/api/category_request";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +165,7 @@ public class CoursesActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
