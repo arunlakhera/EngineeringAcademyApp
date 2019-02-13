@@ -39,6 +39,8 @@ public class SignInActivity extends AppCompatActivity {
 
     private static String loginURL ="https://pikchilly.com/api/login.php";
 
+    //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,11 @@ public class SignInActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                        pd.hide();
+
+                        Toast.makeText(getApplicationContext(),"Response:" + response,Toast.LENGTH_LONG).show();
+
+                        String res = String.valueOf(response);
+                        String res_fail = "Sign_In_Failed";
 
                         if(response.equals("Sign_In_Success")) {
 

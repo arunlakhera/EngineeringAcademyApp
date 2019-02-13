@@ -58,7 +58,6 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_Course_Bundle = getIntent().getExtras();
         String m_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
 
-
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_TextView_Activity_Title.setText(m_Title);
 
