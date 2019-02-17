@@ -150,6 +150,8 @@ public class SubCoursesActivity extends AppCompatActivity {
                             m_Sub_Course_Package_Adapter.notifyDataSetChanged();
                             progressDialog.dismiss();
 
+                            Toast.makeText(getApplicationContext(), m_Category_Id, Toast.LENGTH_SHORT).show();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -161,7 +163,16 @@ public class SubCoursesActivity extends AppCompatActivity {
                         //displaying the error in toast if occur
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                })
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("category_id", String.valueOf(m_Category_Id));
+                return params;
+            }
+        };
 
         //creating a request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
