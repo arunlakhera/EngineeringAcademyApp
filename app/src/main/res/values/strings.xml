@@ -24,7 +24,7 @@
     <string name="miscellaneous">Miscellaneous</string>
 
     <!-- Toolbar Title-->
-    <string name="title">Title</string>
+
     <string name="courses">Courses</string>
     <string name="packages">Packages</string>
     <string name="exams">Exams</string>
@@ -32,5 +32,8 @@
     <string name="answers">Answers</string>
     <string name="articles">Articles</string>
     <string name="downloads">Downloads</string>
+
+    <string name="title">Title</string>
+    <string name="categoryid">category_id</string>
 
 </resources>

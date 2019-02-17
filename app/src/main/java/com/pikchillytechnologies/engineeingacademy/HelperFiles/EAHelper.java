@@ -25,4 +25,13 @@ public class EAHelper {
         this.m_Context.startActivity(destinationDetailIntent);
     }
 
+    // Intent with Title
+    public void start_Activity(Context context, Class destClass, String categoryId, String title){
+        this.m_Context = context;
+        Intent destinationDetailIntent = new Intent(context, destClass);
+        destinationDetailIntent.putExtra(this.m_Context.getResources().getString(R.string.title), title);
+        destinationDetailIntent.putExtra(this.m_Context.getResources().getString(R.string.categoryid), categoryId);
+        this.m_Context.startActivity(destinationDetailIntent);
+    }
+
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,13 +14,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
+import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
 import com.pikchillytechnologies.engineeingacademy.Model.SubCoursePackage;
@@ -30,7 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SubCoursesActivity extends AppCompatActivity {
 
@@ -45,7 +52,11 @@ public class SubCoursesActivity extends AppCompatActivity {
     private SubCoursesPackageAdapter m_Sub_Course_Package_Adapter;
     private ImageView m_Background_ImageView;
 
-    private String url = "";
+    //private String url = "http://onlineengineeringacademy.co.in/api/sub_category_request";
+
+    private String url = "https://pikchilly.com/api/sub_category.php";
+
+    String m_Category_Id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +68,7 @@ public class SubCoursesActivity extends AppCompatActivity {
         // Get variable from prev activity
         m_Course_Bundle = getIntent().getExtras();
         String m_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
+        m_Category_Id = m_Course_Bundle.getString(getResources().getString(R.string.categoryid),"category_id");
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_TextView_Activity_Title.setText(m_Title);
@@ -74,10 +86,10 @@ public class SubCoursesActivity extends AppCompatActivity {
         RecyclerView.LayoutManager m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
         m_RecyclerView_Course_Package.setLayoutManager(m_Layout_Manager);
 
-        //m_RecyclerView_Course_Package.setItemAnimator(new DefaultItemAnimator());
+        m_RecyclerView_Course_Package.setItemAnimator(new DefaultItemAnimator());
         m_RecyclerView_Course_Package.setAdapter(m_Sub_Course_Package_Adapter);
 
-        prepareCoursePackageData();
+        prepareSubCoursePackageData();
 
         m_RecyclerView_Course_Package.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Course_Package, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -102,69 +114,60 @@ public class SubCoursesActivity extends AppCompatActivity {
 
     }
 
-    public void prepareCoursePackageData(){
+    public void prepareSubCoursePackageData(){
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject jsonObject = response.getJSONObject(i);
-
-                        SubCoursePackage scp = new SubCoursePackage();
-                        scp.setM_Course_Name(jsonObject.getString("name"));
-                        scp.setM_Cost(jsonObject.getString("cost"));
-
-                        m_Sub_Course_Package_List.add(scp);
-
-                    } catch (JSONException e) {
-                        Log.e("Error JSON", e.getMessage());
-                        e.printStackTrace();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //hiding the progressbar after completion
                         progressDialog.dismiss();
+
+                        try {
+                            //getting the whole json object from the response
+                            JSONObject obj = new JSONObject(response);
+
+                            // Getting array inside the JSONObject
+                            JSONArray subCoursesArray = obj.getJSONArray("sub_category");
+
+                            //now looping through all the elements of the json array
+                            for (int i = 0; i < subCoursesArray.length(); i++) {
+                                //getting the json object of the particular index inside the array
+                                JSONObject subCoursesObject = subCoursesArray.getJSONObject(i);
+
+                                //creating a tutorial object and giving them the values from json object
+                                SubCoursePackage subCourse = new SubCoursePackage(subCoursesObject.getString("name"), subCoursesObject.getString("cost"));
+
+                                //adding data to list
+                                m_Sub_Course_Package_List.add(subCourse);
+                            }
+
+                            //creating custom adapter object
+                            m_Sub_Course_Package_Adapter.notifyDataSetChanged();
+                            progressDialog.dismiss();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //displaying the error in toast if occur
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-                m_Sub_Course_Package_Adapter.notifyDataSetChanged();
-                progressDialog.dismiss();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Log.e("Volley", error.toString());
-                progressDialog.dismiss();
-            }
-        });
-
+        //creating a request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
 
-        /*
-        SubCoursePackage cp = new SubCoursePackage("Mechanical","JEE","Rs. 299","100","N");
-        m_Sub_Course_Package_List.add(cp);
-
-        cp = new SubCoursePackage("Mechanical","Sub Cat 1","Rs. 299","100","N");
-        m_Sub_Course_Package_List.add(cp);
-
-        cp = new SubCoursePackage("Mechanical","Sub Cat 2","Rs. 199","120","N");
-        m_Sub_Course_Package_List.add(cp);
-
-        cp = new SubCoursePackage("Mechanical","Sub Cat 3","Rs. 399","150","N");
-        m_Sub_Course_Package_List.add(cp);
-
-        cp = new SubCoursePackage("Mechanical","Sub Cat 4","Rs. 499","200","N");
-        m_Sub_Course_Package_List.add(cp);
-
-        cp = new SubCoursePackage("Mechanical","Sub Cat 6","Rs. 499","200","N");
-        m_Sub_Course_Package_List.add(cp);
-
-        m_Sub_Course_Package_Adapter.notifyDataSetChanged();
-        */
+        //adding the string request to request queue
+        requestQueue.add(stringRequest);
 
     }
 
