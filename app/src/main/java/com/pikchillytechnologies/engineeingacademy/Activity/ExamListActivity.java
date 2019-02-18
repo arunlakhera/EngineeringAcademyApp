@@ -1,6 +1,7 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -89,7 +90,12 @@ public class ExamListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 ExamListModel exam = m_Exam_List.get(position);
-                m_Helper.start_Activity(ExamListActivity.this, ExamInstructionActivity.class);
+
+                Intent destinationDetailIntent = new Intent(ExamListActivity.this, ExamInstructionActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), exam.getM_Exam_Name());
+                destinationDetailIntent.putExtra(getResources().getString(R.string.examid), exam.getM_Exam_Id());
+                destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), exam.getM_Exam_Duration());
+                startActivity(destinationDetailIntent);
             }
 
             @Override
@@ -132,7 +138,7 @@ public class ExamListActivity extends AppCompatActivity {
                                 JSONObject examObject = examArray.getJSONObject(i);
 
                                 //creating a tutorial object and giving them the values from json object
-                                ExamListModel exam = new ExamListModel(examObject.getString("exam_id"), examObject.getString("name"), examObject.getString("available_from"), examObject.getString("available_till"),examObject.getString("no_of_attempts"));
+                                ExamListModel exam = new ExamListModel(examObject.getString("exam_id"), examObject.getString("name"), examObject.getString("available_from"), examObject.getString("available_till"),examObject.getString("no_of_attempts"),examObject.getString("exam_duration"));
 
                                 //adding data to list
                                 m_Exam_List.add(exam);

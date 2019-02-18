@@ -7,14 +7,17 @@ public class ExamListModel {
     private String m_Exam_Available_From;
     private String m_Exam_Available_Till;
     private String m_No_Of_Attempts;
+    private String m_Exam_Duration;
 
-    public ExamListModel(String exam_Id,String exam_Name, String exam_Available_From, String exam_Available_Till, String no_Of_Attempts){
+
+    public ExamListModel(String exam_Id,String exam_Name, String exam_Available_From, String exam_Available_Till, String no_Of_Attempts, String exam_Duration){
 
         this.m_Exam_Id = exam_Id;
         this.m_Exam_Name = exam_Name;
         this.m_Exam_Available_From = exam_Available_From;
         this.m_Exam_Available_Till = exam_Available_Till;
         this.m_No_Of_Attempts = no_Of_Attempts;
+        this.m_Exam_Duration = exam_Duration;
     }
 
     public String getM_Exam_Id() {
@@ -55,5 +58,13 @@ public class ExamListModel {
 
     public void setM_No_Of_Attempts(String m_No_Of_Attempts) {
         this.m_No_Of_Attempts = m_No_Of_Attempts;
+    }
+
+    public String getM_Exam_Duration() {
+        return m_Exam_Duration;
+    }
+
+    public void setM_Exam_Duration(String m_Exam_Duration) {
+        this.m_Exam_Duration = m_Exam_Duration;
     }
 }

@@ -65,17 +65,82 @@
                 android:layout_marginTop="@dimen/margin_default"
                 android:background="@drawable/exam_list_base"
                 android:layout_below="@id/layout_Title"
+                android:orientation="vertical"
                 >
 
                 <TextView
-                    android:id="@+id/textView_Instructions"
+                    android:id="@+id/textView_Instruction1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:layout_gravity="center"
                     android:text="Instructions for Exam"
                     android:textColor="@color/colorOffWhiteBg"
-                    android:textSize="@dimen/text_large" />
+                    android:textSize="@dimen/text_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    />
+                <TextView
+                    android:id="@+id/textView_Instruction2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:layout_gravity="center"
+                    android:text="Instructions for Exam"
+                    android:textColor="@color/colorOffWhiteBg"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small" />
+                <TextView
+                    android:id="@+id/textView_Instruction3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:layout_gravity="center"
+                    android:text="Instructions for Exam"
+                    android:textColor="@color/colorOffWhiteBg"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small" />
+                <TextView
+                    android:id="@+id/textView_Instruction4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:layout_gravity="center"
+                    android:text="Instructions for Exam"
+                    android:textColor="@color/colorOffWhiteBg"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small" />
+                <TextView
+                    android:id="@+id/textView_Instruction5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:layout_gravity="center"
+                    android:text="Instructions for Exam"
+                    android:textColor="@color/colorOffWhiteBg"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    />
 
             </LinearLayout>
 
@@ -107,7 +172,7 @@
                         android:src="@drawable/correct" />
 
                     <TextView
-                        android:id="@+id/textView_Correct"
+                        android:id="@+id/textView_Marks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
@@ -134,7 +199,7 @@
                         android:src="@drawable/wrong" />
 
                     <TextView
-                        android:id="@+id/textView_Wrong"
+                        android:id="@+id/textView_Negative_Marks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
@@ -161,7 +226,7 @@
                         android:src="@drawable/clock" />
 
                     <TextView
-                        android:id="@+id/textView_Clock"
+                        android:id="@+id/textView_Duration"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_small"
