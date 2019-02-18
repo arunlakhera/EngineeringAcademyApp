@@ -1,5 +1,6 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,26 +9,47 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamListAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamListModel;
+import com.pikchillytechnologies.engineeingacademy.Model.SubCoursePackage;
 import com.pikchillytechnologies.engineeingacademy.R;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExamListActivity extends AppCompatActivity {
 
     private TextView m_TextView_Activity_Title;
     private Button m_Button_Back;
+    private Bundle m_Sub_Course_Bundle;
 
     private EAHelper m_Helper;
 
     private List<ExamListModel> m_Exam_List;
     private RecyclerView m_RecyclerView_Exam_List;
     private ExamListAdapter m_Exam_List_Adapter;
+
+    private String m_Category_Id;
+    private String m_Title;
+    private String m_Sub_Category_Id;
+
+    private String url = "https://pikchilly.com/api/exam_list.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +58,16 @@ public class ExamListActivity extends AppCompatActivity {
 
         m_Helper = new EAHelper();
 
+        // Get variable from prev activity
+        m_Sub_Course_Bundle = getIntent().getExtras();
+        m_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.categoryid),"Category");
+        m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title),"Sub Category Title");
+        m_Sub_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.subcategoryid),"Sub Category Id");
+
+        Toast.makeText(getApplicationContext(),m_Category_Id + "-" + m_Title + "-" + m_Sub_Category_Id, Toast.LENGTH_LONG).show();
+
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_TextView_Activity_Title.setText("Exam List");
+        m_TextView_Activity_Title.setText(m_Title);
 
         m_Button_Back = findViewById(R.id.button_Back);
         m_Button_Back.setVisibility(View.VISIBLE);
@@ -78,42 +108,67 @@ public class ExamListActivity extends AppCompatActivity {
 
     public void prepareExamListData(){
 
-        ExamListModel exam = new ExamListModel("Exam 01","02/02/2019","15/02/2019");
-        m_Exam_List.add(exam);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
 
-        exam = new ExamListModel("Exam 02","02/02/2019","11/02/2019");
-        m_Exam_List.add(exam);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //hiding the progressbar after completion
+                        progressDialog.dismiss();
 
-        exam = new ExamListModel("Exam 03","12/02/2019","20/02/2019");
-        m_Exam_List.add(exam);
+                        try {
+                            //getting the whole json object from the response
+                            JSONObject obj = new JSONObject(response);
 
-        exam = new ExamListModel("Exam 04","22/02/2019","28/02/2019");
-        m_Exam_List.add(exam);
+                            // Getting array inside the JSONObject
+                            JSONArray examArray = obj.getJSONArray("exam_list");
 
-        exam = new ExamListModel("Exam 05","13/02/2019","25/02/2019");
-        m_Exam_List.add(exam);
+                            //now looping through all the elements of the json array
+                            for (int i = 0; i < examArray.length(); i++) {
+                                //getting the json object of the particular index inside the array
+                                JSONObject examObject = examArray.getJSONObject(i);
 
-        exam = new ExamListModel("Exam 06","02/02/2019","11/02/2019");
-        m_Exam_List.add(exam);
+                                //creating a tutorial object and giving them the values from json object
+                                ExamListModel exam = new ExamListModel(examObject.getString("exam_id"), examObject.getString("name"), examObject.getString("available_from"), examObject.getString("available_till"),examObject.getString("no_of_attempts"));
 
-        exam = new ExamListModel("Exam 07","12/02/2019","20/02/2019");
-        m_Exam_List.add(exam);
+                                //adding data to list
+                                m_Exam_List.add(exam);
+                            }
 
-        exam = new ExamListModel("Exam 08","22/02/2019","28/02/2019");
-        m_Exam_List.add(exam);
+                            //creating custom adapter object
+                            m_Exam_List_Adapter.notifyDataSetChanged();
+                            progressDialog.dismiss();
 
-        exam = new ExamListModel("Exam 09","13/02/2019","25/02/2019");
-        m_Exam_List.add(exam);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //displaying the error in toast if occur
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("sub_category_id", String.valueOf(m_Sub_Category_Id));
+                return params;
+            }
+        };
 
-        exam = new ExamListModel("Exam 10","12/02/2019","20/02/2019");
-        m_Exam_List.add(exam);
+        //creating a request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        exam = new ExamListModel("Exam 11","22/02/2019","28/02/2019");
-        m_Exam_List.add(exam);
-
-        exam = new ExamListModel("Exam 12","13/02/2019","25/02/2019");
-        m_Exam_List.add(exam);
-
+        //adding the string request to request queue
+        requestQueue.add(stringRequest);
     }
 
 }

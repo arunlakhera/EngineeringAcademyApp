@@ -35,5 +35,7 @@
 
     <string name="title">Title</string>
     <string name="categoryid">category_id</string>
+    <string name="subcategoryid">sub_category_id</string>
+    <string name="payment_paid">Paid</string>
 
 </resources>

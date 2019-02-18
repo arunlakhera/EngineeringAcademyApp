@@ -112,6 +112,7 @@ public class CoursesActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
+                m_Helper.start_Activity(CoursesActivity.this, SubCoursesActivity.class, getResources().getString(R.string.mechanical));
                 mDrawerLayout.openDrawer(navigationView);
             }
         });

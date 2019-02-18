@@ -95,7 +95,7 @@ public class SubCoursesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 SubCoursePackage scp = m_Sub_Course_Package_List.get(position);
-                m_Helper.start_Activity(SubCoursesActivity.this, ExamListActivity.class);
+                m_Helper.start_Activity(SubCoursesActivity.this, ExamListActivity.class, m_Category_Id, scp.getM_Sub_Course_Name(), scp.getM_Sub_Course_Id());
             }
 
             @Override
@@ -140,7 +140,7 @@ public class SubCoursesActivity extends AppCompatActivity {
                                 JSONObject subCoursesObject = subCoursesArray.getJSONObject(i);
 
                                 //creating a tutorial object and giving them the values from json object
-                                SubCoursePackage subCourse = new SubCoursePackage(subCoursesObject.getString("name"), subCoursesObject.getString("cost"));
+                                SubCoursePackage subCourse = new SubCoursePackage(subCoursesObject.getString("sub_category_id") ,subCoursesObject.getString("name"), subCoursesObject.getString("total_exams"),subCoursesObject.getString("cost"), subCoursesObject.getString("payment_status"), subCoursesObject.getString("user_id"));
 
                                 //adding data to list
                                 m_Sub_Course_Package_List.add(subCourse);
@@ -149,8 +149,6 @@ public class SubCoursesActivity extends AppCompatActivity {
                             //creating custom adapter object
                             m_Sub_Course_Package_Adapter.notifyDataSetChanged();
                             progressDialog.dismiss();
-
-                            Toast.makeText(getApplicationContext(), m_Category_Id, Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -170,6 +168,7 @@ public class SubCoursesActivity extends AppCompatActivity {
             {
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("category_id", String.valueOf(m_Category_Id));
+                params.put("user_id", "arunlakhera@gmail.com");
                 return params;
             }
         };

@@ -16,20 +16,6 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.MyView
 
     private List<ExamListModel> m_Exam_List;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-
-        private TextView m_TextView_Exam_Name;
-        private TextView m_TextView_Exam_Available_Date;
-        private TextView m_TextView_Exam_Till_Date;
-
-        public MyViewHolder(View view){
-            super(view);
-
-            this.m_TextView_Exam_Name = view.findViewById(R.id.textView_Exam_Name);
-            this.m_TextView_Exam_Available_Date = view.findViewById(R.id.textView_Available_Date);
-            this.m_TextView_Exam_Till_Date = view.findViewById(R.id.textView_Till_Date);
-        }
-    }
 
     public ExamListAdapter(List<ExamListModel> examList){
         this.m_Exam_List = examList;
@@ -49,8 +35,8 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.MyView
         ExamListModel exam = m_Exam_List.get(position);
 
         holder.m_TextView_Exam_Name.setText(exam.getM_Exam_Name());
-        holder.m_TextView_Exam_Available_Date.setText(exam.getM_Exam_Available_Date());
-        holder.m_TextView_Exam_Till_Date.setText(exam.getM_Exam_Till_Date());
+        holder.m_TextView_Exam_Available_Date.setText(exam.getM_Exam_Available_From());
+        holder.m_TextView_Exam_Till_Date.setText(exam.getM_Exam_Available_Till());
 
     }
 
@@ -58,4 +44,20 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.MyView
     public int getItemCount() {
         return m_Exam_List.size();
     }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView m_TextView_Exam_Name;
+        private TextView m_TextView_Exam_Available_Date;
+        private TextView m_TextView_Exam_Till_Date;
+
+        public MyViewHolder(View view){
+            super(view);
+
+            this.m_TextView_Exam_Name = view.findViewById(R.id.textView_Exam_Name);
+            this.m_TextView_Exam_Available_Date = view.findViewById(R.id.textView_Available_Date);
+            this.m_TextView_Exam_Till_Date = view.findViewById(R.id.textView_Till_Date);
+        }
+    }
+
 }

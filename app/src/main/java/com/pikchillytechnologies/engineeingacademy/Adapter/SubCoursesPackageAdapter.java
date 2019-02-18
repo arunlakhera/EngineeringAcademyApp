@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,10 +37,19 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        SubCoursePackage course = m_Sub_Course_Packages_List.get(position);
-        holder.m_TextView_Sub_Category.setText(course.getM_Sub_Course_Name());
-        holder.m_TextView_Cost.setText(course.getM_Cost());
+        SubCoursePackage subCourse = m_Sub_Course_Packages_List.get(position);
+        holder.m_TextView_Sub_Category.setText(subCourse.getM_Sub_Course_Name());
+        holder.m_TextView_Cost.setText("Rs." + subCourse.getM_Cost());
+        holder.m_TextView_Total_Exams.setText(subCourse.getM_Total_Exams());
 
+        // If user paid for the sub category hide the lock image
+        if(subCourse.getM_Payment_Status().equals("Paid")){
+            holder.m_ImageView_Lock.setVisibility(View.INVISIBLE);
+            holder.m_Button_Buy.setVisibility(View.GONE);
+        }else{
+            holder.m_ImageView_Lock.setVisibility(View.VISIBLE);
+            holder.m_Button_Buy.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -51,14 +61,18 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
 
         private TextView m_TextView_Sub_Category;
         private TextView m_TextView_Cost;
+        private TextView m_TextView_Total_Exams;
+        private ImageView m_ImageView_Lock;
+        private Button m_Button_Buy;
 
         public MyViewHolder(View view){
             super(view);
 
             m_TextView_Sub_Category = view.findViewById(R.id.textView_Sub_Category);
             m_TextView_Cost = view.findViewById(R.id.textView_Cost);
-
-
+            m_TextView_Total_Exams = view.findViewById(R.id.textView_Total_Exams);
+            m_ImageView_Lock = view.findViewById(R.id.imageView_Lock);
+            m_Button_Buy = view.findViewById(R.id.button_Buy);
         }
     }
 }
