@@ -117,6 +117,8 @@ public class ExamInstructionActivity extends AppCompatActivity {
                             // Getting array inside the JSONObject
                             JSONArray examInstructionArray = obj.getJSONArray("exam_instruction");
 
+                            //Toast.makeText(ExamInstructionActivity.this,"Response:" + examInstructionArray, Toast.LENGTH_LONG).show();
+
                             //now looping through all the elements of the json array
                             for (int i = 0; i < examInstructionArray.length(); i++) {
                                 //getting the json object of the particular index inside the array
@@ -129,7 +131,8 @@ public class ExamInstructionActivity extends AppCompatActivity {
                                 m_TextView_Instruction5.setText(examInstructionObject.getString("instruction5"));
                                 m_TextView_Marks.setText(examInstructionObject.getString("marks") + " marks for correct answer");
                                 m_TextView_Negative_Marks.setText(examInstructionObject.getString("negative_marks") + " marks for wrong answer");
-                                m_TextView_Duration.setText(m_Exam_Duration);
+                                m_TextView_Duration.setText(m_Exam_Duration + " Hours");
+                                m_TextView_Total_Questions.setText(examInstructionObject.getString("total_questions") + " Questions");
                             }
 
                             //creating custom adapter object
