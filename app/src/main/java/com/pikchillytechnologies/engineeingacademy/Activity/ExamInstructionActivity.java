@@ -34,7 +34,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
     private String m_Title;
     private String m_Exam_Id;
     private String m_Exam_Duration;
-
+    private String m_Total_Questions;
     private Bundle m_Sub_Course_Bundle;
 
     private String url = "https://pikchilly.com/api/exam_instruction.php";
@@ -84,7 +84,15 @@ public class ExamInstructionActivity extends AppCompatActivity {
         m_Button_Start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                m_Helper.start_Activity(ExamInstructionActivity.this,ExamActivity.class);
+
+                Intent destinationDetailIntent = new Intent(ExamInstructionActivity.this, ExamActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), m_Exam_Duration);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.totalquestions), m_Total_Questions);
+
+                startActivity(destinationDetailIntent);
+
             }
         });
 
@@ -132,7 +140,8 @@ public class ExamInstructionActivity extends AppCompatActivity {
                                 m_TextView_Marks.setText(examInstructionObject.getString("marks") + " marks for correct answer");
                                 m_TextView_Negative_Marks.setText(examInstructionObject.getString("negative_marks") + " marks for wrong answer");
                                 m_TextView_Duration.setText(m_Exam_Duration + " Hours");
-                                m_TextView_Total_Questions.setText(examInstructionObject.getString("total_questions") + " Questions");
+                                m_Total_Questions = examInstructionObject.getString("total_questions");
+                                m_TextView_Total_Questions.setText( m_Total_Questions + " Questions");
                             }
 
                             //creating custom adapter object
