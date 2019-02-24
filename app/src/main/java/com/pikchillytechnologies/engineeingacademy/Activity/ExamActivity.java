@@ -12,6 +12,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamListAdapter;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamQuestionAdapter;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamListModel;
@@ -48,6 +50,8 @@ public class ExamActivity extends AppCompatActivity {
     private CheckBox m_CheckBox_Answer4;
     private CheckBox m_CheckBox_Answer5;
     private CheckBox m_CheckBox_Answer6;
+
+    private ImageView m_Question_Image;
 
     private TextView m_TextView_Total_Question;
     private Button m_Button_Hindi;
@@ -107,6 +111,9 @@ public class ExamActivity extends AppCompatActivity {
         m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
 
         m_TextView_Total_Question = findViewById(R.id.textView_Total_Questions);
+
+        m_Question_Image = findViewById(R.id.imageview_Question);
+
         m_TextView_Question = findViewById(R.id.textView_Question);
         m_CheckBox_Answer1 = findViewById(R.id.checkbox_Answer1);
         m_CheckBox_Answer2 = findViewById(R.id.checkbox_Answer2);
@@ -169,7 +176,7 @@ public class ExamActivity extends AppCompatActivity {
                 m_Hindi_Flag = false;
                 m_English_Flag = true;
 
-                cleanUI();
+                //cleanUI();
 
             }
         });
@@ -249,6 +256,29 @@ public class ExamActivity extends AppCompatActivity {
 
         examQuestion.setRead(true);
 
+        String questionType = examQuestion.getM_Question_Type();
+
+        if(questionType.equals("B") || questionType.equals("I")){
+
+            Toast.makeText(getApplicationContext(),"Question Type is Both:" + examQuestion.getM_Question_Eng_Img_url() , Toast.LENGTH_LONG).show();
+
+            m_Question_Image.setVisibility(View.VISIBLE);
+            m_TextView_Question.setVisibility(View.GONE);
+
+            Glide
+                    .with(this)
+                    .load(examQuestion.getM_Question_Eng_Img_url())
+                    .into(m_Question_Image);
+
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Question Type is " + questionType, Toast.LENGTH_LONG).show();
+            m_Question_Image.setVisibility(View.GONE);
+            m_TextView_Question.setVisibility(View.VISIBLE);
+            m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+
+        }
+
         m_Question_List_Adapter.notifyDataSetChanged();
 
         if(m_English_Flag){
@@ -256,7 +286,7 @@ public class ExamActivity extends AppCompatActivity {
             m_Button_Eng.setBackgroundResource(R.drawable.button_red_flat);
             m_Button_Hindi.setBackgroundResource(R.drawable.button_flat);
 
-            m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+
             m_CheckBox_Answer1.setText(examQuestion.getM_Answer1_Eng());
             m_CheckBox_Answer2.setText(examQuestion.getM_Answer2_Eng());
             m_CheckBox_Answer3.setText(examQuestion.getM_Answer3_Eng());
