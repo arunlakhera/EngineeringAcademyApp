@@ -2,11 +2,12 @@ package com.pikchillytechnologies.engineeingacademy.Model;
 
 public class ExamQuestionModel {
 
+    private String m_Question_Number;
     private String m_Question_Id;
     private String m_Question_Eng;
     private String m_Question_Hindi;
-    private String m_Question_Eng_Img;
-    private String m_Question_Hindi_Img;
+    private String m_Question_Eng_Img_url;
+    private String m_Question_Hindi_Img_url;
     private String m_Answer1_Eng;
     private String m_Answer2_Eng;
     private String m_Answer3_Eng;
@@ -30,11 +31,52 @@ public class ExamQuestionModel {
     private String m_Answer_Type;
     private String m_Answer_Lang;
 
-    public ExamQuestionModel(String question_id, String question_eng, String question_hindi){
+    private Boolean isRead;
+
+    public ExamQuestionModel(String question_number,String question_id, String question_eng, String question_hindi, String question_eng_img_url, String question_hindi_img_url,
+                             String answer1_eng, String answer2_eng, String answer3_eng, String answer4_eng, String answer5_eng, String answer6_eng,
+                             String answer1_hindi, String answer2_hindi, String answer3_hindi, String answer4_hindi, String answer5_hindi, String answer6_hindi,
+                             String answer1_flag, String answer2_flag, String answer3_flag, String answer4_flag, String answer5_flag, String answer6_flag,
+                             String question_type,String question_lang,String answer_type,String answer_lang, Boolean isread
+                             ){
+        this.m_Question_Number = question_number;
         this.m_Question_Id = question_id;
         this.m_Question_Eng = question_eng;
         this.m_Question_Hindi = question_hindi;
+        this.m_Question_Eng_Img_url = question_eng_img_url;
+        this.m_Question_Hindi_Img_url = question_hindi_img_url;
+        this.m_Answer1_Eng = answer1_eng;
+        this.m_Answer2_Eng = answer2_eng;
+        this.m_Answer3_Eng = answer3_eng;
+        this.m_Answer4_Eng = answer4_eng;
+        this.m_Answer5_Eng = answer5_eng;
+        this.m_Answer6_Eng = answer6_eng;
+        this.m_Answer1_Hindi = answer1_hindi;
+        this.m_Answer2_Hindi = answer2_hindi;
+        this.m_Answer3_Hindi = answer3_hindi;
+        this.m_Answer4_Hindi = answer4_hindi;
+        this.m_Answer5_Hindi = answer5_hindi;
+        this.m_Answer6_Hindi = answer6_hindi;
+        this.m_Answer1_Flag = answer1_flag;
+        this.m_Answer2_Flag = answer2_flag;
+        this.m_Answer3_Flag = answer3_flag;
+        this.m_Answer4_Flag = answer4_flag;
+        this.m_Answer5_Flag = answer5_flag;
+        this.m_Answer6_Flag = answer6_flag;
+        this.m_Question_Type = question_type;
+        this.m_Question_Lang = question_lang;
+        this.m_Answer_Type = answer_type;
+        this.m_Answer_Lang = answer_lang;
+        this.isRead = isread;
 
+    }
+
+    public String getM_Question_Number() {
+        return m_Question_Number;
+    }
+
+    public void setM_Question_Number(String m_Question_Number) {
+        this.m_Question_Number = m_Question_Number;
     }
 
     public String getM_Question_Id() {
@@ -61,20 +103,20 @@ public class ExamQuestionModel {
         this.m_Question_Hindi = m_Question_Hindi;
     }
 
-    public String getM_Question_Eng_Img() {
-        return m_Question_Eng_Img;
+    public String getM_Question_Eng_Img_url() {
+        return m_Question_Eng_Img_url;
     }
 
-    public void setM_Question_Eng_Img(String m_Question_Eng_Img) {
-        this.m_Question_Eng_Img = m_Question_Eng_Img;
+    public void setM_Question_Eng_Img_url(String m_Question_Eng_Img_url) {
+        this.m_Question_Eng_Img_url = m_Question_Eng_Img_url;
     }
 
-    public String getM_Question_Hindi_Img() {
-        return m_Question_Hindi_Img;
+    public String getM_Question_Hindi_Img_url() {
+        return m_Question_Hindi_Img_url;
     }
 
-    public void setM_Question_Hindi_Img(String m_Question_Hindi_Img) {
-        this.m_Question_Hindi_Img = m_Question_Hindi_Img;
+    public void setM_Question_Hindi_Img_url(String m_Question_Hindi_Img_url) {
+        this.m_Question_Hindi_Img_url = m_Question_Hindi_Img_url;
     }
 
     public String getM_Answer1_Eng() {
@@ -251,5 +293,13 @@ public class ExamQuestionModel {
 
     public void setM_Answer_Lang(String m_Answer_Lang) {
         this.m_Answer_Lang = m_Answer_Lang;
+    }
+
+    public Boolean getRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        isRead = read;
     }
 }

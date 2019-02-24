@@ -144,8 +144,6 @@ public class ExamInstructionActivity extends AppCompatActivity {
                                 m_TextView_Total_Questions.setText( m_Total_Questions + " Questions");
                             }
 
-                            //creating custom adapter object
-                            //m_Exam_List_Adapter.notifyDataSetChanged();
                             progressDialog.dismiss();
 
                         } catch (JSONException e) {
