@@ -51,7 +51,8 @@ public class ExamActivity extends AppCompatActivity {
     private CheckBox m_CheckBox_Answer5;
     private CheckBox m_CheckBox_Answer6;
 
-    private ImageView m_QuestionSupported_Image;
+    private ImageView m_ImageView_Question_Image;
+    private ImageView m_ImageView_QuestionSupported_Image;
 
     private TextView m_TextView_Total_Question;
     private Button m_Button_Hindi;
@@ -108,8 +109,10 @@ public class ExamActivity extends AppCompatActivity {
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
         m_TextView_Total_Question = findViewById(R.id.textView_Total_Questions);
-        m_QuestionSupported_Image = findViewById(R.id.imageview_QuestionSupported);
-        m_TextView_Question = findViewById(R.id.textView_Question);
+        m_ImageView_QuestionSupported_Image = findViewById(R.id.imageview_QuestionSupportedImage);
+        m_ImageView_Question_Image = findViewById(R.id.imageview_Question_Image);
+
+        m_TextView_Question = findViewById(R.id.textView_Question_Text);
         m_CheckBox_Answer1 = findViewById(R.id.checkbox_Answer1);
         m_CheckBox_Answer2 = findViewById(R.id.checkbox_Answer2);
         m_CheckBox_Answer3 = findViewById(R.id.checkbox_Answer3);
@@ -263,22 +266,36 @@ public class ExamActivity extends AppCompatActivity {
             m_Button_Eng.setBackgroundResource(R.drawable.button_red_flat);
             m_Button_Hindi.setBackgroundResource(R.drawable.button_flat);
 
-            // Set Text Question
-            m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+            //m_TextView_Question.setText(examQuestion.getM_Question_Eng());
 
-            // Set Question Supported image in English
+            //Check if the question is Text or Image
+            if(questionType.equals("T")){
+
+                m_TextView_Question.setVisibility(View.VISIBLE);
+                m_ImageView_Question_Image.setVisibility(View.GONE);
+
+                m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+            }else if(questionType.equals("I")){
+
+                m_TextView_Question.setVisibility(View.VISIBLE);
+                m_ImageView_Question_Image.setVisibility(View.GONE);
+
+                m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+            }
+
+            // Check if the supported image for question is available
             if(questionSupportImage_Eng.equals("NA")){
-                m_QuestionSupported_Image.setVisibility(View.GONE);
+                m_ImageView_QuestionSupported_Image.setVisibility(View.GONE);
 
             }else{
-                m_QuestionSupported_Image.setVisibility(View.VISIBLE);
+                m_ImageView_QuestionSupported_Image.setVisibility(View.VISIBLE);
 
                 try {
                     Glide.with(this)
                             .load(questionSupportImage_Eng)
                             .placeholder(R.drawable.logo)
                             .error(R.drawable.back_icon)
-                            .into(m_QuestionSupported_Image);
+                            .into(m_ImageView_QuestionSupported_Image);
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -299,23 +316,25 @@ public class ExamActivity extends AppCompatActivity {
             // Set Question Supported image in Hindi
             m_TextView_Question.setText(examQuestion.getM_Question_Hindi());
 
+            // Check if the supported image for question is available
             if(questionSupportImage_Hindi.equals("NA")){
-                m_QuestionSupported_Image.setVisibility(View.GONE);
+                m_ImageView_QuestionSupported_Image.setVisibility(View.GONE);
 
             }else{
-                m_QuestionSupported_Image.setVisibility(View.VISIBLE);
+                m_ImageView_QuestionSupported_Image.setVisibility(View.VISIBLE);
 
                 try {
                     Glide.with(this)
                             .load(questionSupportImage_Hindi)
                             .placeholder(R.drawable.logo)
                             .error(R.drawable.back_icon)
-                            .into(m_QuestionSupported_Image);
+                            .into(m_ImageView_QuestionSupported_Image);
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
 
+            // Set Answer for Questions in Textview
             m_CheckBox_Answer1.setText(examQuestion.getM_Answer1_Hindi());
             m_CheckBox_Answer2.setText(examQuestion.getM_Answer2_Hindi());
             m_CheckBox_Answer3.setText(examQuestion.getM_Answer3_Hindi());

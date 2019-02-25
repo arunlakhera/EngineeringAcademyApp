@@ -139,9 +139,24 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView_Question"
+                    android:id="@+id/textView_Question_Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small"
+                    android:layout_marginLeft="@dimen/margin_default"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:layout_marginRight="@dimen/margin_default"
+                    android:layout_marginEnd="@dimen/margin_default"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_small"
+                    android:scrollbars="vertical"
+                    />
+
+                <ImageView
+                    android:id="@+id/imageview_Question_Image"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
                     android:padding="@dimen/padding_small"
                     android:layout_marginLeft="@dimen/margin_default"
                     android:layout_marginStart="@dimen/margin_default"
@@ -152,10 +167,11 @@
                     android:textSize="@dimen/text_small"
                     android:text="Question:"
                     android:scrollbars="vertical"
+                    android:scaleType="fitXY"
                     />
 
                 <ImageView
-                    android:id="@+id/imageview_QuestionSupported"
+                    android:id="@+id/imageview_QuestionSupportedImage"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:padding="@dimen/padding_small"
