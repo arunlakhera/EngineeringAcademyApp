@@ -51,7 +51,7 @@ public class ExamActivity extends AppCompatActivity {
     private CheckBox m_CheckBox_Answer5;
     private CheckBox m_CheckBox_Answer6;
 
-    private ImageView m_Question_Image;
+    private ImageView m_QuestionSupported_Image;
 
     private TextView m_TextView_Total_Question;
     private Button m_Button_Hindi;
@@ -106,14 +106,9 @@ public class ExamActivity extends AppCompatActivity {
         m_English_Flag = true;
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_TextView_Activity_Title.setText(m_Title);
-
         m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
-
         m_TextView_Total_Question = findViewById(R.id.textView_Total_Questions);
-
-        m_Question_Image = findViewById(R.id.imageview_Question);
-
+        m_QuestionSupported_Image = findViewById(R.id.imageview_QuestionSupported);
         m_TextView_Question = findViewById(R.id.textView_Question);
         m_CheckBox_Answer1 = findViewById(R.id.checkbox_Answer1);
         m_CheckBox_Answer2 = findViewById(R.id.checkbox_Answer2);
@@ -123,10 +118,11 @@ public class ExamActivity extends AppCompatActivity {
         m_CheckBox_Answer6 = findViewById(R.id.checkbox_Answer6);
         m_Button_Next = findViewById(R.id.button_Next);
         m_Button_Previous = findViewById(R.id.button_Previous);
-
         m_Button_Hindi = findViewById(R.id.button_Hindi);
         m_Button_Eng = findViewById(R.id.button_Eng);
         m_Button_Submit = findViewById(R.id.button_Submit);
+
+        m_TextView_Activity_Title.setText(m_Title);
         m_Button_Submit.setVisibility(View.INVISIBLE);
 
         // To make textview scrollable of Question
@@ -256,40 +252,39 @@ public class ExamActivity extends AppCompatActivity {
 
         examQuestion.setRead(true);
 
+        String questionSupportImage_Eng = examQuestion.getM_Question_Eng_Img_url();
+        String questionSupportImage_Hindi = examQuestion.getM_Question_Hindi_Img_url();
+
         String questionType = examQuestion.getM_Question_Type();
-
-        if(questionType.equals("B") || questionType.equals("I")){
-
-            Toast.makeText(getApplicationContext(),"Question Type is Both:" + examQuestion.getM_Question_Eng_Img_url() , Toast.LENGTH_LONG).show();
-
-            m_Question_Image.setVisibility(View.VISIBLE);
-            m_TextView_Question.setVisibility(View.GONE);
-
-            try {
-                Glide
-                        .with(this)
-                        .load(examQuestion.getM_Question_Eng_Img_url())
-                        .into(m_Question_Image);
-            }catch (Exception e){
-                Toast.makeText(getApplicationContext(),"Could not Access Question Image", Toast.LENGTH_LONG).show();
-            }
-
-
-        }else{
-            Toast.makeText(getApplicationContext(),"Question Type is " + questionType, Toast.LENGTH_LONG).show();
-            m_Question_Image.setVisibility(View.GONE);
-            m_TextView_Question.setVisibility(View.VISIBLE);
-            m_TextView_Question.setText(examQuestion.getM_Question_Eng());
-
-        }
-
-        m_Question_List_Adapter.notifyDataSetChanged();
+        String answerType = examQuestion.getM_Answer_Type();
 
         if(m_English_Flag){
 
             m_Button_Eng.setBackgroundResource(R.drawable.button_red_flat);
             m_Button_Hindi.setBackgroundResource(R.drawable.button_flat);
 
+            // Set Text Question
+            m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+
+            // Set Question Supported image in English
+            if(questionSupportImage_Eng.equals("NA")){
+                m_QuestionSupported_Image.setVisibility(View.GONE);
+
+            }else{
+                m_QuestionSupported_Image.setVisibility(View.VISIBLE);
+
+                try {
+                    Glide.with(this)
+                            .load(questionSupportImage_Eng)
+                            .placeholder(R.drawable.logo)
+                            .error(R.drawable.back_icon)
+                            .into(m_QuestionSupported_Image);
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            // Set Answer for Text English
             m_CheckBox_Answer1.setText(examQuestion.getM_Answer1_Eng());
             m_CheckBox_Answer2.setText(examQuestion.getM_Answer2_Eng());
             m_CheckBox_Answer3.setText(examQuestion.getM_Answer3_Eng());
@@ -301,7 +296,26 @@ public class ExamActivity extends AppCompatActivity {
             m_Button_Hindi.setBackgroundResource(R.drawable.button_red_flat);
             m_Button_Eng.setBackgroundResource(R.drawable.button_flat);
 
+            // Set Question Supported image in Hindi
             m_TextView_Question.setText(examQuestion.getM_Question_Hindi());
+
+            if(questionSupportImage_Hindi.equals("NA")){
+                m_QuestionSupported_Image.setVisibility(View.GONE);
+
+            }else{
+                m_QuestionSupported_Image.setVisibility(View.VISIBLE);
+
+                try {
+                    Glide.with(this)
+                            .load(questionSupportImage_Hindi)
+                            .placeholder(R.drawable.logo)
+                            .error(R.drawable.back_icon)
+                            .into(m_QuestionSupported_Image);
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+
             m_CheckBox_Answer1.setText(examQuestion.getM_Answer1_Hindi());
             m_CheckBox_Answer2.setText(examQuestion.getM_Answer2_Hindi());
             m_CheckBox_Answer3.setText(examQuestion.getM_Answer3_Hindi());
@@ -309,6 +323,8 @@ public class ExamActivity extends AppCompatActivity {
             m_CheckBox_Answer5.setText(examQuestion.getM_Answer5_Hindi());
             m_CheckBox_Answer6.setText(examQuestion.getM_Answer6_Hindi());
         }
+
+        m_Question_List_Adapter.notifyDataSetChanged();
 
         m_Hindi_Flag = false;
         m_English_Flag = true;

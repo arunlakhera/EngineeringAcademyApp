@@ -92,8 +92,6 @@ public class SignInActivity extends AppCompatActivity {
 
                        pd.hide();
 
-                        Toast.makeText(getApplicationContext(),"Response:" + response,Toast.LENGTH_LONG).show();
-
                         String res = String.valueOf(response);
                         String res_fail = "Sign_In_Failed";
 

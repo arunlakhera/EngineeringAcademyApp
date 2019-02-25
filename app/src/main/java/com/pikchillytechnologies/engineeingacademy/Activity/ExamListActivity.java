@@ -66,8 +66,6 @@ public class ExamListActivity extends AppCompatActivity {
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title),"Sub Category Title");
         m_Sub_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.subcategoryid),"Sub Category Id");
 
-        Toast.makeText(getApplicationContext(),m_Category_Id + "-" + m_Title + "-" + m_Sub_Category_Id, Toast.LENGTH_LONG).show();
-
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_TextView_Activity_Title.setText(m_Title);
 
