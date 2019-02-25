@@ -84,7 +84,7 @@
             android:layout_height="25dp"
             android:layout_gravity="center"
             android:layout_margin="@dimen/margin_small"
-            android:src="@drawable/instruction_icon" />
+             />
 
     </LinearLayout>
 
@@ -141,7 +141,7 @@
                 <TextView
                     android:id="@+id/textView_Question"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="wrap_content"
                     android:padding="@dimen/padding_small"
                     android:layout_marginLeft="@dimen/margin_default"
                     android:layout_marginStart="@dimen/margin_default"
@@ -250,18 +250,19 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
+        android:background="@drawable/nav_base"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_default"
-        android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_default"
         >
 
         <Button
             android:id="@+id/button_Previous"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/nav_prev" />
 
         <Button
@@ -281,8 +282,8 @@
             />
         <Button
             android:id="@+id/button_Next"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/nav_next" />
     </LinearLayout>
 </RelativeLayout>

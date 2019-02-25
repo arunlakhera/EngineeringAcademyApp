@@ -265,10 +265,14 @@ public class ExamActivity extends AppCompatActivity {
             m_Question_Image.setVisibility(View.VISIBLE);
             m_TextView_Question.setVisibility(View.GONE);
 
-            Glide
-                    .with(this)
-                    .load(examQuestion.getM_Question_Eng_Img_url())
-                    .into(m_Question_Image);
+            try {
+                Glide
+                        .with(this)
+                        .load(examQuestion.getM_Question_Eng_Img_url())
+                        .into(m_Question_Image);
+            }catch (Exception e){
+                Toast.makeText(getApplicationContext(),"Could not Access Question Image", Toast.LENGTH_LONG).show();
+            }
 
 
         }else{
@@ -285,7 +289,6 @@ public class ExamActivity extends AppCompatActivity {
 
             m_Button_Eng.setBackgroundResource(R.drawable.button_red_flat);
             m_Button_Hindi.setBackgroundResource(R.drawable.button_flat);
-
 
             m_CheckBox_Answer1.setText(examQuestion.getM_Answer1_Eng());
             m_CheckBox_Answer2.setText(examQuestion.getM_Answer2_Eng());
