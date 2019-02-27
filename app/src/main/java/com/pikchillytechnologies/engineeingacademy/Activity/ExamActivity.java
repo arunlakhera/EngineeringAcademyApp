@@ -275,12 +275,23 @@ public class ExamActivity extends AppCompatActivity {
                 m_ImageView_Question_Image.setVisibility(View.GONE);
 
                 m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+
             }else if(questionType.equals("I")){
 
-                m_TextView_Question.setVisibility(View.VISIBLE);
-                m_ImageView_Question_Image.setVisibility(View.GONE);
+                m_TextView_Question.setVisibility(View.GONE);
+                m_ImageView_Question_Image.setVisibility(View.VISIBLE);
 
-                m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+                //m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+
+                try {
+                    Glide.with(this)
+                            .load(examQuestion.getM_Question_Eng())
+                            .placeholder(R.drawable.logo)
+                            .error(R.drawable.back_icon)
+                            .into(m_ImageView_Question_Image);
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
 
             // Check if the supported image for question is available
@@ -301,20 +312,54 @@ public class ExamActivity extends AppCompatActivity {
                 }
             }
 
-            // Set Answer for Text English
-            m_CheckBox_Answer1.setText(examQuestion.getM_Answer1_Eng());
-            m_CheckBox_Answer2.setText(examQuestion.getM_Answer2_Eng());
-            m_CheckBox_Answer3.setText(examQuestion.getM_Answer3_Eng());
-            m_CheckBox_Answer4.setText(examQuestion.getM_Answer4_Eng());
-            m_CheckBox_Answer5.setText(examQuestion.getM_Answer5_Eng());
-            m_CheckBox_Answer6.setText(examQuestion.getM_Answer6_Eng());
+            if(answerType.equals("T")){
+
+                // Set Answer for Text English
+                m_CheckBox_Answer1.setText(examQuestion.getM_Answer1_Eng());
+                m_CheckBox_Answer2.setText(examQuestion.getM_Answer2_Eng());
+                m_CheckBox_Answer3.setText(examQuestion.getM_Answer3_Eng());
+                m_CheckBox_Answer4.setText(examQuestion.getM_Answer4_Eng());
+                m_CheckBox_Answer5.setText(examQuestion.getM_Answer5_Eng());
+                m_CheckBox_Answer6.setText(examQuestion.getM_Answer6_Eng());
+
+            }else if(answerType.equals("I")){
+
+            }
+
         }else{
 
             m_Button_Hindi.setBackgroundResource(R.drawable.button_red_flat);
             m_Button_Eng.setBackgroundResource(R.drawable.button_flat);
 
             // Set Question Supported image in Hindi
-            m_TextView_Question.setText(examQuestion.getM_Question_Hindi());
+           // m_TextView_Question.setText(examQuestion.getM_Question_Hindi());
+
+
+            //Check if the question is Text or Image
+            if(questionType.equals("T")){
+
+                m_TextView_Question.setVisibility(View.VISIBLE);
+                m_ImageView_Question_Image.setVisibility(View.GONE);
+
+                m_TextView_Question.setText(examQuestion.getM_Question_Hindi());
+
+            }else if(questionType.equals("I")){
+
+                m_TextView_Question.setVisibility(View.GONE);
+                m_ImageView_Question_Image.setVisibility(View.VISIBLE);
+
+                //m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+
+                try {
+                    Glide.with(this)
+                            .load(examQuestion.getM_Question_Hindi())
+                            .placeholder(R.drawable.logo)
+                            .error(R.drawable.back_icon)
+                            .into(m_ImageView_Question_Image);
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
 
             // Check if the supported image for question is available
             if(questionSupportImage_Hindi.equals("NA")){
