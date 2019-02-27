@@ -45,7 +45,7 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/margin_small"
             android:gravity="center"
-            android:text="3/10"
+            android:textStyle="bold"
             android:textColor="@color/colorOffWhiteBg"
             android:textSize="@dimen/text_small" />
 

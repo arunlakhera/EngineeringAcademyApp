@@ -99,8 +99,12 @@ public class ExamActivity extends AppCompatActivity {
     private Boolean m_Hindi_Flag;
     private Boolean m_English_Flag;
 
+    String quest_num;
+
     Integer m_Current_Question;
     Integer m_Total_Questions;
+
+    RecyclerView.LayoutManager m_Layout_Manager;
 
     StringRequest stringRequest;
     RequestQueue requestQueue;
@@ -130,7 +134,7 @@ public class ExamActivity extends AppCompatActivity {
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
-        m_TextView_Total_Question = findViewById(R.id.textView_Total_Questions);
+        m_TextView_Total_Question = findViewById(R.id.textView_Current_Question);
         m_ImageView_QuestionSupported_Image = findViewById(R.id.imageview_QuestionSupportedImage);
         m_ImageView_Question_Image = findViewById(R.id.imageview_Question_Image);
 
@@ -165,17 +169,13 @@ public class ExamActivity extends AppCompatActivity {
 
         m_RecyclerView_Question_List.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager m_Layout_Manager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
+        m_Layout_Manager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
         m_RecyclerView_Question_List.setLayoutManager(m_Layout_Manager);
-
-        SnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(m_RecyclerView_Question_List);
 
         currentQuestion = 0;
 
         prepareExamQuestionListData();
 
-        String quest_num = currentQuestion + "/" + m_Total_Questions;
         //m_TextView_Total_Question.setText(quest_num);
 
         m_RecyclerView_Question_List.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Question_List, new RecyclerTouchListener.ClickListener() {
@@ -204,10 +204,11 @@ public class ExamActivity extends AppCompatActivity {
                     m_Button_Submit.setVisibility(View.VISIBLE);
                 }
 
+
                 m_Hindi_Flag = false;
                 m_English_Flag = true;
 
-                //cleanUI();
+                m_Layout_Manager.scrollToPosition(currentQuestion);
 
             }
         });
@@ -224,6 +225,8 @@ public class ExamActivity extends AppCompatActivity {
 
                 m_Hindi_Flag = false;
                 m_English_Flag = true;
+
+                m_Layout_Manager.scrollToPosition(currentQuestion);
 
             }
         });
@@ -286,6 +289,8 @@ public class ExamActivity extends AppCompatActivity {
         m_Question_List_Adapter.row_index = curQuestion;
 
         examQuestion.setRead(true);
+
+        m_TextView_Total_Question.setText(examQuestion.getM_Question_Number() + "/" + m_Total_Questions);
 
         String questionSupportImage_Eng = examQuestion.getM_Question_Eng_Img_url();
         String questionSupportImage_Hindi = examQuestion.getM_Question_Hindi_Img_url();
@@ -367,78 +372,83 @@ public class ExamActivity extends AppCompatActivity {
 
         }else {
 
-            m_Button_Hindi.setBackgroundResource(R.drawable.button_red_flat);
-            m_Button_Eng.setBackgroundResource(R.drawable.button_flat);
-
-            //Check if the question is Text or Image
-            if(questionType.equals("T")){
-
-                m_TextView_Question.setVisibility(View.VISIBLE);
-                m_ImageView_Question_Image.setVisibility(View.GONE);
-
-                m_TextView_Question.setText(examQuestion.getM_Question_Hindi());
-
-            }else if(questionType.equals("I")){
-
-                m_TextView_Question.setVisibility(View.GONE);
-                m_ImageView_Question_Image.setVisibility(View.VISIBLE);
-
-                //m_TextView_Question.setText(examQuestion.getM_Question_Eng());
-
-                try {
-                    Glide.with(this)
-                            .load(examQuestion.getM_Question_Hindi())
-                            .placeholder(R.drawable.logo)
-                            .error(R.drawable.back_icon)
-                            .into(m_ImageView_Question_Image);
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-
-            // Check if the supported image for question is available
-            if(questionSupportImage_Hindi.equals("NA")){
-                m_ImageView_QuestionSupported_Image.setVisibility(View.GONE);
-
+            if(examQuestion.getM_Question_Hindi().equals("NA")){
+                Toast.makeText(getApplicationContext(),"Hindi version not available.", Toast.LENGTH_LONG).show();
             }else{
-                m_ImageView_QuestionSupported_Image.setVisibility(View.VISIBLE);
 
-                try {
-                    Glide.with(this)
-                            .load(questionSupportImage_Hindi)
-                            .placeholder(R.drawable.logo)
-                            .error(R.drawable.back_icon)
-                            .into(m_ImageView_QuestionSupported_Image);
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
+                m_Button_Hindi.setBackgroundResource(R.drawable.button_red_flat);
+                m_Button_Eng.setBackgroundResource(R.drawable.button_flat);
+
+                //Check if the question is Text or Image
+                if(questionType.equals("T")){
+
+                    m_TextView_Question.setVisibility(View.VISIBLE);
+                    m_ImageView_Question_Image.setVisibility(View.GONE);
+
+                    m_TextView_Question.setText(examQuestion.getM_Question_Hindi());
+
+                }else if(questionType.equals("I")){
+
+                    m_TextView_Question.setVisibility(View.GONE);
+                    m_ImageView_Question_Image.setVisibility(View.VISIBLE);
+
+                    //m_TextView_Question.setText(examQuestion.getM_Question_Eng());
+
+                    try {
+                        Glide.with(this)
+                                .load(examQuestion.getM_Question_Hindi())
+                                .placeholder(R.drawable.logo)
+                                .error(R.drawable.back_icon)
+                                .into(m_ImageView_Question_Image);
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                // Check if the supported image for question is available
+                if(questionSupportImage_Hindi.equals("NA")){
+                    m_ImageView_QuestionSupported_Image.setVisibility(View.GONE);
+
+                }else{
+                    m_ImageView_QuestionSupported_Image.setVisibility(View.VISIBLE);
+
+                    try {
+                        Glide.with(this)
+                                .load(questionSupportImage_Hindi)
+                                .placeholder(R.drawable.logo)
+                                .error(R.drawable.back_icon)
+                                .into(m_ImageView_QuestionSupported_Image);
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                if(answerType.equals("T")){
+
+                    m_Layout_Answers_Text.setVisibility(View.VISIBLE);
+                    m_Layout_Answers_Image.setVisibility(View.GONE);
+
+                    // Set Answer for Questions in Textview
+
+                    setCheckboxAnswersText(examQuestion.getM_Answer1_Hindi(), examQuestion.getM_Answer2_Hindi(),examQuestion.getM_Answer3_Hindi(),
+                            examQuestion.getM_Answer4_Hindi(),examQuestion.getM_Answer5_Hindi(), examQuestion.getM_Answer6_Hindi());
+
+                }else if(answerType.equals("I")){
+
+                    m_Layout_Answers_Image.setVisibility(View.VISIBLE);
+                    m_Layout_Answers_Text.setVisibility(View.GONE);
+
+                    setCheckboxAnswersImage(examQuestion.getM_Answer1_Hindi(), m_ImageView_Answer1_Image);
+                    setCheckboxAnswersImage(examQuestion.getM_Answer2_Hindi(), m_ImageView_Answer2_Image);
+                    setCheckboxAnswersImage(examQuestion.getM_Answer3_Hindi(), m_ImageView_Answer3_Image);
+                    setCheckboxAnswersImage(examQuestion.getM_Answer4_Hindi(), m_ImageView_Answer4_Image);
+                    setCheckboxAnswersImage(examQuestion.getM_Answer5_Hindi(), m_ImageView_Answer5_Image);
+                    setCheckboxAnswersImage(examQuestion.getM_Answer6_Hindi(), m_ImageView_Answer6_Image);
+
                 }
             }
 
-            if(answerType.equals("T")){
-
-                m_Layout_Answers_Text.setVisibility(View.VISIBLE);
-                m_Layout_Answers_Image.setVisibility(View.GONE);
-
-                // Set Answer for Questions in Textview
-
-                setCheckboxAnswersText(examQuestion.getM_Answer1_Hindi(), examQuestion.getM_Answer2_Hindi(),examQuestion.getM_Answer3_Hindi(),
-                        examQuestion.getM_Answer4_Hindi(),examQuestion.getM_Answer5_Hindi(), examQuestion.getM_Answer6_Hindi());
-
-            }else if(answerType.equals("I")){
-
-                m_Layout_Answers_Image.setVisibility(View.VISIBLE);
-                m_Layout_Answers_Text.setVisibility(View.GONE);
-
-                setCheckboxAnswersImage(examQuestion.getM_Answer1_Hindi(), m_ImageView_Answer1_Image);
-                setCheckboxAnswersImage(examQuestion.getM_Answer2_Hindi(), m_ImageView_Answer2_Image);
-                setCheckboxAnswersImage(examQuestion.getM_Answer3_Hindi(), m_ImageView_Answer3_Image);
-                setCheckboxAnswersImage(examQuestion.getM_Answer4_Hindi(), m_ImageView_Answer4_Image);
-                setCheckboxAnswersImage(examQuestion.getM_Answer5_Hindi(), m_ImageView_Answer5_Image);
-                setCheckboxAnswersImage(examQuestion.getM_Answer6_Hindi(), m_ImageView_Answer6_Image);
-
-            }
         }
-
         m_Question_List_Adapter.notifyDataSetChanged();
 
         m_Hindi_Flag = false;
