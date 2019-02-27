@@ -30,6 +30,7 @@ import com.pikchillytechnologies.engineeingacademy.Adapter.ExamQuestionAdapter;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamListModel;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamQuestionModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
+import com.pikchillytechnologies.engineeingacademy.Model.ResultModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import org.json.JSONArray;
@@ -90,8 +91,16 @@ public class ExamActivity extends AppCompatActivity {
     private String m_Questions;
     private Bundle m_Sub_Course_Bundle;
 
+    Boolean answer1_Flag;
+    Boolean answer2_Flag;
+    Boolean answer3_Flag;
+    Boolean answer4_Flag;
+    Boolean answer5_Flag;
+    Boolean answer6_Flag;
+
     private List<ExamQuestionModel> m_Exam_Question_List;
     private List<ExamQuestionModel> m_All_Questions_List;
+    private List<ResultModel> m_User_Response;
 
     private List<ExamQuestionModel> m_Question_List;
     private RecyclerView m_RecyclerView_Question_List;
@@ -118,6 +127,13 @@ public class ExamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
+
+         answer1_Flag = false;
+         answer2_Flag = false;
+         answer3_Flag = false;
+         answer4_Flag = false;
+         answer5_Flag = false;
+         answer6_Flag = false;
 
         m_Sub_Course_Bundle = getIntent().getExtras();
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title),"Exam");
@@ -193,17 +209,19 @@ public class ExamActivity extends AppCompatActivity {
             }
         }));
 
+        // Action to perform when Next button is pressed
         m_Button_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(currentQuestion < (m_Question_List.size() - 1)){
+
+                    saveResponse(currentQuestion, examQuestion.getM_Answer_Type());
                     currentQuestion = currentQuestion+1;
                     updateUI(currentQuestion);
                 }else{
                     m_Button_Submit.setVisibility(View.VISIBLE);
                 }
-
 
                 m_Hindi_Flag = false;
                 m_English_Flag = true;
@@ -213,6 +231,7 @@ public class ExamActivity extends AppCompatActivity {
             }
         });
 
+        // Action to perform when Previous button is pressed
         m_Button_Previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,6 +250,7 @@ public class ExamActivity extends AppCompatActivity {
             }
         });
 
+        // Action to perform when Hindi button is pressed
         m_Button_Hindi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,6 +267,7 @@ public class ExamActivity extends AppCompatActivity {
             }
         });
 
+        // Action to perform when English button is pressed
         m_Button_Eng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,6 +301,89 @@ public class ExamActivity extends AppCompatActivity {
         m_CheckBox_Answer4.setChecked(false);
         m_CheckBox_Answer5.setChecked(false);
         m_CheckBox_Answer6.setChecked(false);
+
+    }
+
+    public void saveResponse(int question, String answerType){
+
+        if(answerType.equals("T")){
+
+            if(m_CheckBox_Answer1.isChecked()){
+                answer1_Flag = true;
+            }else{
+                answer1_Flag = false;
+            }
+
+            if(m_CheckBox_Answer2.isChecked()){
+                answer2_Flag = true;
+            }else{
+                answer2_Flag = false;
+            }
+
+            if(m_CheckBox_Answer3.isChecked()){
+                answer3_Flag = true;
+            }else{
+                answer3_Flag = false;
+            }
+
+            if(m_CheckBox_Answer4.isChecked()){
+                answer4_Flag = true;
+            }else{
+                answer4_Flag = false;
+            }
+
+            if(m_CheckBox_Answer5.isChecked()){
+                answer5_Flag = true;
+            }else{
+                answer5_Flag = false;
+            }
+
+            if(m_CheckBox_Answer6.isChecked()){
+                answer6_Flag = true;
+            }else{
+                answer6_Flag = false;
+            }
+
+        }else if(answerType.equals("I")){
+
+            if(m_CheckBox_Answer1_Image.isChecked()){
+                answer1_Flag = true;
+            }else{
+                answer1_Flag = false;
+            }
+
+            if(m_CheckBox_Answer2_Image.isChecked()){
+                answer2_Flag = true;
+            }else{
+                answer2_Flag = false;
+            }
+
+            if(m_CheckBox_Answer3_Image.isChecked()){
+                answer3_Flag = true;
+            }else{
+                answer3_Flag = false;
+            }
+
+            if(m_CheckBox_Answer4_Image.isChecked()){
+                answer4_Flag = true;
+            }else{
+                answer4_Flag = false;
+            }
+
+            if(m_CheckBox_Answer5_Image.isChecked()){
+                answer5_Flag = true;
+            }else{
+                answer5_Flag = false;
+            }
+
+            if(m_CheckBox_Answer6_Image.isChecked()){
+                answer6_Flag = true;
+            }else{
+                answer6_Flag = false;
+            }
+        }
+
+        //Toast.makeText(getApplicationContext(),"Saved:" + question + "-" + m_Exam_Id + answer1_Flag + "-" + answer2_Flag, Toast.LENGTH_LONG).show();
 
     }
 

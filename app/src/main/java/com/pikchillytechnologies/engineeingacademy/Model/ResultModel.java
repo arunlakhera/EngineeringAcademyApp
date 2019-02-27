@@ -4,13 +4,14 @@ public class ResultModel {
 
     private String m_Question_Number;
     private String m_Question;
+
     private String m_Answer1;
     private String m_Answer2;
     private String m_Answer3;
     private String m_Answer4;
-    private String m_Explaination;
+    private String m_Explanation;
 
-    public ResultModel(String questionNumber, String question, String ans1, String ans2, String ans3, String ans4, String explaination){
+    public ResultModel(String questionNumber, String question, String ans1, String ans2, String ans3, String ans4, String explanation){
 
         this.m_Question_Number = questionNumber;
         this.m_Question = question;
@@ -18,7 +19,7 @@ public class ResultModel {
         this.m_Answer2 = ans2;
         this.m_Answer3 = ans3;
         this.m_Answer4 = ans4;
-        this.m_Explaination = explaination;
+        this.m_Explanation = explanation;
     }
 
     public String getM_Question_Number() {
@@ -69,11 +70,11 @@ public class ResultModel {
         this.m_Answer4 = m_Answer4;
     }
 
-    public String getM_Explaination() {
-        return m_Explaination;
+    public String getM_Explanation() {
+        return m_Explanation;
     }
 
-    public void setM_Explaination(String m_Explaination) {
-        this.m_Explaination = m_Explaination;
+    public void setM_Explaination(String m_Explanation) {
+        this.m_Explanation = m_Explanation;
     }
 }

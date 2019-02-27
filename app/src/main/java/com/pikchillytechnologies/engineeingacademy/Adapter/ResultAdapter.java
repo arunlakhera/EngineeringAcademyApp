@@ -63,7 +63,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
         holder.m_Radio_Answer2.setText(result.getM_Answer2());
         holder.m_Radio_Answer3.setText(result.getM_Answer3());
         holder.m_Radio_Answer4.setText(result.getM_Answer4());
-        holder.m_textView_Explaination.setText(result.getM_Explaination());
+        holder.m_textView_Explaination.setText(result.getM_Explanation());
     }
 
     @Override
