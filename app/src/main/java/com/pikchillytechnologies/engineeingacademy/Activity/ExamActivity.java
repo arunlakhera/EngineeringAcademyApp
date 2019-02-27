@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,12 +45,33 @@ public class ExamActivity extends AppCompatActivity {
 
     private TextView m_TextView_Activity_Title;
     private TextView m_TextView_Question;
+
+    // Text Check box layout
+
+    private LinearLayout m_Layout_Answers_Text;
     private CheckBox m_CheckBox_Answer1;
     private CheckBox m_CheckBox_Answer2;
     private CheckBox m_CheckBox_Answer3;
     private CheckBox m_CheckBox_Answer4;
     private CheckBox m_CheckBox_Answer5;
     private CheckBox m_CheckBox_Answer6;
+
+    // Answer Checkbox for Image
+    private LinearLayout m_Layout_Answers_Image;
+    private CheckBox m_CheckBox_Answer1_Image;
+    private CheckBox m_CheckBox_Answer2_Image;
+    private CheckBox m_CheckBox_Answer3_Image;
+    private CheckBox m_CheckBox_Answer4_Image;
+    private CheckBox m_CheckBox_Answer5_Image;
+    private CheckBox m_CheckBox_Answer6_Image;
+
+    private ImageView m_ImageView_Answer1_Image;
+    private ImageView m_ImageView_Answer2_Image;
+    private ImageView m_ImageView_Answer3_Image;
+    private ImageView m_ImageView_Answer4_Image;
+    private ImageView m_ImageView_Answer5_Image;
+    private ImageView m_ImageView_Answer6_Image;
+
 
     private ImageView m_ImageView_Question_Image;
     private ImageView m_ImageView_QuestionSupported_Image;
@@ -111,6 +133,16 @@ public class ExamActivity extends AppCompatActivity {
         m_TextView_Total_Question = findViewById(R.id.textView_Total_Questions);
         m_ImageView_QuestionSupported_Image = findViewById(R.id.imageview_QuestionSupportedImage);
         m_ImageView_Question_Image = findViewById(R.id.imageview_Question_Image);
+
+        m_Layout_Answers_Text = findViewById(R.id.layout_Answers_Text);
+        m_Layout_Answers_Image = findViewById(R.id.layout_Answers_Image);
+
+        m_ImageView_Answer1_Image = findViewById(R.id.imageview_Answer1);
+        m_ImageView_Answer2_Image = findViewById(R.id.imageview_Answer2);
+        m_ImageView_Answer3_Image = findViewById(R.id.imageview_Answer3);
+        m_ImageView_Answer4_Image = findViewById(R.id.imageview_Answer4);
+        m_ImageView_Answer5_Image = findViewById(R.id.imageview_Answer5);
+        m_ImageView_Answer6_Image = findViewById(R.id.imageview_Answer6);
 
         m_TextView_Question = findViewById(R.id.textView_Question_Text);
         m_CheckBox_Answer1 = findViewById(R.id.checkbox_Answer1);
@@ -266,8 +298,6 @@ public class ExamActivity extends AppCompatActivity {
             m_Button_Eng.setBackgroundResource(R.drawable.button_red_flat);
             m_Button_Hindi.setBackgroundResource(R.drawable.button_flat);
 
-            //m_TextView_Question.setText(examQuestion.getM_Question_Eng());
-
             //Check if the question is Text or Image
             if(questionType.equals("T")){
 
@@ -314,26 +344,31 @@ public class ExamActivity extends AppCompatActivity {
 
             if(answerType.equals("T")){
 
+                m_Layout_Answers_Text.setVisibility(View.VISIBLE);
+                m_Layout_Answers_Image.setVisibility(View.GONE);
+
                 // Set Answer for Text English
-                m_CheckBox_Answer1.setText(examQuestion.getM_Answer1_Eng());
-                m_CheckBox_Answer2.setText(examQuestion.getM_Answer2_Eng());
-                m_CheckBox_Answer3.setText(examQuestion.getM_Answer3_Eng());
-                m_CheckBox_Answer4.setText(examQuestion.getM_Answer4_Eng());
-                m_CheckBox_Answer5.setText(examQuestion.getM_Answer5_Eng());
-                m_CheckBox_Answer6.setText(examQuestion.getM_Answer6_Eng());
+                setCheckboxAnswersText(examQuestion.getM_Answer1_Eng(), examQuestion.getM_Answer2_Eng(),examQuestion.getM_Answer3_Eng(),
+                        examQuestion.getM_Answer4_Eng(),examQuestion.getM_Answer5_Eng(), examQuestion.getM_Answer6_Eng());
 
             }else if(answerType.equals("I")){
 
+                m_Layout_Answers_Image.setVisibility(View.VISIBLE);
+                m_Layout_Answers_Text.setVisibility(View.GONE);
+
+                setCheckboxAnswersImage(examQuestion.getM_Answer1_Eng(), m_ImageView_Answer1_Image);
+                setCheckboxAnswersImage(examQuestion.getM_Answer2_Eng(), m_ImageView_Answer2_Image);
+                setCheckboxAnswersImage(examQuestion.getM_Answer3_Eng(), m_ImageView_Answer3_Image);
+                setCheckboxAnswersImage(examQuestion.getM_Answer4_Eng(), m_ImageView_Answer4_Image);
+                setCheckboxAnswersImage(examQuestion.getM_Answer5_Eng(), m_ImageView_Answer5_Image);
+                setCheckboxAnswersImage(examQuestion.getM_Answer6_Eng(), m_ImageView_Answer6_Image);
+
             }
 
-        }else{
+        }else {
 
             m_Button_Hindi.setBackgroundResource(R.drawable.button_red_flat);
             m_Button_Eng.setBackgroundResource(R.drawable.button_flat);
-
-            // Set Question Supported image in Hindi
-           // m_TextView_Question.setText(examQuestion.getM_Question_Hindi());
-
 
             //Check if the question is Text or Image
             if(questionType.equals("T")){
@@ -379,19 +414,61 @@ public class ExamActivity extends AppCompatActivity {
                 }
             }
 
-            // Set Answer for Questions in Textview
-            m_CheckBox_Answer1.setText(examQuestion.getM_Answer1_Hindi());
-            m_CheckBox_Answer2.setText(examQuestion.getM_Answer2_Hindi());
-            m_CheckBox_Answer3.setText(examQuestion.getM_Answer3_Hindi());
-            m_CheckBox_Answer4.setText(examQuestion.getM_Answer4_Hindi());
-            m_CheckBox_Answer5.setText(examQuestion.getM_Answer5_Hindi());
-            m_CheckBox_Answer6.setText(examQuestion.getM_Answer6_Hindi());
+            if(answerType.equals("T")){
+
+                m_Layout_Answers_Text.setVisibility(View.VISIBLE);
+                m_Layout_Answers_Image.setVisibility(View.GONE);
+
+                // Set Answer for Questions in Textview
+
+                setCheckboxAnswersText(examQuestion.getM_Answer1_Hindi(), examQuestion.getM_Answer2_Hindi(),examQuestion.getM_Answer3_Hindi(),
+                        examQuestion.getM_Answer4_Hindi(),examQuestion.getM_Answer5_Hindi(), examQuestion.getM_Answer6_Hindi());
+
+            }else if(answerType.equals("I")){
+
+                m_Layout_Answers_Image.setVisibility(View.VISIBLE);
+                m_Layout_Answers_Text.setVisibility(View.GONE);
+
+                setCheckboxAnswersImage(examQuestion.getM_Answer1_Hindi(), m_ImageView_Answer1_Image);
+                setCheckboxAnswersImage(examQuestion.getM_Answer2_Hindi(), m_ImageView_Answer2_Image);
+                setCheckboxAnswersImage(examQuestion.getM_Answer3_Hindi(), m_ImageView_Answer3_Image);
+                setCheckboxAnswersImage(examQuestion.getM_Answer4_Hindi(), m_ImageView_Answer4_Image);
+                setCheckboxAnswersImage(examQuestion.getM_Answer5_Hindi(), m_ImageView_Answer5_Image);
+                setCheckboxAnswersImage(examQuestion.getM_Answer6_Hindi(), m_ImageView_Answer6_Image);
+
+            }
         }
 
         m_Question_List_Adapter.notifyDataSetChanged();
 
         m_Hindi_Flag = false;
         m_English_Flag = true;
+
+    }
+
+    // Function to set the Text Answers into Text
+    public void setCheckboxAnswersText(String answer1, String answer2, String answer3, String answer4, String answer5, String answer6){
+
+        m_CheckBox_Answer1.setText(answer1);
+        m_CheckBox_Answer2.setText(answer2);
+        m_CheckBox_Answer3.setText(answer3);
+        m_CheckBox_Answer4.setText(answer4);
+        m_CheckBox_Answer5.setText(answer5);
+        m_CheckBox_Answer6.setText(answer6);
+    }
+
+    // Function to set the Image Answers into checkbox
+    public void setCheckboxAnswersImage(String answer, ImageView imageViewAnswerImage){
+
+        try {
+            Glide.with(this)
+                    .load(answer)
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.back_icon)
+                    .into(imageViewAnswerImage);
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
 
     }
 

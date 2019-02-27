@@ -188,7 +188,7 @@
                     />
 
                 <LinearLayout
-                    android:id="@+id/layout_Answers"
+                    android:id="@+id/layout_Answers_Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_default"
@@ -256,6 +256,169 @@
                         android:layout_margin="8dp"
                         />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_Answers_Image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:background="@drawable/question_base"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/layout_Answer1_Image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        >
+                        <CheckBox
+                            android:id="@+id/checkbox_Answer1_Image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/margin_small"
+                            />
+                        <ImageView
+                            android:id="@+id/imageview_Answer1"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="@dimen/margin_default"
+                            android:layout_marginEnd="@dimen/margin_default"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_Answer2_Image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        >
+                        <CheckBox
+                            android:id="@+id/checkbox_Answer2_Image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/margin_small"
+                            />
+                        <ImageView
+                            android:id="@+id/imageview_Answer2"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="@dimen/margin_default"
+                            android:layout_marginEnd="@dimen/margin_default"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_Answer3_Image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        >
+                        <CheckBox
+                            android:id="@+id/checkbox_Answer3_Image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/margin_small"
+                            />
+                        <ImageView
+                            android:id="@+id/imageview_Answer3"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="@dimen/margin_default"
+                            android:layout_marginEnd="@dimen/margin_default"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_Answer4_Image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        >
+                        <CheckBox
+                            android:id="@+id/checkbox_Answer4_Image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/margin_small"
+                            />
+                        <ImageView
+                            android:id="@+id/imageview_Answer4"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="@dimen/margin_default"
+                            android:layout_marginEnd="@dimen/margin_default"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_Answer5_Image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        >
+                        <CheckBox
+                            android:id="@+id/checkbox_Answer5_Image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/margin_small"
+                            />
+                        <ImageView
+                            android:id="@+id/imageview_Answer5"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="@dimen/margin_default"
+                            android:layout_marginEnd="@dimen/margin_default"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_Answer6_Image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        >
+                        <CheckBox
+                            android:id="@+id/checkbox_Answer6_Image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/margin_small"
+                            />
+                        <ImageView
+                            android:id="@+id/imageview_Answer6"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="@dimen/margin_default"
+                            android:layout_marginEnd="@dimen/margin_default"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
