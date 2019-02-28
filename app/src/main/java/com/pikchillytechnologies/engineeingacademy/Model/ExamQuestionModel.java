@@ -294,7 +294,6 @@ public class ExamQuestionModel {
     public void setM_Answer_Lang(String m_Answer_Lang) {
         this.m_Answer_Lang = m_Answer_Lang;
     }
-
     public Boolean getRead() {
         return isRead;
     }
