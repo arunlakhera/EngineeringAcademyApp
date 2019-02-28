@@ -172,6 +172,14 @@ public class ExamActivity extends AppCompatActivity {
         m_CheckBox_Answer4 = findViewById(R.id.checkbox_Answer4);
         m_CheckBox_Answer5 = findViewById(R.id.checkbox_Answer5);
         m_CheckBox_Answer6 = findViewById(R.id.checkbox_Answer6);
+
+        m_CheckBox_Answer1_Image = findViewById(R.id.checkbox_Answer1_Image);
+        m_CheckBox_Answer2_Image = findViewById(R.id.checkbox_Answer2_Image);
+        m_CheckBox_Answer3_Image = findViewById(R.id.checkbox_Answer3_Image);
+        m_CheckBox_Answer4_Image = findViewById(R.id.checkbox_Answer4_Image);
+        m_CheckBox_Answer5_Image = findViewById(R.id.checkbox_Answer5_Image);
+        m_CheckBox_Answer6_Image = findViewById(R.id.checkbox_Answer6_Image);
+
         m_Button_Next = findViewById(R.id.button_Next);
         m_Button_Previous = findViewById(R.id.button_Previous);
         m_Button_Hindi = findViewById(R.id.button_Hindi);
@@ -216,7 +224,7 @@ public class ExamActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(currentQuestion < (m_Question_List.size() - 1)){
-                    //saveResponse();
+                    saveResponse();
                     currentQuestion = currentQuestion+1;
                     updateUI(currentQuestion);
                 }else{
@@ -237,7 +245,7 @@ public class ExamActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(currentQuestion > 0){
-                    //saveResponse();
+                    saveResponse();
                     currentQuestion = currentQuestion-1;
                     updateUI(currentQuestion);
 
@@ -295,15 +303,6 @@ public class ExamActivity extends AppCompatActivity {
     }
 
     public void saveResponse(){
-/*
-        examQuestion.setM_User_Answer1_Flag(answer1_Flag);
-        examQuestion.setM_User_Answer2_Flag(answer2_Flag);
-        examQuestion.setM_User_Answer3_Flag(answer3_Flag);
-        examQuestion.setM_User_Answer4_Flag(answer4_Flag);
-        examQuestion.setM_User_Answer5_Flag(answer5_Flag);
-        examQuestion.setM_User_Answer6_Flag(answer6_Flag);
-*/
-
 
         userResponse.setM_User_Answer1_Flag(answer1_Flag);
         userResponse.setM_User_Answer2_Flag(answer2_Flag);
@@ -312,15 +311,13 @@ public class ExamActivity extends AppCompatActivity {
         userResponse.setM_User_Answer5_Flag(answer5_Flag);
         userResponse.setM_User_Answer6_Flag(answer6_Flag);
 
-        String answer = "Answer 1:" + userResponse.getM_User_Answer1_Flag();
-        answer += "Anwer 2:" + userResponse.getM_User_Answer2_Flag();
-        answer += "Answer 3:" + userResponse.getM_User_Answer3_Flag();
-        answer += "Answer 4:" + userResponse.getM_User_Answer4_Flag();
-        answer += "Answer 5" + userResponse.getM_User_Answer5_Flag();
-        answer += "Answer 6" + userResponse.getM_User_Answer6_Flag();
 
-        Toast.makeText(getApplicationContext(),"Question:" + examQuestion.getM_Question_Id() + "--" + answer, Toast.LENGTH_LONG).show();
-
+        answer1_Flag = false;
+        answer2_Flag = false;
+        answer3_Flag = false;
+        answer4_Flag = false;
+        answer5_Flag = false;
+        answer6_Flag = false;
 
     }
 
@@ -380,7 +377,8 @@ public class ExamActivity extends AppCompatActivity {
 
         examQuestion = m_Question_List.get(curQuestion);
         m_Question_List_Adapter.row_index = curQuestion;
-        userResponse = m_User_Response_List.get(currentQuestion);
+
+        userResponse = m_User_Response_List.get(curQuestion);
 
         examQuestion.setRead(true);
 
@@ -450,6 +448,15 @@ public class ExamActivity extends AppCompatActivity {
                 setCheckboxAnswersText(examQuestion.getM_Answer1_Eng(), examQuestion.getM_Answer2_Eng(),examQuestion.getM_Answer3_Eng(),
                         examQuestion.getM_Answer4_Eng(),examQuestion.getM_Answer5_Eng(), examQuestion.getM_Answer6_Eng());
 
+                Toast.makeText(getApplicationContext(),"Text Eng:" + userResponse.getM_User_Answer1_Flag(),Toast.LENGTH_LONG).show();
+
+                m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer1_Flag());
+                m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer2_Flag());
+                m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer3_Flag());
+                m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer4_Flag());
+                m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer5_Flag());
+                m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer6_Flag());
+
             }else if(answerType.equals("I")){
 
                 m_Layout_Answers_Image.setVisibility(View.VISIBLE);
@@ -462,6 +469,12 @@ public class ExamActivity extends AppCompatActivity {
                 setCheckboxAnswersImage(examQuestion.getM_Answer5_Eng(), m_ImageView_Answer5_Image);
                 setCheckboxAnswersImage(examQuestion.getM_Answer6_Eng(), m_ImageView_Answer6_Image);
 
+                m_CheckBox_Answer1_Image.setChecked(userResponse.getM_User_Answer1_Flag());
+                m_CheckBox_Answer2_Image.setChecked(userResponse.getM_User_Answer2_Flag());
+                m_CheckBox_Answer3_Image.setChecked(userResponse.getM_User_Answer3_Flag());
+                m_CheckBox_Answer4_Image.setChecked(userResponse.getM_User_Answer4_Flag());
+                m_CheckBox_Answer5_Image.setChecked(userResponse.getM_User_Answer5_Flag());
+                m_CheckBox_Answer6_Image.setChecked(userResponse.getM_User_Answer6_Flag());
             }
 
         }else {
@@ -527,6 +540,14 @@ public class ExamActivity extends AppCompatActivity {
                     setCheckboxAnswersText(examQuestion.getM_Answer1_Hindi(), examQuestion.getM_Answer2_Hindi(),examQuestion.getM_Answer3_Hindi(),
                             examQuestion.getM_Answer4_Hindi(),examQuestion.getM_Answer5_Hindi(), examQuestion.getM_Answer6_Hindi());
 
+                    m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer1_Flag());
+                    m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer2_Flag());
+                    m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer3_Flag());
+                    m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer4_Flag());
+                    m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer5_Flag());
+                    m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer6_Flag());
+
+
                 }else if(answerType.equals("I")){
 
                     m_Layout_Answers_Image.setVisibility(View.VISIBLE);
@@ -539,6 +560,12 @@ public class ExamActivity extends AppCompatActivity {
                     setCheckboxAnswersImage(examQuestion.getM_Answer5_Hindi(), m_ImageView_Answer5_Image);
                     setCheckboxAnswersImage(examQuestion.getM_Answer6_Hindi(), m_ImageView_Answer6_Image);
 
+                    m_CheckBox_Answer1_Image.setChecked(userResponse.getM_User_Answer1_Flag());
+                    m_CheckBox_Answer2_Image.setChecked(userResponse.getM_User_Answer2_Flag());
+                    m_CheckBox_Answer3_Image.setChecked(userResponse.getM_User_Answer3_Flag());
+                    m_CheckBox_Answer4_Image.setChecked(userResponse.getM_User_Answer4_Flag());
+                    m_CheckBox_Answer5_Image.setChecked(userResponse.getM_User_Answer5_Flag());
+                    m_CheckBox_Answer6_Image.setChecked(userResponse.getM_User_Answer6_Flag());
                 }
             }
 
@@ -547,13 +574,6 @@ public class ExamActivity extends AppCompatActivity {
 
         m_Hindi_Flag = false;
         m_English_Flag = true;
-
-        answer1_Flag = false;
-        answer2_Flag = false;
-        answer3_Flag = false;
-        answer4_Flag = false;
-        answer5_Flag = false;
-        answer6_Flag = false;
 
     }
 
