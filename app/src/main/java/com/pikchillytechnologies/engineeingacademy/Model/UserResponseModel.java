@@ -16,7 +16,7 @@ public class UserResponseModel {
 
         this.m_User_Id = userId;
         this.m_Exam_Id = examId;
-        this.m_Question_Id = examId;
+        this.m_Question_Id = questionId;
         this.m_User_Answer1_Flag = userAnswer1Flag;
         this.m_User_Answer2_Flag = userAnswer2Flag;
         this.m_User_Answer3_Flag = userAnswer3Flag;
