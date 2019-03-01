@@ -282,10 +282,33 @@ public class ExamActivity extends AppCompatActivity {
         m_Button_Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                saveUserResponse();
+
                 startActivity(new Intent(ExamActivity.this, ResultActivity.class));
             }
         });
 
+    }
+
+    public void saveUserResponse(){
+
+        String user_Answers = "user_response";
+        UserResponseModel userResponse;
+        for(int i = 0; i < (m_User_Response_List.size() -1); i++){
+            userResponse = m_User_Response_List.get(i);
+            user_Answers += userResponse.getM_User_Id() + "\n";
+            user_Answers += userResponse.getM_Exam_Id() + "\n";
+            user_Answers += userResponse.getM_Question_Id() + "\n";
+            user_Answers += userResponse.getM_User_Answer1_Flag() + "\n";
+            user_Answers += userResponse.getM_User_Answer2_Flag() + "\n";
+            user_Answers += userResponse.getM_User_Answer3_Flag() + "\n";
+            user_Answers += userResponse.getM_User_Answer4_Flag() + "\n";
+            user_Answers += userResponse.getM_User_Answer5_Flag() + "\n";
+            user_Answers += userResponse.getM_User_Answer6_Flag();
+        }
+
+        Toast.makeText(getApplicationContext(),"Submit:" + user_Answers, Toast.LENGTH_LONG).show();
     }
 
     public void onTextCheckBoxClicked(View view) {
