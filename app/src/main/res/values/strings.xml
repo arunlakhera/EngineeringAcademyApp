@@ -36,6 +36,7 @@
     <string name="title">Title</string>
     <string name="categoryid">category_id</string>
     <string name="subcategoryid">sub_category_id</string>
+    <string name="userid">user_id</string>
     <string name="examid">exam_id</string>
     <string name="examduration">exam_duration</string>
     <string name="totalquestions">total_questions</string>

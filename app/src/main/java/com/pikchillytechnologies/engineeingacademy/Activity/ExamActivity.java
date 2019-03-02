@@ -93,6 +93,7 @@ public class ExamActivity extends AppCompatActivity {
     private Button m_Button_Next;
     private Button m_Button_Previous;
     private String m_Title;
+    private String m_User_Id;
     private String m_Exam_Id;
     private String m_Exam_Duration;
     private String m_Questions;
@@ -124,6 +125,7 @@ public class ExamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exam);
 
         m_Sub_Course_Bundle = getIntent().getExtras();
+        m_User_Id = "user_1";
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title), "Exam");
         m_Exam_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
         m_Exam_Duration = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examduration), "Exam Duration");
@@ -378,7 +380,12 @@ public class ExamActivity extends AppCompatActivity {
                             if(saveStatus.equals("success")){
 
                                 Toast.makeText(getApplicationContext(),"Response Saved Successfully.", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(ExamActivity.this, ResultActivity.class));
+
+                                Intent destinationDetailIntent = new Intent(ExamActivity.this, ResultActivity.class);
+                                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                                destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
+
+                                startActivity(destinationDetailIntent);
 
 
                             }else{
