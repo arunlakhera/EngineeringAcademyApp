@@ -139,7 +139,7 @@ public class ExamActivity extends AppCompatActivity {
         m_Hindi_Flag = false;
         m_English_Flag = true;
         m_User_Response_Flag = false;
-        
+
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
         m_TextView_Time_Remaining = findViewById(R.id.textView_Time_Remaining);
