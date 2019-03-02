@@ -106,8 +106,8 @@ public class ExamActivity extends AppCompatActivity {
     private ExamQuestionAdapter m_Question_List_Adapter;
     private Boolean m_Hindi_Flag;
     private Boolean m_English_Flag;
-    private JSONArray userResponseJSONArray = new JSONArray();
-    private JSONObject userResponseWholeJSON = new JSONObject();
+    private JSONArray userResponseJSONArray;
+    private JSONObject userResponseWholeJSON;
     private ExamQuestionModel examQuestion;
     boolean m_User_Response_Flag;
 
@@ -131,13 +131,15 @@ public class ExamActivity extends AppCompatActivity {
 
         m_Exam_Question_List = new ArrayList<>();
         m_User_Response_List = new ArrayList<>();
+        userResponseJSONArray = new JSONArray();
+        userResponseWholeJSON = new JSONObject();
 
         m_Total_Questions = Integer.valueOf(m_Questions);
         m_Current_Question = 0;
         m_Hindi_Flag = false;
         m_English_Flag = true;
         m_User_Response_Flag = false;
-
+        
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
         m_TextView_Time_Remaining = findViewById(R.id.textView_Time_Remaining);
@@ -218,10 +220,11 @@ public class ExamActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (currentQuestion < (m_Question_List.size() - 1)) {
-                    //saveResponse();
                     currentQuestion = currentQuestion + 1;
                     updateUI(currentQuestion);
-                } else {
+                }
+
+                if(currentQuestion == (m_Question_List.size() - 1)) {
                     m_Button_Submit.setVisibility(View.VISIBLE);
                 }
 
@@ -239,7 +242,7 @@ public class ExamActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (currentQuestion > 0) {
-                    //saveResponse();
+
                     currentQuestion = currentQuestion - 1;
                     updateUI(currentQuestion);
 
