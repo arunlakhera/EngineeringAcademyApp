@@ -3,6 +3,7 @@ package com.pikchillytechnologies.engineeingacademy.Activity;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class ExamActivity extends AppCompatActivity {
 
@@ -59,6 +61,7 @@ public class ExamActivity extends AppCompatActivity {
     int currentQuestion;
     private TextView m_TextView_Activity_Title;
     private TextView m_TextView_Question;
+    private TextView m_TextView_Time_Remaining;
     // Text Check box layout
     private LinearLayout m_Layout_Answers_Text;
     private CheckBox m_CheckBox_Answer1;
@@ -134,6 +137,8 @@ public class ExamActivity extends AppCompatActivity {
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
+        m_TextView_Time_Remaining = findViewById(R.id.textView_Time_Remaining);
+
         m_TextView_Total_Question = findViewById(R.id.textView_Current_Question);
         m_ImageView_QuestionSupported_Image = findViewById(R.id.imageview_QuestionSupportedImage);
         m_ImageView_Question_Image = findViewById(R.id.imageview_Question_Image);
@@ -183,6 +188,11 @@ public class ExamActivity extends AppCompatActivity {
         currentQuestion = 0;
 
         prepareExamQuestionListData();
+
+        long noOfMinutes = 60 * 60 * 1000;//Convert minutes into milliseconds
+
+
+        startExamTimer(noOfMinutes);
 
         //m_TextView_Total_Question.setText(quest_num);
 
@@ -287,6 +297,32 @@ public class ExamActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void startExamTimer(long noOfMinutes){
+
+        //long examTime = 60000 * 60000 * 2;
+
+        new CountDownTimer(noOfMinutes, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+                long millis = millisUntilFinished;
+                //Convert milliseconds into hour,minute and seconds
+
+                long hh = TimeUnit.MILLISECONDS.toHours(millis);
+                long mm = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(hh);
+                long ss = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(mm);
+
+                m_TextView_Time_Remaining.setText(hh + ":" + mm + ":" + ss);
+
+            }
+
+            public void onFinish() {
+
+                m_TextView_Time_Remaining.setText("done!");
+            }
+        }.start();
     }
 
     public void saveUserResponse() {
