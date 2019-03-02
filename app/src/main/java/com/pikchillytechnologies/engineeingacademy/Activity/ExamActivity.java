@@ -111,6 +111,9 @@ public class ExamActivity extends AppCompatActivity {
     private ExamQuestionModel examQuestion;
     boolean m_User_Response_Flag;
 
+    private String remainingTime;
+    private long noOfMinutes;
+
     private String url = "https://pikchilly.com/api/exam_question.php";
     private String userResponseURL = "http://onlineengineeringacademy.co.in/api/user_response"; //"https://pikchilly.com/api/user_response.php";
     //private String userResponseURL = "https://pikchilly.com/api/user_response.php";
@@ -186,15 +189,13 @@ public class ExamActivity extends AppCompatActivity {
         m_RecyclerView_Question_List.setLayoutManager(m_Layout_Manager);
 
         currentQuestion = 0;
+        noOfMinutes = Long.valueOf(m_Exam_Duration) * 60 * 60 * 1000;
 
+        // Prepare and Load Data from Exam
         prepareExamQuestionListData();
 
-        long noOfMinutes = 60 * 60 * 1000;//Convert minutes into milliseconds
-
-
+        // Start the Timer
         startExamTimer(noOfMinutes);
-
-        //m_TextView_Total_Question.setText(quest_num);
 
         m_RecyclerView_Question_List.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Question_List, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -207,7 +208,7 @@ public class ExamActivity extends AppCompatActivity {
 
             @Override
             public void onLongClick(View view, int position) {
-                // Nothing
+                Log.d("LongPress:", "Long Pressed");
             }
         }));
 
@@ -301,8 +302,6 @@ public class ExamActivity extends AppCompatActivity {
 
     public void startExamTimer(long noOfMinutes){
 
-        //long examTime = 60000 * 60000 * 2;
-
         new CountDownTimer(noOfMinutes, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -312,15 +311,17 @@ public class ExamActivity extends AppCompatActivity {
 
                 long hh = TimeUnit.MILLISECONDS.toHours(millis);
                 long mm = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(hh);
-                long ss = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(mm);
+                long ss = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(mm) - TimeUnit.HOURS.toSeconds(hh);
 
-                m_TextView_Time_Remaining.setText(hh + ":" + mm + ":" + ss);
+                remainingTime = hh + ":" + mm + ":" + ss;
+                m_TextView_Time_Remaining.setText(remainingTime);
 
             }
 
             public void onFinish() {
 
-                m_TextView_Time_Remaining.setText("done!");
+                m_TextView_Time_Remaining.setText("Time Up!");
+                saveUserResponse();
             }
         }.start();
     }
