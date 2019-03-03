@@ -31,6 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText m_Phone_EditText;
     private EditText m_Email_Id_EditText;
     private EditText m_Password_EditText;
+    private String m_User_Id;
 
     private Button m_Sign_Up_Button;
     private TextView m_Sign_In_TextView;
@@ -59,6 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
         m_Sign_Up_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                m_User_Id = m_Email_Id_EditText.getText().toString();
                 signupRequest();
             }
         });
@@ -90,7 +92,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                         if(response.equals("SignUp_Success")) {
 
-                            m_Helper.start_Activity(getApplicationContext(), CoursesActivity.class);
+                            Intent destinationDetailIntent = new Intent(SignUpActivity.this, CoursesActivity.class);
+                            destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                            startActivity(destinationDetailIntent);
 
                         }else if(response.equals("SignUp_Failed")){
 

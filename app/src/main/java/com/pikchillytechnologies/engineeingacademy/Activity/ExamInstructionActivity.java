@@ -31,6 +31,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
     private Button m_Button_Back;
     private Button m_Button_Start;
     private EAHelper m_Helper;
+    private String m_User_Id;
     private String m_Title;
     private String m_Exam_Id;
     private String m_Exam_Duration;
@@ -55,6 +56,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exam_instruction);
 
         m_Sub_Course_Bundle = getIntent().getExtras();
+        m_User_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title),"Exam");
         m_Exam_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examid),"Exam Id");
         m_Exam_Duration = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examduration),"Exam Duration");
@@ -86,6 +88,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent destinationDetailIntent = new Intent(ExamInstructionActivity.this, ExamActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), m_Exam_Duration);

@@ -30,6 +30,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private EditText m_Email_Id_TextView;
     private EditText m_Password_TextView;
+    private String m_User_Id;
 
     private Button m_Sign_In_Button;
     private TextView m_Sign_Up_TextView;
@@ -59,9 +60,7 @@ public class SignInActivity extends AppCompatActivity {
         m_Sign_In_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //m_Helper.start_Activity(SignInActivity.this, CoursesActivity.class);
-
+                m_User_Id = m_Email_Id_TextView.getText().toString();
                 signInRequest();
 
             }
@@ -97,7 +96,9 @@ public class SignInActivity extends AppCompatActivity {
 
                         if(response.equals("Sign_In_Success")) {
 
-                            m_Helper.start_Activity(SignInActivity.this, CoursesActivity.class);
+                            Intent destinationDetailIntent = new Intent(SignInActivity.this, CoursesActivity.class);
+                            destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                            startActivity(destinationDetailIntent);
 
                         }else if(response.equals("Sign_In_Failed")){
                             Toast.makeText(getApplicationContext(),"User Name/Password does not match. Try Again.",Toast.LENGTH_LONG).show();
@@ -114,9 +115,7 @@ public class SignInActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
 
                         pd.hide();
-
                         String err = (error.getMessage()==null)?"Error is:":error.getMessage();
-
                         Log.d("ErrorResponse", err);
 
                     }

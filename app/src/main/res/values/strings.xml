@@ -41,5 +41,6 @@
     <string name="examduration">exam_duration</string>
     <string name="totalquestions">total_questions</string>
     <string name="payment_paid">Paid</string>
+    <string name="result">Result</string>
 
 </resources>

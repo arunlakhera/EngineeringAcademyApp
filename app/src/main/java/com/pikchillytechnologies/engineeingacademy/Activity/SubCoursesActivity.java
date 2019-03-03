@@ -44,6 +44,8 @@ public class SubCoursesActivity extends AppCompatActivity {
     private TextView m_TextView_Activity_Title;
     private Button m_Button_Back;
     private Bundle m_Course_Bundle;
+    private String m_Title;
+    private String m_User_Id;
 
     private EAHelper m_Helper;
 
@@ -67,7 +69,9 @@ public class SubCoursesActivity extends AppCompatActivity {
 
         // Get variable from prev activity
         m_Course_Bundle = getIntent().getExtras();
-        String m_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
+
+        m_User_Id = m_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
+        m_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
         m_Category_Id = m_Course_Bundle.getString(getResources().getString(R.string.categoryid),"category_id");
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
@@ -95,7 +99,14 @@ public class SubCoursesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 SubCoursePackage scp = m_Sub_Course_Package_List.get(position);
-                m_Helper.start_Activity(SubCoursesActivity.this, ExamListActivity.class, m_Category_Id, scp.getM_Sub_Course_Name(), scp.getM_Sub_Course_Id());
+
+                Intent destinationDetailIntent = new Intent(SubCoursesActivity.this, ExamListActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), scp.getM_Sub_Course_Name());
+                destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), scp.getM_Sub_Course_Id());
+                startActivity(destinationDetailIntent);
+
             }
 
             @Override

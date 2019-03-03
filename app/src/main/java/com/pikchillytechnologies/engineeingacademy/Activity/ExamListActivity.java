@@ -40,6 +40,7 @@ public class ExamListActivity extends AppCompatActivity {
     private TextView m_TextView_Activity_Title;
     private Button m_Button_Back;
     private Bundle m_Sub_Course_Bundle;
+    private String m_User_Id;
 
     private EAHelper m_Helper;
 
@@ -62,6 +63,7 @@ public class ExamListActivity extends AppCompatActivity {
 
         // Get variable from prev activity
         m_Sub_Course_Bundle = getIntent().getExtras();
+        m_User_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.categoryid),"Category");
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title),"Sub Category Title");
         m_Sub_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.subcategoryid),"Sub Category Id");
@@ -91,6 +93,7 @@ public class ExamListActivity extends AppCompatActivity {
                 ExamListModel exam = m_Exam_List.get(position);
 
                 Intent destinationDetailIntent = new Intent(ExamListActivity.this, ExamInstructionActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.title), exam.getM_Exam_Name());
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examid), exam.getM_Exam_Id());
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), exam.getM_Exam_Duration());

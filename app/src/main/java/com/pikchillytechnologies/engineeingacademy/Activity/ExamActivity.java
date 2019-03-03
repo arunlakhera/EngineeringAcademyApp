@@ -52,13 +52,13 @@ import java.util.concurrent.TimeUnit;
 
 public class ExamActivity extends AppCompatActivity {
 
-    String quest_num;
-    Integer m_Current_Question;
-    Integer m_Total_Questions;
-    RecyclerView.LayoutManager m_Layout_Manager;
-    StringRequest stringRequest;
-    RequestQueue requestQueue;
-    int currentQuestion;
+    private String quest_num;
+    private Integer m_Current_Question;
+    private Integer m_Total_Questions;
+    private RecyclerView.LayoutManager m_Layout_Manager;
+    private StringRequest stringRequest;
+    private RequestQueue requestQueue;
+    private int currentQuestion;
     private TextView m_TextView_Activity_Title;
     private TextView m_TextView_Question;
     private TextView m_TextView_Time_Remaining;
@@ -115,6 +115,12 @@ public class ExamActivity extends AppCompatActivity {
     private String remainingTime;
     private long noOfMinutes;
 
+    private int m_Correct;
+    private int m_Wrong;
+    private int m_NotAttempted;
+
+    private Boolean isSubmitPressed;
+
     private String url = "https://pikchilly.com/api/exam_question.php";
     private String userResponseURL = "http://onlineengineeringacademy.co.in/api/user_response"; //"https://pikchilly.com/api/user_response.php";
     //private String userResponseURL = "https://pikchilly.com/api/user_response.php";
@@ -125,7 +131,7 @@ public class ExamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exam);
 
         m_Sub_Course_Bundle = getIntent().getExtras();
-        m_User_Id = "user_1";
+        m_User_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.userid), "Exam Id");
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title), "Exam");
         m_Exam_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
         m_Exam_Duration = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examduration), "Exam Duration");
@@ -135,12 +141,17 @@ public class ExamActivity extends AppCompatActivity {
         m_User_Response_List = new ArrayList<>();
         userResponseJSONArray = new JSONArray();
         userResponseWholeJSON = new JSONObject();
+        isSubmitPressed = false;
 
         m_Total_Questions = Integer.valueOf(m_Questions);
         m_Current_Question = 0;
         m_Hindi_Flag = false;
         m_English_Flag = true;
         m_User_Response_Flag = false;
+
+        m_Correct = 0;
+        m_Wrong = 0;
+        m_NotAttempted = 0;
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
@@ -298,8 +309,19 @@ public class ExamActivity extends AppCompatActivity {
 
                 // Ask user to confirm if they want to submit the response
                 // If user says yes save the response and move to next screen
-                saveUserResponse();
 
+                if(!isSubmitPressed){
+                    saveUserResult();
+
+
+                    m_Button_Submit.setEnabled(false);
+                }else{
+                    Toast.makeText(getApplicationContext(),"You have submitted the Exam.",Toast.LENGTH_LONG).show();
+                }
+
+                //saveUserResponse();
+
+                isSubmitPressed = true;
             }
         });
 
@@ -329,6 +351,45 @@ public class ExamActivity extends AppCompatActivity {
                 saveUserResponse();
             }
         }.start();
+    }
+
+    public void saveUserResult(){
+
+        ExamQuestionModel examQues;
+        UserResponseModel userResp;
+
+        int total_Questions = m_Question_List.size();
+
+        for(int i = 0; i < total_Questions; i++){
+
+            examQues = m_Question_List.get(i);
+            userResp = m_User_Response_List.get(i);
+
+            String exam_ques_id = examQues.getM_Question_Id();
+            String resp_ques_id = userResp.getM_Question_Id();
+
+            if(exam_ques_id.equals(resp_ques_id)){
+
+                if(!userResp.getM_User_Responded_Flag()){
+
+                    m_NotAttempted = m_NotAttempted + 1;
+
+                }else if(examQues.getM_Answer1_Flag().equals(userResp.getM_User_Answer1_Flag())
+                        && examQues.getM_Answer2_Flag().equals(userResp.getM_User_Answer2_Flag())
+                        && examQues.getM_Answer3_Flag().equals(userResp.getM_User_Answer3_Flag())
+                        && examQues.getM_Answer4_Flag().equals(userResp.getM_User_Answer4_Flag())
+                        && examQues.getM_Answer5_Flag().equals(userResp.getM_User_Answer5_Flag())
+                        && examQues.getM_Answer6_Flag().equals(userResp.getM_User_Answer6_Flag())
+                ){
+                    m_Correct = m_Correct + 1;
+                }else{
+                    m_Wrong = m_Wrong + 1;
+                }
+            }
+
+        }
+
+        Toast.makeText(getApplicationContext(),"Correct:" + m_Correct + "\n Wrong:" + m_Wrong + "\n NA:" + m_NotAttempted,Toast.LENGTH_LONG).show();
     }
 
     public void saveUserResponse() {
@@ -387,7 +448,6 @@ public class ExamActivity extends AppCompatActivity {
 
                                 startActivity(destinationDetailIntent);
 
-
                             }else{
                                 Toast.makeText(getApplicationContext(),"Response Could not be Saved.", Toast.LENGTH_LONG).show();
                             }
@@ -431,30 +491,31 @@ public class ExamActivity extends AppCompatActivity {
 
     public void onTextCheckBoxClicked(View view) {
 
+        userResponse.setM_User_Responded_Flag(true);
+
         switch (view.getId()) {
 
             case R.id.checkbox_Answer1:
-                //answer1_Flag = true;
-                userResponse.setM_User_Answer1_Flag(true);
+                userResponse.setM_User_Answer1_Flag("Y");
                 break;
             case R.id.checkbox_Answer2:
                 //answer2_Flag = true;
-                userResponse.setM_User_Answer2_Flag(true);
+                userResponse.setM_User_Answer2_Flag("Y");
                 break;
             case R.id.checkbox_Answer3:
-                userResponse.setM_User_Answer3_Flag(true);
+                userResponse.setM_User_Answer3_Flag("Y");
                 break;
             case R.id.checkbox_Answer4:
                 //answer4_Flag = true;
-                userResponse.setM_User_Answer4_Flag(true);
+                userResponse.setM_User_Answer4_Flag("Y");
                 break;
             case R.id.checkbox_Answer5:
                 //answer5_Flag = true;
-                userResponse.setM_User_Answer5_Flag(true);
+                userResponse.setM_User_Answer5_Flag("Y");
                 break;
             case R.id.checkbox_Answer6:
                 //answer6_Flag = true;
-                userResponse.setM_User_Answer6_Flag(true);
+                userResponse.setM_User_Answer6_Flag("Y");
                 break;
         }
 
@@ -462,31 +523,33 @@ public class ExamActivity extends AppCompatActivity {
 
     public void onImageCheckBoxClicked(View view) {
 
+        userResponse.setM_User_Responded_Flag(true);
+
         switch (view.getId()) {
 
             case R.id.checkbox_Answer1_Image:
                 //answer1_Flag = true;
-                userResponse.setM_User_Answer1_Flag(true);
+                userResponse.setM_User_Answer1_Flag("Y");
                 break;
             case R.id.checkbox_Answer2_Image:
                 //answer2_Flag = true;
-                userResponse.setM_User_Answer2_Flag(true);
+                userResponse.setM_User_Answer2_Flag("Y");
                 break;
             case R.id.checkbox_Answer3_Image:
                 //answer3_Flag = true;
-                userResponse.setM_User_Answer3_Flag(true);
+                userResponse.setM_User_Answer3_Flag("Y");
                 break;
             case R.id.checkbox_Answer4_Image:
                 //answer4_Flag = true;
-                userResponse.setM_User_Answer4_Flag(true);
+                userResponse.setM_User_Answer4_Flag("Y");
                 break;
             case R.id.checkbox_Answer5_Image:
                 //answer5_Flag = true;
-                userResponse.setM_User_Answer5_Flag(true);
+                userResponse.setM_User_Answer5_Flag("Y");
                 break;
             case R.id.checkbox_Answer6_Image:
                 //answer6_Flag = true;
-                userResponse.setM_User_Answer6_Flag(true);
+                userResponse.setM_User_Answer6_Flag("Y");
                 break;
         }
 
@@ -677,12 +740,39 @@ public class ExamActivity extends AppCompatActivity {
         m_CheckBox_Answer5.setText(answer5);
         m_CheckBox_Answer6.setText(answer6);
 
-        m_CheckBox_Answer1.setChecked(userResponse.getM_User_Answer1_Flag());
-        m_CheckBox_Answer2.setChecked(userResponse.getM_User_Answer2_Flag());
-        m_CheckBox_Answer3.setChecked(userResponse.getM_User_Answer3_Flag());
-        m_CheckBox_Answer4.setChecked(userResponse.getM_User_Answer4_Flag());
-        m_CheckBox_Answer5.setChecked(userResponse.getM_User_Answer5_Flag());
-        m_CheckBox_Answer6.setChecked(userResponse.getM_User_Answer6_Flag());
+        if(userResponse.getM_User_Answer1_Flag().equals("Y")){
+            m_CheckBox_Answer1.setChecked(true);
+        }else{
+            m_CheckBox_Answer1.setChecked(false);
+        }
+
+        if(userResponse.getM_User_Answer2_Flag().equals("Y")){
+            m_CheckBox_Answer2.setChecked(true);
+        }else{
+            m_CheckBox_Answer2.setChecked(false);
+        }
+        if(userResponse.getM_User_Answer3_Flag().equals("Y")){
+            m_CheckBox_Answer3.setChecked(true);
+        }else{
+            m_CheckBox_Answer3.setChecked(false);
+        }
+        if(userResponse.getM_User_Answer4_Flag().equals("Y")){
+            m_CheckBox_Answer4.setChecked(true);
+        }else{
+            m_CheckBox_Answer4.setChecked(false);
+        }
+
+        if(userResponse.getM_User_Answer5_Flag().equals("Y")){
+            m_CheckBox_Answer5.setChecked(true);
+        }else{
+            m_CheckBox_Answer5.setChecked(false);
+        }
+        if(userResponse.getM_User_Answer6_Flag().equals("Y")){
+            m_CheckBox_Answer6.setChecked(true);
+        }else{
+            m_CheckBox_Answer6.setChecked(false);
+        }
+
     }
 
     // Function to set the Image Answers into checkbox
@@ -698,12 +788,39 @@ public class ExamActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
-        m_CheckBox_Answer1_Image.setChecked(userResponse.getM_User_Answer1_Flag());
-        m_CheckBox_Answer2_Image.setChecked(userResponse.getM_User_Answer2_Flag());
-        m_CheckBox_Answer3_Image.setChecked(userResponse.getM_User_Answer3_Flag());
-        m_CheckBox_Answer4_Image.setChecked(userResponse.getM_User_Answer4_Flag());
-        m_CheckBox_Answer5_Image.setChecked(userResponse.getM_User_Answer5_Flag());
-        m_CheckBox_Answer6_Image.setChecked(userResponse.getM_User_Answer6_Flag());
+        if(userResponse.getM_User_Answer1_Flag().equals("Y")){
+            m_CheckBox_Answer1_Image.setChecked(true);
+        }else{
+            m_CheckBox_Answer1_Image.setChecked(false);
+        }
+
+        if(userResponse.getM_User_Answer2_Flag().equals("Y")){
+            m_CheckBox_Answer2_Image.setChecked(true);
+        }else{
+            m_CheckBox_Answer2_Image.setChecked(false);
+        }
+        if(userResponse.getM_User_Answer3_Flag().equals("Y")){
+            m_CheckBox_Answer3_Image.setChecked(true);
+        }else{
+            m_CheckBox_Answer3_Image.setChecked(false);
+        }
+        if(userResponse.getM_User_Answer4_Flag().equals("Y")){
+            m_CheckBox_Answer4_Image.setChecked(true);
+        }else{
+            m_CheckBox_Answer4_Image.setChecked(false);
+        }
+
+        if(userResponse.getM_User_Answer5_Flag().equals("Y")){
+            m_CheckBox_Answer5_Image.setChecked(true);
+        }else{
+            m_CheckBox_Answer5_Image.setChecked(false);
+        }
+        if(userResponse.getM_User_Answer6_Flag().equals("Y")){
+            m_CheckBox_Answer6_Image.setChecked(true);
+        }else{
+            m_CheckBox_Answer6_Image.setChecked(false);
+        }
+
     }
 
     public void prepareExamQuestionListData() {
@@ -771,7 +888,7 @@ public class ExamActivity extends AppCompatActivity {
                         examObject.getString("question_type"), examObject.getString("question_lang"), examObject.getString("answer_type"),
                         examObject.getString("answer_lang"), false);
 
-                UserResponseModel userResponse = new UserResponseModel("User_Id", m_Exam_Id, examObject.getString("question_id"), false, false, false, false, false, false);
+                UserResponseModel userResponse = new UserResponseModel("User_Id", m_Exam_Id, examObject.getString("question_id"), "N", "N", "N", "N", "N", "N", false);
                 m_User_Response_List.add(userResponse);
 
                 m_Question_List.add(exam);

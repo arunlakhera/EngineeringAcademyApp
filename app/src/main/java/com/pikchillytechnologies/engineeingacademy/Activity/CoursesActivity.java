@@ -52,6 +52,8 @@ public class CoursesActivity extends AppCompatActivity {
     private CardView m_CardView_Miscellaneous;
 
     private EAHelper m_Helper;
+    private Bundle m_User_Bundle;
+    private String m_User_Id;
 
     //Navigation Drawer
     private DrawerLayout mDrawerLayout;
@@ -69,11 +71,13 @@ public class CoursesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_courses);
 
         m_Helper = new EAHelper();
+        m_User_Bundle = getIntent().getExtras();
+
+        m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_TextView_Activity_Title.setText(R.string.courses)
-        ;
+        m_TextView_Activity_Title.setText(R.string.courses);
         m_Courses_List = new ArrayList<>();
         m_RecyclerView_Courses = findViewById(R.id.recyclerView_Courses);
         m_Courses_Adapter = new CoursesAdapter(getApplicationContext(),m_Courses_List);
@@ -95,9 +99,13 @@ public class CoursesActivity extends AppCompatActivity {
             public void onClick(View view, int position) {
 
                 CoursesModel course = m_Courses_List.get(position);
-                m_Helper.start_Activity(CoursesActivity.this, SubCoursesActivity.class, course.getM_Category_Id(), course.getM_Name());
 
-                //Toast.makeText(getApplicationContext(),"Clicked:" + course.getM_Name() + course.getM_Category_Id(),Toast.LENGTH_LONG).show();
+                Intent destinationDetailIntent = new Intent(CoursesActivity.this, SubCoursesActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), course.getM_Name());
+                destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), course.getM_Category_Id());
+                startActivity(destinationDetailIntent);
+
             }
 
             @Override
