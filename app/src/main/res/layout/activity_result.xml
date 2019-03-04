@@ -14,375 +14,264 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:scaleType="fitXY"
-        android:src="@drawable/ea_bg"
         android:alpha="0.8"
-        />
+        android:scaleType="fitXY"
+        android:src="@drawable/ea_bg" />
 
-    <TextView
-        android:id="@+id/textView_Res_Title"
+    <LinearLayout
+        android:id="@+id/layout_Res_Graph_Desc"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="match_parent"
+        android:layout_above="@id/button_Res_View_Answers"
         android:layout_below="@id/toolbar"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginLeft="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginRight="@dimen/margin_medium"
-        android:background="@drawable/graph_base"
-        android:gravity="center"
-        android:text="Exam 01 Result"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_medium" />
-
-    <LinearLayout
-        android:id="@+id/layout_Res_Graph_Desc"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@id/textView_Res_Title"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
-        android:background="@drawable/graph_base"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_small"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/margin_default"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/layout_Res_Desc"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:background="@drawable/graph_base"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:layout_weight="1"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_margin="@dimen/margin_default"
-                    android:src="@drawable/correct_box" />
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Questions"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:id="@+id/textView_Res_Total_Questions"
+                    android:layout_width="40dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/result_desc_base"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
                     android:text="Correct"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_default" />
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView_Res_Total_Correct"
+                    android:layout_width="40dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/result_desc_base"
+                    android:gravity="center"
+                    android:text="80"
+                    android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/imageView_Res_Correct_Ques"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:src="@drawable/correct_ques" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_margin="@dimen/margin_default"
-                    android:src="@drawable/wrong_box" />
-
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
                     android:text="Wrong"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_default" />
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView_Res_Total_Wrong"
+                    android:layout_width="40dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/result_desc_base"
+                    android:gravity="center"
+                    android:text="27"
+                    android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/imageView_Wrong_Ques"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:src="@drawable/wrong_ques" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:layout_weight="1"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_margin="@dimen/margin_default"
-                    android:src="@drawable/not_attempted_box" />
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Not Attempted"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Not Attempterd"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_default" />
+                    android:id="@+id/textView_Res_Total_Not_Attempted"
+                    android:layout_width="40dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/result_desc_base"
+                    android:gravity="center"
+                    android:text="03"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_graph"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <!-- PUT GRAPH Here-->
 
             <ImageView
                 android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:src="@drawable/separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Score"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_medium"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView_Res_Total_Score"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/score_green_base"
+                    android:gravity="center"
+                    android:text="03"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:background="@drawable/graph_base"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView_Res_Name"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@color/colorAccent" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_Res_Desc"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@id/layout_Res_Graph_Desc"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_default"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
-        android:background="@drawable/graph_base"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginLeft="@dimen/margin_large"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Questions"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_weight="1"
+                android:text="Name"
+                android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_small"
-                android:textStyle="bold" />
+                android:textSize="@dimen/text_medium" />
 
-            <TextView
-                android:id="@+id/textView_Res_Total_Questions"
-                android:layout_width="40dp"
-                android:layout_height="25dp"
-                android:background="@drawable/result_desc_base"
-                android:gravity="center"
-                android:text="100"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginLeft="@dimen/margin_large"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Correct"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_small"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView_Res_Total_Correct"
-                android:layout_width="40dp"
-                android:layout_height="25dp"
-                android:background="@drawable/result_desc_base"
-                android:gravity="center"
-                android:text="80"
-                android:textColor="@android:color/white" />
-
-            <ImageView
-                android:id="@+id/imageView_Res_Correct_Ques"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginLeft="@dimen/margin_small"
-                android:src="@drawable/correct_ques" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginLeft="@dimen/margin_large"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Wrong"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_small"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView_Res_Total_Wrong"
-                android:layout_width="40dp"
-                android:layout_height="25dp"
-                android:background="@drawable/result_desc_base"
-                android:gravity="center"
-                android:text="27"
-                android:textColor="@android:color/white" />
-
-            <ImageView
-                android:id="@+id/imageView_Wrong_Ques"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginLeft="@dimen/margin_small"
-                android:src="@drawable/wrong_ques" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_large"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Not Attempted"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_small"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView_Res_Total_Not_Attempted"
-                android:layout_width="40dp"
-                android:layout_height="25dp"
-                android:background="@drawable/result_desc_base"
-                android:gravity="center"
-                android:text="03"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:src="@drawable/separator"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_large"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Score"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_medium"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView_Res_Total_Score"
-                android:layout_width="40dp"
+            <Button
+                android:id="@+id/button_Res_Share"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/score_green_base"
-                android:gravity="center"
-                android:text="03"
-                android:textColor="@android:color/white" />
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:background="@drawable/share_base" />
+
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/layout_Res_Desc"
-        android:orientation="horizontal"
-        android:background="@drawable/graph_base"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_default"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
-        >
-
-        <TextView
-            android:id="@+id/textView_Res_Name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Name"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_medium"
-            android:textAlignment="center"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_small"
-            />
-        <Button
-            android:id="@+id/button_Res_Share"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/share_base"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_gravity="center"
-            />
-
     </LinearLayout>
 
     <Button
         android:id="@+id/button_Res_View_Answers"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View Answers"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@android:color/white"
-        android:textAllCaps="false"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_signin"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_small"
-        />
+        android:background="@drawable/button_red_flat"
+        android:text="View Answers"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_medium" />
 </RelativeLayout>

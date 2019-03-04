@@ -2,6 +2,7 @@ package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +29,14 @@ import com.pikchillytechnologies.engineeingacademy.Model.UserResponseModel;
 import com.pikchillytechnologies.engineeingacademy.Model.UserResultModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +56,10 @@ public class ResultActivity extends AppCompatActivity {
     private String m_User_Name;
     private String m_Exam_Id;
     private String m_Total_Questions;
+    String total_Correct;
+    String total_Wrong;
+    String total_Not_Attempted;
+    String total_Score;
 
     private TextView m_TextView_Total_Questions;
     private TextView m_TextView_Total_Correct;
@@ -54,7 +67,9 @@ public class ResultActivity extends AppCompatActivity {
     private TextView m_TextView_Total_Not_Attempted;
     private TextView m_TextView_Total_Score;
     private TextView m_TextView_User_Name;
+    private PieChart pieChart;
 
+    private ProgressDialog progressDialog;
     private UserResultModel userResult;
     private StringRequest stringRequest;
     private RequestQueue requestQueue;
@@ -74,8 +89,12 @@ public class ResultActivity extends AppCompatActivity {
         m_TextView_Total_Not_Attempted = findViewById(R.id.textView_Res_Total_Not_Attempted);
         m_TextView_Total_Score = findViewById(R.id.textView_Res_Total_Score);
         m_TextView_User_Name = findViewById(R.id.textView_Res_Name);
+        pieChart = findViewById(R.id.pieChart);
 
         m_TextView_Activity_Title.setText(getResources().getString(R.string.result));
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
 
         m_User_Id = m_User_Exam_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_User_Name = m_User_Exam_Bundle.getString("username", "User Name");
@@ -94,8 +113,6 @@ public class ResultActivity extends AppCompatActivity {
 
     public void prepareUserExamResult() {
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
         progressDialog.show();
 
         stringRequest = new StringRequest(Request.Method.POST, url,
@@ -118,10 +135,8 @@ public class ResultActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             Log.e("Error", e.getMessage());
                         }
-
-                        updateUI();
-                        progressDialog.dismiss();
                     }
+
                 },
                 new Response.ErrorListener() {
                     @Override
@@ -140,6 +155,7 @@ public class ResultActivity extends AppCompatActivity {
             }
         };
 
+        progressDialog.dismiss();
         //creating a request queue
         requestQueue = Volley.newRequestQueue(this);
 
@@ -149,11 +165,37 @@ public class ResultActivity extends AppCompatActivity {
 
     public void updateUI(){
 
-        String total_Correct = userResult.getM_Correct();
-        String total_Wrong = userResult.getM_Wrong();
-        String total_Not_Attempted = userResult.getM_Not_Attempted();
+        // User Result UI
+        total_Correct = userResult.getM_Correct();
+        total_Wrong = userResult.getM_Wrong();
+        total_Not_Attempted = userResult.getM_Not_Attempted();
         String total_Score = userResult.getM_Total_Marks();
 
+        // update chart
+        pieChart.setUsePercentValues(true);
+
+        ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
+        yvalues.add(new PieEntry(Float.valueOf(total_Correct), "Correct", 0));
+        yvalues.add(new PieEntry(Float.valueOf(total_Wrong), "Wrong", 1));
+        yvalues.add(new PieEntry(Float.valueOf(total_Not_Attempted), "Not Attempted", 2));
+
+        PieDataSet dataSet = new PieDataSet(yvalues, "Exam");
+        PieData data = new PieData(dataSet);
+
+        data.setValueFormatter(new PercentFormatter());
+        pieChart.setData(data);
+        Description description = new Description();
+        description.setText("My Performance");
+        description.setTextColor(R.color.colorOffWhiteBg);
+        pieChart.setDescription(description);
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setTransparentCircleRadius(40f);
+        pieChart.setHoleRadius(40f);
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        data.setValueTextSize(8f);
+        data.setValueTextColor(Color.DKGRAY);
+
+        // Update Score
         m_TextView_Total_Questions.setText(m_Total_Questions);
         m_TextView_Total_Correct.setText(total_Correct);
         m_TextView_Total_Wrong.setText(total_Wrong);
@@ -162,5 +204,4 @@ public class ResultActivity extends AppCompatActivity {
         m_TextView_User_Name.setText(m_User_Name.toUpperCase());
 
     }
-
 }
