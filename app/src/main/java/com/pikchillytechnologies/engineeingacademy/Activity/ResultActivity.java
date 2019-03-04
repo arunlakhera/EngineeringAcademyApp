@@ -89,7 +89,6 @@ public class ResultActivity extends AppCompatActivity {
         m_TextView_Total_Not_Attempted = findViewById(R.id.textView_Res_Total_Not_Attempted);
         m_TextView_Total_Score = findViewById(R.id.textView_Res_Total_Score);
         m_TextView_User_Name = findViewById(R.id.textView_Res_Name);
-        pieChart = findViewById(R.id.pieChart);
 
         m_TextView_Activity_Title.setText(getResources().getString(R.string.result));
 
@@ -171,30 +170,6 @@ public class ResultActivity extends AppCompatActivity {
         total_Not_Attempted = userResult.getM_Not_Attempted();
         String total_Score = userResult.getM_Total_Marks();
 
-        // update chart
-        pieChart.setUsePercentValues(true);
-
-        ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
-        yvalues.add(new PieEntry(Float.valueOf(total_Correct), "Correct", 0));
-        yvalues.add(new PieEntry(Float.valueOf(total_Wrong), "Wrong", 1));
-        yvalues.add(new PieEntry(Float.valueOf(total_Not_Attempted), "Not Attempted", 2));
-
-        PieDataSet dataSet = new PieDataSet(yvalues, "Exam");
-        PieData data = new PieData(dataSet);
-
-        data.setValueFormatter(new PercentFormatter());
-        pieChart.setData(data);
-        Description description = new Description();
-        description.setText("My Performance");
-        description.setTextColor(R.color.colorOffWhiteBg);
-        pieChart.setDescription(description);
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setTransparentCircleRadius(40f);
-        pieChart.setHoleRadius(40f);
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        data.setValueTextSize(8f);
-        data.setValueTextColor(Color.DKGRAY);
-
         // Update Score
         m_TextView_Total_Questions.setText(m_Total_Questions);
         m_TextView_Total_Correct.setText(total_Correct);
@@ -203,5 +178,41 @@ public class ResultActivity extends AppCompatActivity {
         m_TextView_Total_Score.setText(total_Score);
         m_TextView_User_Name.setText(m_User_Name.toUpperCase());
 
+        drawChart();
+
+    }
+
+    public void drawChart(){
+
+        float correct = Float.valueOf(total_Correct);
+        float wrong = Float.valueOf(total_Wrong);
+        float not_attempted = Float.valueOf(total_Not_Attempted);
+
+        // update chart
+        pieChart = findViewById(R.id.pieChart);
+        pieChart.setUsePercentValues(true);
+
+        ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
+        yvalues.add(new PieEntry(correct, "Correct", 0));
+        yvalues.add(new PieEntry(wrong, "Wrong", 1));
+        yvalues.add(new PieEntry(not_attempted, "Not Attempted", 2));
+
+        PieDataSet dataSet = new PieDataSet(yvalues, "Exam");
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        PieData data = new PieData(dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(10f);
+        data.setValueTextColor(R.color.colorOffWhiteBg);
+
+        Description description = new Description();
+        description.setText("My Performance");
+        description.setTextColor(Color.CYAN);
+
+        pieChart.setDescription(description);
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setTransparentCircleRadius(40f);
+        pieChart.setHoleRadius(40f);
+        pieChart.setData(data);
     }
 }
