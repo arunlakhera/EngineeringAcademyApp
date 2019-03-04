@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class ResultActivity extends AppCompatActivity {
     private Bundle m_User_Exam_Bundle;
     private String m_User_Id;
     private String m_Exam_Id;
+    private String m_Total_Questions;
 
     private TextView m_TextView_Total_Questions;
     private TextView m_TextView_Total_Correct;
@@ -55,7 +57,7 @@ public class ResultActivity extends AppCompatActivity {
     private UserResultModel userResult;
     private StringRequest stringRequest;
     private RequestQueue requestQueue;
-    private String url = "https://pikchilly.com/api/user_result.php";
+    private String url = "https://pikchilly.com/api/get_user_result.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,7 @@ public class ResultActivity extends AppCompatActivity {
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_Button_Res_View_Answers = findViewById(R.id.button_Res_View_Answers);
 
-        m_TextView_Total_Questions = findViewById(R.id.textView_Total_Questions);
+        m_TextView_Total_Questions = findViewById(R.id.textView_Res_Total_Questions);
         m_TextView_Total_Correct = findViewById(R.id.textView_Res_Total_Correct);
         m_TextView_Total_Wrong = findViewById(R.id.textView_Res_Total_Wrong);
         m_TextView_Total_Not_Attempted = findViewById(R.id.textView_Res_Total_Not_Attempted);
@@ -77,10 +79,9 @@ public class ResultActivity extends AppCompatActivity {
 
         m_User_Id = m_User_Exam_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_Exam_Id = m_User_Exam_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
+        m_Total_Questions = m_User_Exam_Bundle.getString("total_questions", "Total Questions");
 
         prepareUserExamResult();
-
-        //updateUI();
 
         m_Button_Res_View_Answers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,8 +112,10 @@ public class ResultActivity extends AppCompatActivity {
                                 userResult = new UserResultModel(resultObject.getString("user_id"),resultObject.getString("exam_id"),resultObject.getString("correct"),resultObject.getString("wrong"),resultObject.getString("not_attempted"),resultObject.getString("total_marks"),resultObject.getString("date_of_attempt"),resultObject.getString("number_of_attempt"));
                             }
 
+                            updateUI();
+
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.e("Error", e.getMessage());
                         }
 
                         updateUI();
@@ -123,7 +126,8 @@ public class ResultActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //displaying the error in toast if occur
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("Error", error.getMessage());
                     }
                 }) {
             @Override
@@ -149,7 +153,7 @@ public class ResultActivity extends AppCompatActivity {
         String total_Not_Attempted = userResult.getM_Not_Attempted();
         String total_Score = userResult.getM_Total_Marks();
 
-        m_TextView_Total_Questions.setText("300");
+        m_TextView_Total_Questions.setText(m_Total_Questions);
         m_TextView_Total_Correct.setText(total_Correct);
         m_TextView_Total_Wrong.setText(total_Wrong);
         m_TextView_Total_Not_Attempted.setText(total_Not_Attempted);

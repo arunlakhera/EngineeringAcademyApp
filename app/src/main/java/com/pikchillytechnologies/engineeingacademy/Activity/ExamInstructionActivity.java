@@ -49,6 +49,8 @@ public class ExamInstructionActivity extends AppCompatActivity {
     private TextView m_TextView_Negative_Marks;
     private TextView m_TextView_Total_Questions;
     private TextView m_TextView_Duration;
+    private String m_Marks;
+    private String m_Negative_Marks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,9 @@ public class ExamInstructionActivity extends AppCompatActivity {
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), m_Exam_Duration);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.totalquestions), m_Total_Questions);
+                destinationDetailIntent.putExtra("Marks", m_Marks);
+                destinationDetailIntent.putExtra("Negative_Marks", m_Negative_Marks);
+
 
                 startActivity(destinationDetailIntent);
 
@@ -140,8 +145,10 @@ public class ExamInstructionActivity extends AppCompatActivity {
                                 m_TextView_Instruction3.setText(examInstructionObject.getString("instruction3"));
                                 m_TextView_Instruction4.setText(examInstructionObject.getString("instruction4"));
                                 m_TextView_Instruction5.setText(examInstructionObject.getString("instruction5"));
-                                m_TextView_Marks.setText(examInstructionObject.getString("marks") + " marks for correct answer");
-                                m_TextView_Negative_Marks.setText(examInstructionObject.getString("negative_marks") + " marks for wrong answer");
+                                m_Marks = examInstructionObject.getString("marks");
+                                m_TextView_Marks.setText(m_Marks + " marks for correct answer");
+                                m_Negative_Marks = examInstructionObject.getString("negative_marks");
+                                m_TextView_Negative_Marks.setText( m_Negative_Marks + " marks for wrong answer");
                                 m_TextView_Duration.setText(m_Exam_Duration + " Hours");
                                 m_Total_Questions = examInstructionObject.getString("total_questions");
                                 m_TextView_Total_Questions.setText( m_Total_Questions + " Questions");
