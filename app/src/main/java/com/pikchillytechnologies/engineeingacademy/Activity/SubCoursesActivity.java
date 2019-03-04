@@ -46,6 +46,7 @@ public class SubCoursesActivity extends AppCompatActivity {
     private Bundle m_Course_Bundle;
     private String m_Title;
     private String m_User_Id;
+    private String m_User_Name;
 
     private EAHelper m_Helper;
 
@@ -71,6 +72,7 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_Course_Bundle = getIntent().getExtras();
 
         m_User_Id = m_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
+        m_User_Name = m_Course_Bundle.getString("username", "User Name");
         m_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
         m_Category_Id = m_Course_Bundle.getString(getResources().getString(R.string.categoryid),"category_id");
 
@@ -102,6 +104,7 @@ public class SubCoursesActivity extends AppCompatActivity {
 
                 Intent destinationDetailIntent = new Intent(SubCoursesActivity.this, ExamListActivity.class);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra("username", m_User_Name);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.title), scp.getM_Sub_Course_Name());
                 destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), scp.getM_Sub_Course_Id());

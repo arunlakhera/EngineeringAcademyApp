@@ -92,8 +92,13 @@ public class SignUpActivity extends AppCompatActivity {
 
                         if(response.equals("SignUp_Success")) {
 
+                            String firstName = m_First_Name_EditText.getText().toString();
+                            String lastName = m_Last_Name_EditText.getText().toString();
+                            String userName = firstName + " " + lastName;
+
                             Intent destinationDetailIntent = new Intent(SignUpActivity.this, CoursesActivity.class);
                             destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                            destinationDetailIntent.putExtra("username", userName);
                             startActivity(destinationDetailIntent);
 
                         }else if(response.equals("SignUp_Failed")){

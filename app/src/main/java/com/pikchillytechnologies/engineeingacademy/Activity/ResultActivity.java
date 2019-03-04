@@ -44,6 +44,7 @@ public class ResultActivity extends AppCompatActivity {
 
     private Bundle m_User_Exam_Bundle;
     private String m_User_Id;
+    private String m_User_Name;
     private String m_Exam_Id;
     private String m_Total_Questions;
 
@@ -67,7 +68,6 @@ public class ResultActivity extends AppCompatActivity {
         m_User_Exam_Bundle = getIntent().getExtras();
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_Button_Res_View_Answers = findViewById(R.id.button_Res_View_Answers);
-
         m_TextView_Total_Questions = findViewById(R.id.textView_Res_Total_Questions);
         m_TextView_Total_Correct = findViewById(R.id.textView_Res_Total_Correct);
         m_TextView_Total_Wrong = findViewById(R.id.textView_Res_Total_Wrong);
@@ -78,6 +78,7 @@ public class ResultActivity extends AppCompatActivity {
         m_TextView_Activity_Title.setText(getResources().getString(R.string.result));
 
         m_User_Id = m_User_Exam_Bundle.getString(getResources().getString(R.string.userid),"User Id");
+        m_User_Name = m_User_Exam_Bundle.getString("username", "User Name");
         m_Exam_Id = m_User_Exam_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
         m_Total_Questions = m_User_Exam_Bundle.getString("total_questions", "Total Questions");
 
@@ -158,7 +159,7 @@ public class ResultActivity extends AppCompatActivity {
         m_TextView_Total_Wrong.setText(total_Wrong);
         m_TextView_Total_Not_Attempted.setText(total_Not_Attempted);
         m_TextView_Total_Score.setText(total_Score);
-        m_TextView_User_Name.setText("NAME OF USER");
+        m_TextView_User_Name.setText(m_User_Name.toUpperCase());
 
     }
 

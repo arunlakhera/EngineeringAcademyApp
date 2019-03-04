@@ -37,6 +37,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
     private String m_Exam_Duration;
     private String m_Total_Questions;
     private Bundle m_Sub_Course_Bundle;
+    private String m_User_Name;
 
     private String url = "https://pikchilly.com/api/exam_instruction.php";
 
@@ -59,6 +60,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
 
         m_Sub_Course_Bundle = getIntent().getExtras();
         m_User_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
+        m_User_Name = m_Sub_Course_Bundle.getString("username", "User Name");
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title),"Exam");
         m_Exam_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examid),"Exam Id");
         m_Exam_Duration = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examduration),"Exam Duration");
@@ -91,6 +93,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
 
                 Intent destinationDetailIntent = new Intent(ExamInstructionActivity.this, ExamActivity.class);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra("username", m_User_Name);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), m_Exam_Duration);

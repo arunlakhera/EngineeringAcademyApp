@@ -54,6 +54,7 @@ public class CoursesActivity extends AppCompatActivity {
     private EAHelper m_Helper;
     private Bundle m_User_Bundle;
     private String m_User_Id;
+    private String m_User_Name;
 
     //Navigation Drawer
     private DrawerLayout mDrawerLayout;
@@ -74,6 +75,7 @@ public class CoursesActivity extends AppCompatActivity {
         m_User_Bundle = getIntent().getExtras();
 
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
+        m_User_Name = m_User_Bundle.getString("username", "User Name");
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
@@ -102,6 +104,7 @@ public class CoursesActivity extends AppCompatActivity {
 
                 Intent destinationDetailIntent = new Intent(CoursesActivity.this, SubCoursesActivity.class);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra("username", m_User_Name);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.title), course.getM_Name());
                 destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), course.getM_Category_Id());
                 startActivity(destinationDetailIntent);

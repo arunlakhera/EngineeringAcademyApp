@@ -55,6 +55,7 @@ public class ExamActivity extends AppCompatActivity {
     private String quest_num;
     private Integer m_Current_Question;
     private Integer m_Total_Questions;
+    private String m_User_Name;
     private RecyclerView.LayoutManager m_Layout_Manager;
     private StringRequest stringRequest;
     private RequestQueue requestQueue;
@@ -137,6 +138,7 @@ public class ExamActivity extends AppCompatActivity {
 
         m_Sub_Course_Bundle = getIntent().getExtras();
         m_User_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.userid), "User Id");
+        m_User_Name = m_Sub_Course_Bundle.getString("username", "User Name");
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title), "Exam");
         m_Exam_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
         m_Exam_Duration = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examduration), "Exam Duration");
@@ -502,6 +504,7 @@ public class ExamActivity extends AppCompatActivity {
 
                                 Intent destinationDetailIntent = new Intent(ExamActivity.this, ResultActivity.class);
                                 destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                                destinationDetailIntent.putExtra("username", m_User_Name);
                                 destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
                                 destinationDetailIntent.putExtra("total_questions", String.valueOf(m_Total_Questions));
 

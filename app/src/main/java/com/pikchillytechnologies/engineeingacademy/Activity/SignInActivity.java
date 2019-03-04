@@ -22,6 +22,9 @@ import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.R;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,22 +92,35 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                       pd.hide();
+                        pd.hide();
 
-                        String res = String.valueOf(response);
-                        String res_fail = "Sign_In_Failed";
 
-                        if(response.equals("Sign_In_Success")) {
 
-                            Intent destinationDetailIntent = new Intent(SignInActivity.this, CoursesActivity.class);
-                            destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
-                            startActivity(destinationDetailIntent);
+                            if(response.equals("Sign_In_Failed")){
 
-                        }else if(response.equals("Sign_In_Failed")){
-                            Toast.makeText(getApplicationContext(),"User Name/Password does not match. Try Again.",Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"Error Occured. Please Try Again.",Toast.LENGTH_LONG).show();
-                        }
+                                Toast.makeText(getApplicationContext(),"User Name/Password does not match. Try Again.",Toast.LENGTH_LONG).show();
+                            }else{
+
+                                try{
+                                JSONObject userJSON = new JSONObject(response);
+
+                                JSONArray userArray = userJSON.getJSONArray("user_data");
+                                JSONObject userObject = userArray.getJSONObject(0);
+
+                                String userFirstName = userObject.getString("first_name");
+                                String userLastName = userObject.getString("last_name");
+                                String userName = userFirstName + " " + userLastName;
+
+                                Intent destinationDetailIntent = new Intent(SignInActivity.this, CoursesActivity.class);
+                                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                                destinationDetailIntent.putExtra("username", userName);
+                                startActivity(destinationDetailIntent);
+
+                                }catch (Exception e){
+
+                                    Log.e("Error:", e.getMessage());
+                                }
+                            }
 
                     }
 
