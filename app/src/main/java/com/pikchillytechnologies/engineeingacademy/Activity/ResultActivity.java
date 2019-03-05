@@ -113,7 +113,14 @@ public class ResultActivity extends AppCompatActivity {
         m_Button_Res_View_Answers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ResultActivity.this, AnswersActivity.class));
+
+                Intent destinationDetailIntent = new Intent(ResultActivity.this, AnswersActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra("username", m_User_Name);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+                startActivity(destinationDetailIntent);
+
             }
         });
 
@@ -165,7 +172,7 @@ public class ResultActivity extends AppCompatActivity {
 
         // write the document content
 
-        String targetPdf = "/sdcard/PDF_" + m_Exam_Id + ".pdf";
+        String targetPdf = "/sdcard/Result_" + m_Exam_Id + ".pdf";
         File filePath;
         filePath = new File(targetPdf);
         try {
@@ -184,7 +191,7 @@ public class ResultActivity extends AppCompatActivity {
 
     public void shareData(){
 
-        String path = "/sdcard/PDF_" + m_Exam_Id + ".pdf";
+        String path = "/sdcard/Result_" + m_Exam_Id + ".pdf";
         File file = new File(path);
         if (file.exists())
         {
@@ -252,7 +259,7 @@ public class ResultActivity extends AppCompatActivity {
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(10f);
-        data.setValueTextColor(R.color.colorOffWhiteBg);
+        data.setValueTextColor(Color.BLACK);
 
         Description description = new Description();
         description.setText("My Performance");

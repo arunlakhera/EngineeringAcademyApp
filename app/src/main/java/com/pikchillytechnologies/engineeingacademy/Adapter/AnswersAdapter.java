@@ -5,6 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
@@ -18,13 +21,30 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView m_TextView_Ques_Number;
-        private TextView m_TextView_Question;
-        private TextView m_Radio_Answer1;
-        private TextView m_Radio_Answer2;
-        private TextView m_Radio_Answer3;
-        private TextView m_Radio_Answer4;
-        private TextView m_textView_Explaination;
+        private LinearLayout m_Layout_Answers_Text;
+        private CheckBox m_CheckBox_Answer1;
+        private CheckBox m_CheckBox_Answer2;
+        private CheckBox m_CheckBox_Answer3;
+        private CheckBox m_CheckBox_Answer4;
+        private CheckBox m_CheckBox_Answer5;
+        private CheckBox m_CheckBox_Answer6;
+        
+        // Answer Checkbox for Image
+        private LinearLayout m_Layout_Answers_Image;
+        private CheckBox m_CheckBox_Answer1_Image;
+        private CheckBox m_CheckBox_Answer2_Image;
+        private CheckBox m_CheckBox_Answer3_Image;
+        private CheckBox m_CheckBox_Answer4_Image;
+        private CheckBox m_CheckBox_Answer5_Image;
+        private CheckBox m_CheckBox_Answer6_Image;
+        private ImageView m_ImageView_Answer1_Image;
+        private ImageView m_ImageView_Answer2_Image;
+        private ImageView m_ImageView_Answer3_Image;
+        private ImageView m_ImageView_Answer4_Image;
+        private ImageView m_ImageView_Answer5_Image;
+        private ImageView m_ImageView_Answer6_Image;
+        private ImageView m_ImageView_Question_Image;
+        private ImageView m_ImageView_QuestionSupported_Image;
 
         public MyViewHolder(View view){
             super(view);
