@@ -56,10 +56,11 @@ public class ResultActivity extends AppCompatActivity {
     private String m_User_Name;
     private String m_Exam_Id;
     private String m_Total_Questions;
-    String total_Correct;
-    String total_Wrong;
-    String total_Not_Attempted;
-    String total_Score;
+    private String m_Title;
+    private String m_Correct;
+    private String m_Wrong;
+    private String m_Not_Attempted;
+    private String m_Score;
 
     private TextView m_TextView_Total_Questions;
     private TextView m_TextView_Total_Correct;
@@ -98,9 +99,17 @@ public class ResultActivity extends AppCompatActivity {
         m_User_Id = m_User_Exam_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_User_Name = m_User_Exam_Bundle.getString("username", "User Name");
         m_Exam_Id = m_User_Exam_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
+        m_Title = m_User_Exam_Bundle.getString(getResources().getString(R.string.title), "Exam");
         m_Total_Questions = m_User_Exam_Bundle.getString("total_questions", "Total Questions");
+        m_Correct = m_User_Exam_Bundle.getString("correct", "Correct");
+        m_Wrong = m_User_Exam_Bundle.getString("wrong", "Wrong");
+        m_Not_Attempted = m_User_Exam_Bundle.getString("not_attempted", "Not Attempted");
+        m_Score = m_User_Exam_Bundle.getString("total_marks", "Total Marks");
 
-        prepareUserExamResult();
+        progressDialog.show();
+        updateUI();
+
+        progressDialog.dismiss();
 
         m_Button_Res_View_Answers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,72 +119,15 @@ public class ResultActivity extends AppCompatActivity {
         });
     }
 
-    public void prepareUserExamResult() {
-
-        progressDialog.show();
-
-        stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        try {
-                            JSONObject objResult = new JSONObject(response);
-                            JSONArray userResultArray = objResult.getJSONArray("user_result");
-
-                            for (int i = 0; i < userResultArray.length(); i++) {
-
-                                JSONObject resultObject = userResultArray.getJSONObject(i);
-                                userResult = new UserResultModel(resultObject.getString("user_id"),resultObject.getString("exam_id"),resultObject.getString("correct"),resultObject.getString("wrong"),resultObject.getString("not_attempted"),resultObject.getString("total_marks"),resultObject.getString("date_of_attempt"),resultObject.getString("number_of_attempt"));
-                            }
-
-                            updateUI();
-
-                        } catch (JSONException e) {
-                            Log.e("Error", e.getMessage());
-                        }
-                    }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //displaying the error in toast if occur
-                        //Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("Error", error.getMessage());
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("user_id", String.valueOf(m_User_Id));
-                params.put("exam_id", String.valueOf(m_Exam_Id));
-                return params;
-            }
-        };
-
-        progressDialog.dismiss();
-        //creating a request queue
-        requestQueue = Volley.newRequestQueue(this);
-
-        //adding the string request to request queue
-        requestQueue.add(stringRequest);
-    }
 
     public void updateUI(){
 
-        // User Result UI
-        total_Correct = userResult.getM_Correct();
-        total_Wrong = userResult.getM_Wrong();
-        total_Not_Attempted = userResult.getM_Not_Attempted();
-        String total_Score = userResult.getM_Total_Marks();
-
         // Update Score
         m_TextView_Total_Questions.setText(m_Total_Questions);
-        m_TextView_Total_Correct.setText(total_Correct);
-        m_TextView_Total_Wrong.setText(total_Wrong);
-        m_TextView_Total_Not_Attempted.setText(total_Not_Attempted);
-        m_TextView_Total_Score.setText(total_Score);
+        m_TextView_Total_Correct.setText(m_Correct);
+        m_TextView_Total_Wrong.setText(m_Wrong);
+        m_TextView_Total_Not_Attempted.setText(m_Not_Attempted);
+        m_TextView_Total_Score.setText(m_Score);
         m_TextView_User_Name.setText(m_User_Name.toUpperCase());
 
         drawChart();
@@ -184,20 +136,27 @@ public class ResultActivity extends AppCompatActivity {
 
     public void drawChart(){
 
-        float correct = Float.valueOf(total_Correct);
-        float wrong = Float.valueOf(total_Wrong);
-        float not_attempted = Float.valueOf(total_Not_Attempted);
+        float correct = Float.valueOf(m_Correct);
+        float wrong = Float.valueOf(m_Wrong);
+        float not_attempted = Float.valueOf(m_Not_Attempted);
 
         // update chart
         pieChart = findViewById(R.id.pieChart);
         pieChart.setUsePercentValues(true);
 
         ArrayList<PieEntry> yvalues = new ArrayList<PieEntry>();
-        yvalues.add(new PieEntry(correct, "Correct", 0));
-        yvalues.add(new PieEntry(wrong, "Wrong", 1));
+
+        if(!m_Correct.equals("0")){
+            yvalues.add(new PieEntry(correct, "Correct", 0));
+        }
+
+        if(!m_Wrong.equals("0")){
+            yvalues.add(new PieEntry(wrong, "Wrong", 1));
+        }
+
         yvalues.add(new PieEntry(not_attempted, "Not Attempted", 2));
 
-        PieDataSet dataSet = new PieDataSet(yvalues, "Exam");
+        PieDataSet dataSet = new PieDataSet(yvalues, m_Title);
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
         PieData data = new PieData(dataSet);
@@ -211,6 +170,7 @@ public class ResultActivity extends AppCompatActivity {
 
         pieChart.setDescription(description);
         pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleColor(R.color.colorPrimary);
         pieChart.setTransparentCircleRadius(40f);
         pieChart.setHoleRadius(40f);
         pieChart.setData(data);

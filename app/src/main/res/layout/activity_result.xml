@@ -31,6 +31,36 @@
         android:layout_marginRight="@dimen/margin_medium"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/toolbar"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginLeft="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginRight="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:background="@drawable/graph_base"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView_Res_Name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_weight="1"
+                android:text="Name"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_medium" />
+
+        </LinearLayout>
+
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
@@ -42,11 +72,11 @@
             android:id="@+id/layout_Res_Desc"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginLeft="@dimen/margin_default"
             android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginRight="@dimen/margin_default"
             android:background="@drawable/graph_base"
             android:orientation="vertical">
 
@@ -221,48 +251,28 @@
                     android:textColor="@android:color/white" />
             </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:background="@drawable/graph_base"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView_Res_Name"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:layout_weight="1"
-                android:text="Name"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_medium" />
-
-            <Button
-                android:id="@+id/button_Res_Share"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:background="@drawable/share_base" />
-
-        </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_above="@id/button_Res_View_Answers"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:background="@drawable/black_circle"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/button_Res_Share"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:background="@drawable/share_base" />
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/button_Res_View_Answers"

@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.pikchillytechnologies.engineeingacademy.Adapter.AnswersAdapter;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ResultAdapter;
+import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
 import com.pikchillytechnologies.engineeingacademy.Model.ResultModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 
@@ -20,9 +22,9 @@ public class AnswersActivity extends AppCompatActivity {
     private TextView m_TextView_Activity_Title;
     private Button m_Button_Back;
 
-    private List<ResultModel> m_Result_List;
-    private RecyclerView m_RecyclerView_Result_List;
-    private ResultAdapter m_Result_Adapter;
+    private List<AnswersModel> m_Answer_List;
+    private RecyclerView m_RecyclerView_Answers_List;
+    private AnswersAdapter m_Answers_Adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,25 +37,24 @@ public class AnswersActivity extends AppCompatActivity {
         m_Button_Back = findViewById(R.id.button_Back);
         m_Button_Back.setVisibility(View.VISIBLE);
 
-        m_Result_List = new ArrayList<>();
-        m_RecyclerView_Result_List = findViewById(R.id.recyclerView_Ans_Answers);
-        m_Result_Adapter = new ResultAdapter(m_Result_List);
+        m_Answer_List = new ArrayList<>();
+        m_RecyclerView_Answers_List = findViewById(R.id.recyclerView_Answers);
+        m_Answers_Adapter = new AnswersAdapter(m_Answer_List);
 
-        m_RecyclerView_Result_List.setHasFixedSize(true);
+        m_RecyclerView_Answers_List.setHasFixedSize(true);
 
         RecyclerView.LayoutManager m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
-        m_RecyclerView_Result_List.setLayoutManager(m_Layout_Manager);
+        m_RecyclerView_Answers_List.setLayoutManager(m_Layout_Manager);
 
-        m_RecyclerView_Result_List.setAdapter(m_Result_Adapter);
+        m_RecyclerView_Answers_List.setAdapter(m_Answers_Adapter);
 
         prepareResultData();
     }
 
     public void prepareResultData(){
 
-        ResultModel result = new ResultModel("Question 01","This is My Question 1","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
-        m_Result_List.add(result);
-
+        AnswersModel answer = new AnswersModel("Question 01","This is My Question 1","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
+        m_Answer_List.add(answer);
 
 
     }

@@ -344,6 +344,8 @@ public class ExamActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), "You have submitted the Exam.", Toast.LENGTH_LONG).show();
 
+                    showResult();
+
                 }
 
                 //saveUserResponse();
@@ -502,13 +504,7 @@ public class ExamActivity extends AppCompatActivity {
 
                                 Toast.makeText(getApplicationContext(), "Response Saved Successfully.", Toast.LENGTH_LONG).show();
 
-                                Intent destinationDetailIntent = new Intent(ExamActivity.this, ResultActivity.class);
-                                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
-                                destinationDetailIntent.putExtra("username", m_User_Name);
-                                destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
-                                destinationDetailIntent.putExtra("total_questions", String.valueOf(m_Total_Questions));
-
-                                startActivity(destinationDetailIntent);
+                                showResult();
 
                             } else {
                                 Toast.makeText(getApplicationContext(), "Response Could not be Saved.", Toast.LENGTH_LONG).show();
@@ -549,6 +545,20 @@ public class ExamActivity extends AppCompatActivity {
         //adding the string request to request queue
         requestQueue.add(stringRequest);
 
+    }
+
+    public void showResult(){
+        Intent destinationDetailIntent = new Intent(ExamActivity.this, ResultActivity.class);
+        destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+        destinationDetailIntent.putExtra("username", m_User_Name);
+        destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
+        destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+        destinationDetailIntent.putExtra("total_questions", String.valueOf(m_Total_Questions));
+        destinationDetailIntent.putExtra("correct", String.valueOf(m_Correct));
+        destinationDetailIntent.putExtra("wrong", String.valueOf(m_Wrong));
+        destinationDetailIntent.putExtra("not_attempted", String.valueOf(m_NotAttempted));
+        destinationDetailIntent.putExtra("total_marks", String.valueOf(total_marks));
+        startActivity(destinationDetailIntent);
     }
 
     public void onTextCheckBoxClicked(View view) {
