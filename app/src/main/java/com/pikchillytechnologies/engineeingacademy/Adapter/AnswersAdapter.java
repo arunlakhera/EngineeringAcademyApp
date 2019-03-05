@@ -28,7 +28,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         private CheckBox m_CheckBox_Answer4;
         private CheckBox m_CheckBox_Answer5;
         private CheckBox m_CheckBox_Answer6;
-        
+
         // Answer Checkbox for Image
         private LinearLayout m_Layout_Answers_Image;
         private CheckBox m_CheckBox_Answer1_Image;
