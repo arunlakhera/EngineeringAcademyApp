@@ -178,16 +178,11 @@ public class ResultActivity extends AppCompatActivity {
 
         // close the document
         document.close();
-        //Toast.makeText(this, "PDF is created!!!", Toast.LENGTH_SHORT).show();
 
         shareData();
-        //openGeneratedPDF();
-
     }
 
     public void shareData(){
-
-        //String username = "Arun Lakhera";
 
         String path = "/sdcard/PDF_" + m_Exam_Id + ".pdf";
         File file = new File(path);
