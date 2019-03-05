@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
-import com.pikchillytechnologies.engineeingacademy.Model.ResultModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import java.util.List;

@@ -1,31 +1,28 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.pikchillytechnologies.engineeingacademy.Adapter.ExamListAdapter;
-import com.pikchillytechnologies.engineeingacademy.Adapter.ExamQuestionAdapter;
-import com.pikchillytechnologies.engineeingacademy.Adapter.ResultAdapter;
-import com.pikchillytechnologies.engineeingacademy.Model.ExamListModel;
-import com.pikchillytechnologies.engineeingacademy.Model.ExamQuestionModel;
-import com.pikchillytechnologies.engineeingacademy.Model.ResultModel;
-import com.pikchillytechnologies.engineeingacademy.Model.UserResponseModel;
 import com.pikchillytechnologies.engineeingacademy.Model.UserResultModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 
@@ -37,19 +34,16 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ResultActivity extends AppCompatActivity {
 
     private TextView m_TextView_Activity_Title;
     private Button m_Button_Res_View_Answers;
+    private Button m_Button_Share;
 
     private Bundle m_User_Exam_Bundle;
     private String m_User_Id;
@@ -69,6 +63,9 @@ public class ResultActivity extends AppCompatActivity {
     private TextView m_TextView_Total_Score;
     private TextView m_TextView_User_Name;
     private PieChart pieChart;
+
+    private LinearLayout m_Layout_Result_PDF;
+    private Bitmap bitmap;
 
     private ProgressDialog progressDialog;
     private UserResultModel userResult;
@@ -90,6 +87,8 @@ public class ResultActivity extends AppCompatActivity {
         m_TextView_Total_Not_Attempted = findViewById(R.id.textView_Res_Total_Not_Attempted);
         m_TextView_Total_Score = findViewById(R.id.textView_Res_Total_Score);
         m_TextView_User_Name = findViewById(R.id.textView_Res_Name);
+        m_Layout_Result_PDF = findViewById(R.id.layout_Result);
+        m_Button_Share = findViewById(R.id.button_Res_Share);
 
         m_TextView_Activity_Title.setText(getResources().getString(R.string.result));
 
@@ -117,6 +116,102 @@ public class ResultActivity extends AppCompatActivity {
                 startActivity(new Intent(ResultActivity.this, AnswersActivity.class));
             }
         });
+
+        m_Button_Share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getWidth());
+                bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
+                createPdf();
+            }
+        });
+
+    }
+
+    public static Bitmap loadBitmapFromView(View v, int width, int height) {
+        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+        v.draw(c);
+
+        return b;
+    }
+
+    private void createPdf(){
+
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        float height = displaymetrics.heightPixels ;
+        float width = displaymetrics.widthPixels ;
+
+        int convertHeight = (int) height;
+        int convertWidth = (int) width;
+
+        PdfDocument document = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHeight, 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+        Canvas canvas = page.getCanvas();
+
+        Paint paint = new Paint();
+        canvas.drawPaint(paint);
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHeight, true);
+
+        paint.setColor(Color.BLUE);
+        canvas.drawBitmap(bitmap, 0, 0 , null);
+        document.finishPage(page);
+
+        // write the document content
+
+        String targetPdf = "/sdcard/PDF_" + m_Exam_Id + ".pdf";
+        File filePath;
+        filePath = new File(targetPdf);
+        try {
+            document.writeTo(new FileOutputStream(filePath));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        // close the document
+        document.close();
+        //Toast.makeText(this, "PDF is created!!!", Toast.LENGTH_SHORT).show();
+
+        shareData();
+        //openGeneratedPDF();
+
+    }
+
+    public void shareData(){
+
+        //String username = "Arun Lakhera";
+
+        String path = "/sdcard/PDF_" + m_Exam_Id + ".pdf";
+        File file = new File(path);
+        if (file.exists())
+        {
+            //Intent intent=new Intent(Intent.ACTION_VIEW);
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+
+            Uri uri = Uri.fromFile(file);
+
+            intent.setData(Uri.parse("mailto:"));
+            intent.putExtra(Intent.EXTRA_SUBJECT,  "Exam Result for:" + m_User_Name);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+            try
+            {
+                startActivity(intent);
+            }
+            catch(ActivityNotFoundException e)
+            {
+                Toast.makeText(getApplicationContext(), "No Application available to view pdf", Toast.LENGTH_LONG).show();
+            }
+        }
+
     }
 
 

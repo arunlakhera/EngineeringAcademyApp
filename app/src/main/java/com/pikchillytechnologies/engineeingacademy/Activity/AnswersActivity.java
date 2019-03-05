@@ -9,9 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.pikchillytechnologies.engineeingacademy.Adapter.AnswersAdapter;
-import com.pikchillytechnologies.engineeingacademy.Adapter.ResultAdapter;
 import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
-import com.pikchillytechnologies.engineeingacademy.Model.ResultModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import java.util.ArrayList;
