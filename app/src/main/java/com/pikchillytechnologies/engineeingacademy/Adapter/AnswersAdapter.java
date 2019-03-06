@@ -5,9 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
@@ -21,40 +18,23 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private LinearLayout m_Layout_Answers_Text;
-        private CheckBox m_CheckBox_Answer1;
-        private CheckBox m_CheckBox_Answer2;
-        private CheckBox m_CheckBox_Answer3;
-        private CheckBox m_CheckBox_Answer4;
-        private CheckBox m_CheckBox_Answer5;
-        private CheckBox m_CheckBox_Answer6;
-
-        // Answer Checkbox for Image
-        private LinearLayout m_Layout_Answers_Image;
-        private CheckBox m_CheckBox_Answer1_Image;
-        private CheckBox m_CheckBox_Answer2_Image;
-        private CheckBox m_CheckBox_Answer3_Image;
-        private CheckBox m_CheckBox_Answer4_Image;
-        private CheckBox m_CheckBox_Answer5_Image;
-        private CheckBox m_CheckBox_Answer6_Image;
-        private ImageView m_ImageView_Answer1_Image;
-        private ImageView m_ImageView_Answer2_Image;
-        private ImageView m_ImageView_Answer3_Image;
-        private ImageView m_ImageView_Answer4_Image;
-        private ImageView m_ImageView_Answer5_Image;
-        private ImageView m_ImageView_Answer6_Image;
-        private ImageView m_ImageView_Question_Image;
-        private ImageView m_ImageView_QuestionSupported_Image;
+        private TextView m_TextView_Ques_Number;
+        private TextView m_TextView_Question;
+        private TextView m_Checkbox_Answer1;
+        private TextView m_Checkbox_Answer2;
+        private TextView m_Checkbox_Answer3;
+        private TextView m_Checkbox_Answer4;
+        private TextView m_textView_Explaination;
 
         public MyViewHolder(View view){
             super(view);
 
             this.m_TextView_Ques_Number = view.findViewById(R.id.textView_Ans_Ques_Number);
             this.m_TextView_Question = view.findViewById(R.id.textView_Ans_Question);
-            this.m_Radio_Answer1 = view.findViewById(R.id.radio_Ans_Ans1);
-            this.m_Radio_Answer2 = view.findViewById(R.id.radio_Ans_Ans2);
-            this.m_Radio_Answer3 = view.findViewById(R.id.radio_Ans_Ans3);
-            this.m_Radio_Answer4 = view.findViewById(R.id.radio_Ans_Ans4);
+            this.m_Checkbox_Answer1 = view.findViewById(R.id.checkbox_Answer1);
+            this.m_Checkbox_Answer2 = view.findViewById(R.id.checkbox_Answer2);
+            this.m_Checkbox_Answer3 = view.findViewById(R.id.checkbox_Answer3);
+            this.m_Checkbox_Answer4 = view.findViewById(R.id.checkbox_Answer4);
             this.m_textView_Explaination = view.findViewById(R.id.textView_Ans_Explaination);
         }
     }
@@ -78,10 +58,10 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         AnswersModel result = m_Answers_List.get(position);
         holder.m_TextView_Ques_Number.setText(result.getM_Question_Number());
         holder.m_TextView_Question.setText(result.getM_Question());
-        holder.m_Radio_Answer1.setText(result.getM_Answer1());
-        holder.m_Radio_Answer2.setText(result.getM_Answer2());
-        holder.m_Radio_Answer3.setText(result.getM_Answer3());
-        holder.m_Radio_Answer4.setText(result.getM_Answer4());
+        holder.m_Checkbox_Answer1.setText(result.getM_Answer1());
+        holder.m_Checkbox_Answer2.setText(result.getM_Answer2());
+        holder.m_Checkbox_Answer3.setText(result.getM_Answer3());
+        holder.m_Checkbox_Answer4.setText(result.getM_Answer4());
         holder.m_textView_Explaination.setText(result.getM_Explanation());
     }
 

@@ -63,8 +63,17 @@ public class AnswersActivity extends AppCompatActivity {
 
     public void prepareResultData(){
 
-        AnswersModel answer = new AnswersModel("Question 01","This is My Question 1","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
-        m_Answer_List.add(answer);
+        AnswersModel answer1 = new AnswersModel("Question 01","This is My Question 1","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
+        AnswersModel answer2 = new AnswersModel("Question 02","This is My Question 2","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
+        AnswersModel answer3 = new AnswersModel("Question 03","This is My Question 3","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
+        AnswersModel answer4 = new AnswersModel("Question 04","This is My Question 4","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
+        AnswersModel answer5 = new AnswersModel("Question 05","This is My Question 5","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
+
+        m_Answer_List.add(answer1);
+        m_Answer_List.add(answer2);
+        m_Answer_List.add(answer3);
+        m_Answer_List.add(answer4);
+        m_Answer_List.add(answer5);
 
 
     }
