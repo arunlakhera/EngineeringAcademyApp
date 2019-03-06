@@ -66,7 +66,7 @@ public class AnswersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_answers);
 
         m_Exam_Answer_Bundle = getIntent().getExtras();
-        m_User_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.userid),"User Id");
+        m_User_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_Exam_Answer_Bundle.getString("username", "User Name");
         m_Exam_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
         m_Title = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.title), "Exam");
@@ -88,7 +88,7 @@ public class AnswersActivity extends AppCompatActivity {
         m_Question_List = new ArrayList<>();
         m_User_Response_List = new ArrayList<>();
 
-        m_Answers_Adapter = new AnswersAdapter(getApplicationContext(),m_Answer_List);
+        m_Answers_Adapter = new AnswersAdapter(getApplicationContext(), m_Answer_List);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
@@ -103,7 +103,7 @@ public class AnswersActivity extends AppCompatActivity {
         prepareExamQuestionsData();
     }
 
-    public void prepareExamQuestionsData(){
+    public void prepareExamQuestionsData() {
 
         progressDialog.show();
 
@@ -134,13 +134,12 @@ public class AnswersActivity extends AppCompatActivity {
                                         examObject.getString("answer1_flag"), examObject.getString("answer2_flag"), examObject.getString("answer3_flag"),
                                         examObject.getString("answer4_flag"), examObject.getString("answer5_flag"), examObject.getString("answer6_flag"),
                                         examObject.getString("question_type"), examObject.getString("question_lang"), examObject.getString("answer_type"),
-                                        examObject.getString("answer_lang"),examObject.getString("answer1"),examObject.getString("answer2"),examObject.getString("answer3"),
-                                        examObject.getString("answer4"),examObject.getString("answer5"),examObject.getString("answer6")
-                                        );
+                                        examObject.getString("answer_lang"), examObject.getString("answer1"), examObject.getString("answer2"), examObject.getString("answer3"),
+                                        examObject.getString("answer4"), examObject.getString("answer5"), examObject.getString("answer6")
+                                );
 
                                 m_Answer_List.add(exam);
-
-                }
+                            }
 
                             //creating custom adapter object
                             m_Answers_Adapter.notifyDataSetChanged();
@@ -158,12 +157,10 @@ public class AnswersActivity extends AppCompatActivity {
                         //displaying the error in toast if occur
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                })
-        {
+                }) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("user_id", String.valueOf(m_User_Id));
                 params.put("exam_id", String.valueOf(m_Exam_Id));
                 return params;

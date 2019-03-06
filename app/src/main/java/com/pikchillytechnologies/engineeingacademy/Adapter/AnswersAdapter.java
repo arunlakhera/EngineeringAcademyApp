@@ -44,16 +44,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
     public void onBindViewHolder(@NonNull AnswersAdapter.MyViewHolder holder, int position) {
 
         m_QuestionAnswer = m_QuestionAnswers_List.get(position);
-/*
-        holder.mTextView_Question_Text.setText(m_QuestionAnswer.getM_Question_Eng());
-        holder.mCheckbox_Answer1_Text.setText(m_QuestionAnswer.getM_Answer1_Eng());
-        holder.mCheckbox_Answer2_Text.setText(m_QuestionAnswer.getM_Answer2_Eng());
-        holder.mCheckbox_Answer3_Text.setText(m_QuestionAnswer.getM_Answer3_Eng());
-        holder.mCheckbox_Answer4_Text.setText(m_QuestionAnswer.getM_Answer4_Eng());
-        holder.mCheckbox_Answer5_Text.setText(m_QuestionAnswer.getM_Answer5_Eng());
-        holder.mCheckbox_Answer6_Text.setText(m_QuestionAnswer.getM_Answer6_Eng());
 
-*/
         String questionType = m_QuestionAnswer.getM_Question_Type();
         String answerType = m_QuestionAnswer.getM_Answer_Type();
         String questionSupportImage_Eng = m_QuestionAnswer.getM_Question_Eng_Img_url();
