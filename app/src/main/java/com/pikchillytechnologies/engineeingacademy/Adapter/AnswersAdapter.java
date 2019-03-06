@@ -226,10 +226,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer1_Image.setChecked(true);
             holder.mCheckbox_Answer1_Image.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer1_Image.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer1_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer1().equals("Y")){
-            holder.mCheckbox_Answer1_Image.setChecked(true);
-            holder.mCheckbox_Answer1_Image.setBackgroundColor(Color.RED);
-            holder.mCheckbox_Answer1_Image.setEnabled(false);
         } else {
             holder.mCheckbox_Answer1_Image.setChecked(false);
             holder.mCheckbox_Answer1_Image.setEnabled(false);
@@ -238,10 +234,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         if (m_QuestionAnswer.getM_Answer2_Flag().equals("Y")) {
             holder.mCheckbox_Answer2_Image.setChecked(true);
             holder.mCheckbox_Answer2_Image.setBackgroundColor(Color.GREEN);
-            holder.mCheckbox_Answer2_Image.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer2_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer2().equals("Y")){
-            holder.mCheckbox_Answer2_Image.setChecked(true);
-            holder.mCheckbox_Answer2_Image.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer2_Image.setEnabled(false);
         } else {
             holder.mCheckbox_Answer2_Image.setChecked(false);
@@ -252,10 +244,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer3_Image.setChecked(true);
             holder.mCheckbox_Answer3_Image.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer3_Image.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer3_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer3().equals("Y")){
-            holder.mCheckbox_Answer1_Image.setChecked(true);
-            holder.mCheckbox_Answer1_Image.setBackgroundColor(Color.RED);
-            holder.mCheckbox_Answer1_Image.setEnabled(false);
         } else {
             holder.mCheckbox_Answer3_Image.setChecked(false);
             holder.mCheckbox_Answer3_Image.setEnabled(false);
@@ -264,10 +252,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         if (m_QuestionAnswer.getM_Answer4_Flag().equals("Y")) {
             holder.mCheckbox_Answer4_Image.setChecked(true);
             holder.mCheckbox_Answer4_Image.setBackgroundColor(Color.GREEN);
-            holder.mCheckbox_Answer4_Image.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer4_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer4().equals("Y")){
-            holder.mCheckbox_Answer4_Image.setChecked(true);
-            holder.mCheckbox_Answer4_Image.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer4_Image.setEnabled(false);
         } else {
             holder.mCheckbox_Answer4_Image.setChecked(false);
@@ -278,10 +262,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer5_Image.setChecked(true);
             holder.mCheckbox_Answer5_Image.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer5_Image.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer5_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer5().equals("Y")){
-            holder.mCheckbox_Answer5_Image.setChecked(true);
-            holder.mCheckbox_Answer5_Image.setBackgroundColor(Color.RED);
-            holder.mCheckbox_Answer5_Image.setEnabled(false);
         } else {
             holder.mCheckbox_Answer5_Image.setChecked(false);
             holder.mCheckbox_Answer5_Image.setEnabled(false);
@@ -291,15 +271,46 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer6_Image.setChecked(true);
             holder.mCheckbox_Answer6_Image.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer6_Image.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer6_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer6().equals("Y")){
-            holder.mCheckbox_Answer6_Image.setChecked(true);
-            holder.mCheckbox_Answer6_Image.setBackgroundColor(Color.RED);
-            holder.mCheckbox_Answer6_Image.setEnabled(false);
         } else {
             holder.mCheckbox_Answer6_Image.setChecked(false);
             holder.mCheckbox_Answer6_Image.setEnabled(false);
         }
 
+        if (m_QuestionAnswer.getM_User_Answer1().equals("Y") && m_QuestionAnswer.getM_Answer1_Flag().equals("N")) {
+            holder.mCheckbox_Answer1_Image.setChecked(true);
+            holder.mCheckbox_Answer1_Image.setBackgroundColor(Color.RED);
+            holder.mCheckbox_Answer1_Image.setEnabled(false);
+        }
+
+        if (m_QuestionAnswer.getM_User_Answer2().equals("Y") && m_QuestionAnswer.getM_Answer2_Flag().equals("N")) {
+            holder.mCheckbox_Answer2_Image.setChecked(true);
+            holder.mCheckbox_Answer2_Image.setBackgroundColor(Color.RED);
+            holder.mCheckbox_Answer2_Image.setEnabled(false);
+        }
+
+        if (m_QuestionAnswer.getM_User_Answer3().equals("Y") && m_QuestionAnswer.getM_Answer3_Flag().equals("N")) {
+            holder.mCheckbox_Answer3_Image.setChecked(true);
+            holder.mCheckbox_Answer3_Image.setBackgroundColor(Color.RED);
+            holder.mCheckbox_Answer3_Image.setEnabled(false);
+        }
+
+        if (m_QuestionAnswer.getM_User_Answer4().equals("Y") && m_QuestionAnswer.getM_Answer4_Flag().equals("N")) {
+            holder.mCheckbox_Answer4_Image.setChecked(true);
+            holder.mCheckbox_Answer4_Image.setBackgroundColor(Color.RED);
+            holder.mCheckbox_Answer4_Image.setEnabled(false);
+        }
+
+        if (m_QuestionAnswer.getM_User_Answer5().equals("Y") && m_QuestionAnswer.getM_Answer5_Flag().equals("N")) {
+            holder.mCheckbox_Answer5_Image.setChecked(true);
+            holder.mCheckbox_Answer5_Image.setBackgroundColor(Color.RED);
+            holder.mCheckbox_Answer5_Image.setEnabled(false);
+        }
+
+        if (m_QuestionAnswer.getM_User_Answer6().equals("Y") && m_QuestionAnswer.getM_Answer6_Flag().equals("N")) {
+            holder.mCheckbox_Answer6_Image.setChecked(true);
+            holder.mCheckbox_Answer6_Image.setBackgroundColor(Color.RED);
+            holder.mCheckbox_Answer6_Image.setEnabled(false);
+        }
     }
 
 
