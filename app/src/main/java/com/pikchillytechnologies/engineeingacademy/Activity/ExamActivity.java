@@ -138,6 +138,7 @@ public class ExamActivity extends AppCompatActivity {
 
         m_Exam_Question_List = new ArrayList<>();
         m_User_Response_List = new ArrayList<>();
+
         userResponseJSONArray = new JSONArray();
         userResponseWholeJSON = new JSONObject();
         isSubmitPressed = false;

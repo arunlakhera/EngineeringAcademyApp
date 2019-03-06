@@ -44,6 +44,7 @@ public class AnswersActivity extends AppCompatActivity {
     private String m_User_Name;
     private String m_Exam_Id;
     private String m_Title;
+    private int question_number;
 
     private List<AnswersModel> m_Answer_List;
     private RecyclerView m_RecyclerView_Answers_List;
@@ -57,7 +58,7 @@ public class AnswersActivity extends AppCompatActivity {
     private List<UserResponseModel> m_User_Response_List;
 
     private String url = "https://pikchilly.com/api/exam_question.php";
-    private String getUserResponseURL = "http://onlineengineeringacademy.co.in/api/user_response";
+    private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +71,13 @@ public class AnswersActivity extends AppCompatActivity {
         m_Exam_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
         m_Title = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.title), "Exam");
 
+        question_number = 0;
+
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_TextView_Activity_Title.setText(m_Title);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
 
         m_RecyclerView_Answers_List = findViewById(R.id.recyclerView_Answers);
 
@@ -94,37 +100,32 @@ public class AnswersActivity extends AppCompatActivity {
 
         m_RecyclerView_Answers_List.setAdapter(m_Answers_Adapter);
 
-        //prepareResultData();
-        prepareSubCoursePackageData();
+        prepareExamQuestionsData();
     }
 
-    public void prepareSubCoursePackageData(){
+    public void prepareExamQuestionsData(){
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, getUserResponseURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         //hiding the progressbar after completion
-                        progressDialog.dismiss();
 
                         try {
                             //getting the whole json object from the response
                             JSONObject obj = new JSONObject(response);
 
                             // Getting array inside the JSONObject
-                            JSONArray examArray = obj.getJSONArray("exam_question");
+                            JSONArray examArray = obj.getJSONArray("user_response");
 
                             //now looping through all the elements of the json array
-                            for (int i = 0; i < examArray.length(); i++) {
+                            for (int i = (examArray.length() - 1); i >= 0; i--) {
                                 //getting the json object of the particular index inside the array
                                 JSONObject examObject = examArray.getJSONObject(i);
-
-                                //creating a tutorial object and giving them the values from json object
-                                AnswersModel questionAnswer = new AnswersModel(String.valueOf(i + 1), examObject.getString("question_id"), examObject.getString("question_eng"), examObject.getString("question_hindi"),
+                                question_number = question_number + 1;
+                                AnswersModel exam = new AnswersModel(String.valueOf(question_number), examObject.getString("question_id"), examObject.getString("question_eng"), examObject.getString("question_hindi"),
                                         examObject.getString("question_eng_img"), examObject.getString("question_hindi_img"),
                                         examObject.getString("answer1_eng"), examObject.getString("answer2_eng"), examObject.getString("answer3_eng"),
                                         examObject.getString("answer4_eng"), examObject.getString("answer5_eng"), examObject.getString("answer6_eng"),
@@ -133,10 +134,13 @@ public class AnswersActivity extends AppCompatActivity {
                                         examObject.getString("answer1_flag"), examObject.getString("answer2_flag"), examObject.getString("answer3_flag"),
                                         examObject.getString("answer4_flag"), examObject.getString("answer5_flag"), examObject.getString("answer6_flag"),
                                         examObject.getString("question_type"), examObject.getString("question_lang"), examObject.getString("answer_type"),
-                                        examObject.getString("answer_lang"));
-                                //adding data to list
-                                m_Answer_List.add(questionAnswer);
-                            }
+                                        examObject.getString("answer_lang"),examObject.getString("answer1"),examObject.getString("answer2"),examObject.getString("answer3"),
+                                        examObject.getString("answer4"),examObject.getString("answer5"),examObject.getString("answer6")
+                                        );
+
+                                m_Answer_List.add(exam);
+
+                }
 
                             //creating custom adapter object
                             m_Answers_Adapter.notifyDataSetChanged();
@@ -145,6 +149,7 @@ public class AnswersActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -159,6 +164,7 @@ public class AnswersActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
+                params.put("user_id", String.valueOf(m_User_Id));
                 params.put("exam_id", String.valueOf(m_Exam_Id));
                 return params;
             }
@@ -169,23 +175,5 @@ public class AnswersActivity extends AppCompatActivity {
 
         //adding the string request to request queue
         requestQueue.add(stringRequest);
-
     }
-
-    public void prepareResultData(){
-/*
-        AnswersModel answer1 = new AnswersModel("Question 01","This is My Question 1","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
-        AnswersModel answer2 = new AnswersModel("Question 02","This is My Question 2","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
-        AnswersModel answer3 = new AnswersModel("Question 03","This is My Question 3","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
-        AnswersModel answer4 = new AnswersModel("Question 04","This is My Question 4","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
-        AnswersModel answer5 = new AnswersModel("Question 05","This is My Question 5","This is Ans 1","This is Ans 2","This is Ans 3","This is Ans 4","This is Explaination.");
-
-        m_Answer_List.add(answer1);
-        m_Answer_List.add(answer2);
-        m_Answer_List.add(answer3);
-        m_Answer_List.add(answer4);
-        m_Answer_List.add(answer5);
-*/
-    }
-
 }

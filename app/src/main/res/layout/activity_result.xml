@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/button_Res_View_Answers"
-        android:background="@drawable/result_bg"
+        android:background="@drawable/answer_base"
         android:layout_below="@id/toolbar"
         android:orientation="vertical">
 
@@ -260,7 +260,6 @@
             android:background="@drawable/share_base" />
 
     </LinearLayout>
-
 
     <Button
         android:id="@+id/button_Res_View_Answers"

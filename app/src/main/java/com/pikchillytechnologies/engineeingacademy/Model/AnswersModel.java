@@ -31,12 +31,21 @@ public class AnswersModel {
     private String m_Answer_Type;
     private String m_Answer_Lang;
 
-    public AnswersModel(String question_number,String question_id, String question_eng, String question_hindi, String question_eng_img_url, String question_hindi_img_url,
-                        String answer1_eng, String answer2_eng, String answer3_eng, String answer4_eng, String answer5_eng, String answer6_eng,
-                        String answer1_hindi, String answer2_hindi, String answer3_hindi, String answer4_hindi, String answer5_hindi, String answer6_hindi,
-                        String answer1_flag, String answer2_flag, String answer3_flag, String answer4_flag, String answer5_flag, String answer6_flag,
-                        String question_type,String question_lang,String answer_type,String answer_lang){
+    private String m_User_Answer1;
+    private String m_User_Answer2;
+    private String m_User_Answer3;
+    private String m_User_Answer4;
+    private String m_User_Answer5;
+    private String m_User_Answer6;
 
+
+
+    public AnswersModel(String question_number,String question_id, String question_eng, String question_hindi, String question_eng_img_url, String question_hindi_img_url,
+                             String answer1_eng, String answer2_eng, String answer3_eng, String answer4_eng, String answer5_eng, String answer6_eng,
+                             String answer1_hindi, String answer2_hindi, String answer3_hindi, String answer4_hindi, String answer5_hindi, String answer6_hindi,
+                             String answer1_flag, String answer2_flag, String answer3_flag, String answer4_flag, String answer5_flag, String answer6_flag,
+                             String question_type,String question_lang,String answer_type,String answer_lang,String answer1,String answer2,String answer3,String answer4,String answer5,String answer6
+    ){
         this.m_Question_Number = question_number;
         this.m_Question_Id = question_id;
         this.m_Question_Eng = question_eng;
@@ -65,6 +74,14 @@ public class AnswersModel {
         this.m_Question_Lang = question_lang;
         this.m_Answer_Type = answer_type;
         this.m_Answer_Lang = answer_lang;
+
+        this.m_User_Answer1 = answer1;
+        this.m_User_Answer2 = answer2;
+        this.m_User_Answer3 = answer3;
+        this.m_User_Answer4 = answer4;
+        this.m_User_Answer5 = answer5;
+        this.m_User_Answer6 = answer6;
+
     }
 
     public String getM_Question_Number() {
@@ -289,5 +306,53 @@ public class AnswersModel {
 
     public void setM_Answer_Lang(String m_Answer_Lang) {
         this.m_Answer_Lang = m_Answer_Lang;
+    }
+
+    public String getM_User_Answer1() {
+        return m_User_Answer1;
+    }
+
+    public void setM_User_Answer1(String m_User_Answer1) {
+        this.m_User_Answer1 = m_User_Answer1;
+    }
+
+    public String getM_User_Answer2() {
+        return m_User_Answer2;
+    }
+
+    public void setM_User_Answer2(String m_User_Answer2) {
+        this.m_User_Answer2 = m_User_Answer2;
+    }
+
+    public String getM_User_Answer3() {
+        return m_User_Answer3;
+    }
+
+    public void setM_User_Answer3(String m_User_Answer3) {
+        this.m_User_Answer3 = m_User_Answer3;
+    }
+
+    public String getM_User_Answer4() {
+        return m_User_Answer4;
+    }
+
+    public void setM_User_Answer4(String m_User_Answer4) {
+        this.m_User_Answer4 = m_User_Answer4;
+    }
+
+    public String getM_User_Answer5() {
+        return m_User_Answer5;
+    }
+
+    public void setM_User_Answer5(String m_User_Answer5) {
+        this.m_User_Answer5 = m_User_Answer5;
+    }
+
+    public String getM_User_Answer6() {
+        return m_User_Answer6;
+    }
+
+    public void setM_User_Answer6(String m_User_Answer6) {
+        this.m_User_Answer6 = m_User_Answer6;
     }
 }
