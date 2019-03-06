@@ -313,7 +313,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         }
     }
 
-
     @Override
     public int getItemCount() {
         return m_QuestionAnswers_List.size();

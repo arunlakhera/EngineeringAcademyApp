@@ -213,7 +213,6 @@ public class ResultActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No Application available to view pdf", Toast.LENGTH_LONG).show();
             }
         }
-
     }
 
 

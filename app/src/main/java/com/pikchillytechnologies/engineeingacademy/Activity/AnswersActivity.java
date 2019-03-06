@@ -1,13 +1,25 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +41,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +72,12 @@ public class AnswersActivity extends AppCompatActivity {
     private List<ExamQuestionModel> m_Question_List;
     private List<UserResponseModel> m_User_Response_List;
 
+    private RecyclerView.LayoutManager m_Layout_Manager;
+
+    private LinearLayout m_Layout_Result_PDF;
+    private Bitmap bitmap;
+    private Button m_Button_Share;
+
     private String url = "https://pikchilly.com/api/exam_question.php";
     private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
 
@@ -71,36 +92,35 @@ public class AnswersActivity extends AppCompatActivity {
         m_Exam_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
         m_Title = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.title), "Exam");
 
-        question_number = 0;
-
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_TextView_Activity_Title.setText(m_Title);
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-
         m_RecyclerView_Answers_List = findViewById(R.id.recyclerView_Answers);
-
         m_Button_Back = findViewById(R.id.button_Back);
-        m_Button_Back.setVisibility(View.VISIBLE);
+        m_Layout_Result_PDF = findViewById(R.id.layout_All_Answers);
+        m_Button_Share = findViewById(R.id.button_Ans_Share);
 
         m_Answer_List = new ArrayList<>();
         m_Question_List = new ArrayList<>();
         m_User_Response_List = new ArrayList<>();
-
         m_Answers_Adapter = new AnswersAdapter(getApplicationContext(), m_Answer_List);
+        m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
 
         progressDialog = new ProgressDialog(this);
+        m_TextView_Activity_Title.setText(m_Title);
         progressDialog.setMessage("Loading...");
-
+        m_Button_Back.setVisibility(View.VISIBLE);
         m_RecyclerView_Answers_List.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
         m_RecyclerView_Answers_List.setLayoutManager(m_Layout_Manager);
-
         m_RecyclerView_Answers_List.setAdapter(m_Answers_Adapter);
+        question_number = 0;
 
         prepareExamQuestionsData();
+
+        m_Button_Share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void prepareExamQuestionsData() {
@@ -173,4 +193,5 @@ public class AnswersActivity extends AppCompatActivity {
         //adding the string request to request queue
         requestQueue.add(stringRequest);
     }
+
 }
