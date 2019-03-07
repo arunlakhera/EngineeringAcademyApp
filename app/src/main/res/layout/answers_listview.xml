@@ -4,11 +4,11 @@
     android:id="@+id/layout_Question"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/answer_base"
     android:layout_margin="@dimen/margin_default"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView_Question_Number"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_default"
@@ -16,10 +16,32 @@
         android:layout_marginEnd="@dimen/margin_default"
         android:layout_marginRight="@dimen/margin_default"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:padding="@dimen/padding_small"
-        android:scrollbars="vertical"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_small" />
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/textView_Question_Number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/padding_small"
+            android:text="Question"
+            android:layout_marginLeft="@dimen/margin_default"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginRight="@dimen/margin_default"
+            android:scrollbars="vertical"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_small" />
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ea_logo_icon"
+            android:layout_marginRight="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/margin_default"
+            />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView_Question_Text"
@@ -296,4 +318,10 @@
                 android:scaleType="fitXY" />
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_green_dark"
+        />
 </LinearLayout>

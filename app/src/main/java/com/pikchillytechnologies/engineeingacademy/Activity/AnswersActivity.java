@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
@@ -66,6 +67,7 @@ public class AnswersActivity extends AppCompatActivity {
     private RecyclerView m_RecyclerView_Answers_List;
     private AnswersAdapter m_Answers_Adapter;
     private ProgressDialog progressDialog;
+    private TextView mTextView_Title;
 
     private StringRequest stringRequest;
     private RequestQueue requestQueue;
@@ -77,7 +79,6 @@ public class AnswersActivity extends AppCompatActivity {
 
     private LinearLayout m_Layout_Result_PDF;
     private Bitmap bitmap;
-    private Button m_Button_Share;
     private Button m_Button_Download;
 
     private String url = "https://pikchilly.com/api/exam_question.php";
@@ -98,8 +99,9 @@ public class AnswersActivity extends AppCompatActivity {
         m_RecyclerView_Answers_List = findViewById(R.id.recyclerView_Answers);
         m_Button_Back = findViewById(R.id.button_Back);
         m_Layout_Result_PDF = findViewById(R.id.layout_All_Answers);
-        m_Button_Share = findViewById(R.id.button_Ans_Share);
         m_Button_Download = findViewById(R.id.button_Ans_Download);
+        mTextView_Title = findViewById(R.id.textview_Title);
+        mTextView_Title.setText(m_Title);
 
         m_Answer_List = new ArrayList<>();
         m_Question_List = new ArrayList<>();
@@ -118,19 +120,14 @@ public class AnswersActivity extends AppCompatActivity {
 
         prepareExamQuestionsData();
 
-        m_Button_Share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getWidth());
-                bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
-                createPdf();
-            }
-        });
-
         m_Button_Download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Download The Answersheet",Toast.LENGTH_LONG).show();
+
+                Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getHeight());
+                bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
+                createPdf();
+
             }
         });
     }
@@ -209,6 +206,14 @@ public class AnswersActivity extends AppCompatActivity {
     public static Bitmap loadBitmapFromView(View v, int width, int height) {
         Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
+
+        Drawable bgDrawable = v.getBackground();
+        if(bgDrawable != null){
+            bgDrawable.draw(c);
+        }else{
+            c.drawColor(Color.WHITE);
+        }
+
         v.draw(c);
 
         return b;
@@ -219,16 +224,14 @@ public class AnswersActivity extends AppCompatActivity {
         //  Display display = wm.getDefaultDisplay();
         DisplayMetrics displaymetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        float hight = displaymetrics.heightPixels ;
-        float width = displaymetrics.widthPixels ;
+        float hight = displaymetrics.heightPixels;
+        float width = displaymetrics.widthPixels;
 
-        int convertHighet = (int) hight, convertWidth = (int) width;
-
-//        Resources mResources = getResources();
-//        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.screenshot);
+        int convertHighet = (int) hight;
+        int convertWidth = (int) width;
 
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet, 1).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet * 10, 10).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Canvas canvas = page.getCanvas();
@@ -236,14 +239,15 @@ public class AnswersActivity extends AppCompatActivity {
         Paint paint = new Paint();
         canvas.drawPaint(paint);
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHighet, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHighet * 10, true);
+
 
         paint.setColor(Color.BLUE);
         canvas.drawBitmap(bitmap, 0, 0 , null);
         document.finishPage(page);
 
         // write the document content
-        String targetPdf = "/sdcard/pdffromScroll.pdf";
+        String targetPdf = "/sdcard/" + m_Title + ".pdf";
         File filePath;
         filePath = new File(targetPdf);
         try {
@@ -251,18 +255,18 @@ public class AnswersActivity extends AppCompatActivity {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error Occurred while Creating PDF " + e.toString(), Toast.LENGTH_LONG).show();
         }
 
         // close the document
         document.close();
-        Toast.makeText(this, "PDF of Scroll is created!!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "PDF Downloaded Successfully!!!", Toast.LENGTH_SHORT).show();
 
-        openGeneratedPDF();
+        //openGeneratedPDF();
     }
 
     private void openGeneratedPDF(){
-        File file = new File("/sdcard/pdffromScroll.pdf");
+        File file = new File("/sdcard/" + m_Title + ".pdf");
         if (file.exists())
         {
             Intent intent=new Intent(Intent.ACTION_VIEW);

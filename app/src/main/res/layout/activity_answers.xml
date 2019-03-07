@@ -20,7 +20,18 @@
             android:id="@+id/layout_All_Answers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             >
+
+            <TextView
+                android:id="@+id/textview_Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_default"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_medium"
+                />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_Answers"
@@ -36,26 +47,13 @@
         android:id="@+id/button_Ans_Download"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="start|center"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:background="@drawable/download" />
-
-    <Button
-        android:id="@+id/button_Ans_Share"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="end|center"
+        android:layout_gravity="start|center"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginRight="@dimen/margin_medium"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:background="@drawable/share_base" />
+        android:background="@drawable/download" />
 
 </RelativeLayout>
