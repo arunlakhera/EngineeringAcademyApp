@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,10 +47,15 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.SimpleTimeZone;
 
 public class AnswersActivity extends AppCompatActivity {
 
@@ -61,7 +67,14 @@ public class AnswersActivity extends AppCompatActivity {
     private String m_User_Name;
     private String m_Exam_Id;
     private String m_Title;
+    private String m_Total_Questions;
+    private String m_Correct;
+    private String m_Wrong;
+    private String m_NotAttempted;
+    private String total_marks;
+
     private int question_number;
+    private int total_Questions;
 
     private List<AnswersModel> m_Answer_List;
     private RecyclerView m_RecyclerView_Answers_List;
@@ -94,7 +107,13 @@ public class AnswersActivity extends AppCompatActivity {
         m_User_Name = m_Exam_Answer_Bundle.getString("username", "User Name");
         m_Exam_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
         m_Title = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.title), "Exam");
+        m_Total_Questions = m_Exam_Answer_Bundle.getString("total_questions", "0");
+        m_Correct = m_Exam_Answer_Bundle.getString("correct", "0");
+        m_Wrong = m_Exam_Answer_Bundle.getString("wrong", "0");
+        m_NotAttempted = m_Exam_Answer_Bundle.getString("not_attempted", "0");
+        total_marks = m_Exam_Answer_Bundle.getString("total_marks", "0");
 
+        total_Questions = Integer.valueOf(m_Total_Questions);
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Answers_List = findViewById(R.id.recyclerView_Answers);
         m_Button_Back = findViewById(R.id.button_Back);
@@ -127,6 +146,25 @@ public class AnswersActivity extends AppCompatActivity {
                 Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getHeight());
                 bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
                 createPdf();
+
+            }
+        });
+
+        m_Button_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent destinationDetailIntent = new Intent(AnswersActivity.this, ResultActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra("username", m_User_Name);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+                destinationDetailIntent.putExtra("total_questions", String.valueOf(m_Total_Questions));
+                destinationDetailIntent.putExtra("correct", String.valueOf(m_Correct));
+                destinationDetailIntent.putExtra("wrong", String.valueOf(m_Wrong));
+                destinationDetailIntent.putExtra("not_attempted", String.valueOf(m_NotAttempted));
+                destinationDetailIntent.putExtra("total_marks", String.valueOf(total_marks));
+                startActivity(destinationDetailIntent);
 
             }
         });
@@ -231,7 +269,7 @@ public class AnswersActivity extends AppCompatActivity {
         int convertWidth = (int) width;
 
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet * 10, 10).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet * total_Questions, total_Questions).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Canvas canvas = page.getCanvas();
@@ -239,17 +277,22 @@ public class AnswersActivity extends AppCompatActivity {
         Paint paint = new Paint();
         canvas.drawPaint(paint);
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHighet * 10, true);
-
+        bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHighet * total_Questions, true);
 
         paint.setColor(Color.BLUE);
         canvas.drawBitmap(bitmap, 0, 0 , null);
         document.finishPage(page);
 
+        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Answers");
+        ea_folder.mkdir();
+
+        Date date = new Date();
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_mmss", Locale.ENGLISH).format(date);
+
         // write the document content
-        String targetPdf = "/sdcard/" + m_Title + ".pdf";
         File filePath;
-        filePath = new File(targetPdf);
+
+        filePath = new File(ea_folder + File.separator + m_Title + timeStamp + ".pdf");
         try {
             document.writeTo(new FileOutputStream(filePath));
 
@@ -262,26 +305,5 @@ public class AnswersActivity extends AppCompatActivity {
         document.close();
         Toast.makeText(this, "PDF Downloaded Successfully!!!", Toast.LENGTH_SHORT).show();
 
-        //openGeneratedPDF();
-    }
-
-    private void openGeneratedPDF(){
-        File file = new File("/sdcard/" + m_Title + ".pdf");
-        if (file.exists())
-        {
-            Intent intent=new Intent(Intent.ACTION_VIEW);
-            Uri uri = Uri.fromFile(file);
-            intent.setDataAndType(uri, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            try
-            {
-                startActivity(intent);
-            }
-            catch(ActivityNotFoundException e)
-            {
-                Toast.makeText(getApplicationContext(), "No Application available to view pdf", Toast.LENGTH_LONG).show();
-            }
-        }
     }
 }

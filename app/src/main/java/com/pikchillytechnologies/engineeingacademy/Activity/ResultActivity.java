@@ -8,8 +8,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -44,6 +46,7 @@ public class ResultActivity extends AppCompatActivity {
     private TextView m_TextView_Activity_Title;
     private Button m_Button_Res_View_Answers;
     private Button m_Button_Share;
+    private Button m_Button_Back;
 
     private Bundle m_User_Exam_Bundle;
     private String m_User_Id;
@@ -89,8 +92,10 @@ public class ResultActivity extends AppCompatActivity {
         m_TextView_User_Name = findViewById(R.id.textView_Res_Name);
         m_Layout_Result_PDF = findViewById(R.id.layout_Result);
         m_Button_Share = findViewById(R.id.button_Res_Share);
+        m_Button_Back = findViewById(R.id.button_Back);
 
         m_TextView_Activity_Title.setText(getResources().getString(R.string.result));
+        m_Button_Back.setVisibility(View.INVISIBLE);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
@@ -119,6 +124,12 @@ public class ResultActivity extends AppCompatActivity {
                 destinationDetailIntent.putExtra("username", m_User_Name);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+                destinationDetailIntent.putExtra("total_questions", m_Total_Questions);
+                destinationDetailIntent.putExtra("correct", m_Correct);
+                destinationDetailIntent.putExtra("wrong", m_Wrong);
+                destinationDetailIntent.putExtra("not_attempted", m_Not_Attempted);
+                destinationDetailIntent.putExtra("total_marks", m_Score);
+
                 startActivity(destinationDetailIntent);
 
             }
@@ -138,8 +149,15 @@ public class ResultActivity extends AppCompatActivity {
     public static Bitmap loadBitmapFromView(View v, int width, int height) {
         Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
-        v.draw(c);
 
+        Drawable bgDrawable = v.getBackground();
+        if(bgDrawable != null){
+            bgDrawable.draw(c);
+        }else{
+            c.drawColor(Color.WHITE);
+        }
+
+        v.draw(c);
         return b;
     }
 
@@ -171,8 +189,10 @@ public class ResultActivity extends AppCompatActivity {
         document.finishPage(page);
 
         // write the document content
+        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Results");
+        ea_folder.mkdir();
 
-        String targetPdf = "/sdcard/Result_" + m_Exam_Id + ".pdf";
+        String targetPdf = ea_folder + File.separator + m_Title + ".pdf";
         File filePath;
         filePath = new File(targetPdf);
         try {
@@ -191,7 +211,9 @@ public class ResultActivity extends AppCompatActivity {
 
     public void shareData(){
 
-        String path = "/sdcard/Result_" + m_Exam_Id + ".pdf";
+        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Results");
+        String path = ea_folder + File.separator + m_Title + ".pdf";
+
         File file = new File(path);
         if (file.exists())
         {
