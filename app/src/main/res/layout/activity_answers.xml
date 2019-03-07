@@ -10,21 +10,27 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar_layout" />
 
-    <LinearLayout
-        android:id="@+id/layout_All_Answers"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar">
+        android:layout_below="@id/toolbar"
+        >
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView_Answers"
+        <LinearLayout
+            android:id="@+id/layout_All_Answers"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/answer_base"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_default" />
+            android:layout_height="wrap_content"
+            >
 
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_Answers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_default" />
+        </LinearLayout>
+    </ScrollView>
+
 
     <Button
         android:id="@+id/button_Ans_Download"

@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -77,6 +78,7 @@ public class AnswersActivity extends AppCompatActivity {
     private LinearLayout m_Layout_Result_PDF;
     private Bitmap bitmap;
     private Button m_Button_Share;
+    private Button m_Button_Download;
 
     private String url = "https://pikchilly.com/api/exam_question.php";
     private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
@@ -97,6 +99,7 @@ public class AnswersActivity extends AppCompatActivity {
         m_Button_Back = findViewById(R.id.button_Back);
         m_Layout_Result_PDF = findViewById(R.id.layout_All_Answers);
         m_Button_Share = findViewById(R.id.button_Ans_Share);
+        m_Button_Download = findViewById(R.id.button_Ans_Download);
 
         m_Answer_List = new ArrayList<>();
         m_Question_List = new ArrayList<>();
@@ -118,7 +121,16 @@ public class AnswersActivity extends AppCompatActivity {
         m_Button_Share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getWidth());
+                bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
+                createPdf();
+            }
+        });
 
+        m_Button_Download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Download The Answersheet",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -194,4 +206,78 @@ public class AnswersActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    public static Bitmap loadBitmapFromView(View v, int width, int height) {
+        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+        v.draw(c);
+
+        return b;
+    }
+
+    private void createPdf(){
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        //  Display display = wm.getDefaultDisplay();
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        float hight = displaymetrics.heightPixels ;
+        float width = displaymetrics.widthPixels ;
+
+        int convertHighet = (int) hight, convertWidth = (int) width;
+
+//        Resources mResources = getResources();
+//        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.screenshot);
+
+        PdfDocument document = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet, 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+        Canvas canvas = page.getCanvas();
+
+        Paint paint = new Paint();
+        canvas.drawPaint(paint);
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHighet, true);
+
+        paint.setColor(Color.BLUE);
+        canvas.drawBitmap(bitmap, 0, 0 , null);
+        document.finishPage(page);
+
+        // write the document content
+        String targetPdf = "/sdcard/pdffromScroll.pdf";
+        File filePath;
+        filePath = new File(targetPdf);
+        try {
+            document.writeTo(new FileOutputStream(filePath));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        // close the document
+        document.close();
+        Toast.makeText(this, "PDF of Scroll is created!!!", Toast.LENGTH_SHORT).show();
+
+        openGeneratedPDF();
+    }
+
+    private void openGeneratedPDF(){
+        File file = new File("/sdcard/pdffromScroll.pdf");
+        if (file.exists())
+        {
+            Intent intent=new Intent(Intent.ACTION_VIEW);
+            Uri uri = Uri.fromFile(file);
+            intent.setDataAndType(uri, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            try
+            {
+                startActivity(intent);
+            }
+            catch(ActivityNotFoundException e)
+            {
+                Toast.makeText(getApplicationContext(), "No Application available to view pdf", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }
