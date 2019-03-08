@@ -492,7 +492,6 @@ public class ExamActivity extends AppCompatActivity {
                             if (saveStatus.equals("success")) {
 
                                 Toast.makeText(getApplicationContext(), "Response Saved Successfully.", Toast.LENGTH_LONG).show();
-
                                 showResult();
 
                             } else {

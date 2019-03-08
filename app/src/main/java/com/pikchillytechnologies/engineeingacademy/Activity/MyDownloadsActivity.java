@@ -31,6 +31,10 @@ public class MyDownloadsActivity extends AppCompatActivity {
     private TextView m_TextView_Activity_Title;
     private Button m_Button_Back;
 
+    private Bundle m_User_Bundle;
+    private String m_User_Id;
+    private String m_User_Name;
+
     private List<DownloadedFileModel> m_DownloadedFile_List;
     private RecyclerView m_RecyclerView_DownloadedFile;
     private DownloadedFileModel downloadedFile;
@@ -42,6 +46,10 @@ public class MyDownloadsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_downloads);
+
+        m_User_Bundle = getIntent().getExtras();
+        m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
+        m_User_Name = m_User_Bundle.getString("username", "User Name");
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_TextView_Activity_Title.setText("My Downloads");
@@ -64,9 +72,7 @@ public class MyDownloadsActivity extends AppCompatActivity {
             public void onClick(View view, int position) {
 
                 String selectedFileName = m_DownloadedFile_List.get(position).getM_DownloadedFileName();
-
-                Toast.makeText(getApplicationContext(),"File:" + selectedFileName, Toast.LENGTH_LONG).show();
-                viewPdf(selectedFileName);
+                viewPdf(m_DownloadedFile_List.get(position).getM_DownloadedFileName());
             }
 
             @Override
@@ -75,6 +81,15 @@ public class MyDownloadsActivity extends AppCompatActivity {
             }
         }));
 
+        m_Button_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent destinationDetailIntent = new Intent(getApplicationContext(), CoursesActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra("username", m_User_Name);
+                startActivity(destinationDetailIntent);
+            }
+        });
     }
 
     public void loadFileNames(){
@@ -100,12 +115,10 @@ public class MyDownloadsActivity extends AppCompatActivity {
                 DownloadedFileModel downloadedFileName = new DownloadedFileModel(aFile.getName());
                 m_DownloadedFile_List.add(downloadedFileName);
             }
-
         }
         m_DownloadFile_Adapter.notifyDataSetChanged();
         progressDialog.dismiss();
     }
-
 
     // Method for opening a pdf file
     private void viewPdf(String pdfFileName) {
@@ -125,5 +138,4 @@ public class MyDownloadsActivity extends AppCompatActivity {
             Toast.makeText(this, "Can't read pdf file", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

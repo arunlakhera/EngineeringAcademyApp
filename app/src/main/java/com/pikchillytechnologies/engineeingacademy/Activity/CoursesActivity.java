@@ -126,11 +126,25 @@ public class CoursesActivity extends AppCompatActivity {
                 }else if(menuItem.getTitle().equals("Articles")){
                     startActivity(new Intent(getApplicationContext(), ArticlesActivity.class));
                 }else if(menuItem.getTitle().equals("My Downloads")){
-                    startActivity(new Intent(getApplicationContext(), MyDownloadsActivity.class));
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), MyDownloadsActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
                 }else if(menuItem.getTitle().equals("My Results")){
-                    startActivity(new Intent(getApplicationContext(), MyResultsActivity.class));
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), MyResultsActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
                 }else if(menuItem.getTitle().equals("Update Profile")){
-                    startActivity(new Intent(getApplicationContext(), UpdateProfileActivity.class));
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
                 }else if(menuItem.getTitle().equals("Logout")){
 
                 }
