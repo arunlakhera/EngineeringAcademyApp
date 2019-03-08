@@ -53,6 +53,9 @@ public class CoursesActivity extends AppCompatActivity {
 
     //Navigation Drawer
     private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
+    private Button menuButton;
+    private RecyclerView.LayoutManager m_Layout_Manager;
 
     private List<CoursesModel> m_Courses_List;
     private RecyclerView m_RecyclerView_Courses;
@@ -72,31 +75,26 @@ public class CoursesActivity extends AppCompatActivity {
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_User_Bundle.getString("username", "User Name");
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_TextView_Activity_Title.setText(R.string.courses);
-        m_Courses_List = new ArrayList<>();
         m_RecyclerView_Courses = findViewById(R.id.recyclerView_Courses);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        menuButton = findViewById(R.id.button_Menu);
+
+        m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
+        m_Courses_List = new ArrayList<>();
         m_Courses_Adapter = new CoursesAdapter(getApplicationContext(),m_Courses_List);
-
+        m_TextView_Activity_Title.setText(R.string.courses);
         m_RecyclerView_Courses.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
         m_RecyclerView_Courses.setLayoutManager(m_Layout_Manager);
-
         m_RecyclerView_Courses.setAdapter(m_Courses_Adapter);
 
         prepareCourseData();
 
-        final NavigationView navigationView = findViewById(R.id.nav_view);
-        Button menuButton = findViewById(R.id.button_Menu);
-
         m_RecyclerView_Courses.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Courses, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-
                 start_Activity(position);
-
             }
 
             @Override
@@ -165,6 +163,7 @@ public class CoursesActivity extends AppCompatActivity {
         destinationDetailIntent.putExtra("username", m_User_Name);
         destinationDetailIntent.putExtra(getResources().getString(R.string.title), course.getM_Name());
         destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), course.getM_Category_Id());
+        destinationDetailIntent.putExtra("sub_category_title", "Sub Category Name");
         startActivity(destinationDetailIntent);
     }
 

@@ -3,11 +3,15 @@ package com.pikchillytechnologies.engineeingacademy.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,9 +53,16 @@ public class ExamListActivity extends AppCompatActivity {
     private RecyclerView m_RecyclerView_Exam_List;
     private ExamListAdapter m_Exam_List_Adapter;
 
+    //Navigation Drawer
+    private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
+    private Button menuButton;
+    private RecyclerView.LayoutManager m_Layout_Manager;
+
     private String m_Category_Id;
     private String m_Title;
     private String m_Sub_Category_Id;
+    private String m_Sub_Category_Title;
 
     private String url = "https://pikchilly.com/api/exam_list.php";
 
@@ -67,24 +78,27 @@ public class ExamListActivity extends AppCompatActivity {
         m_User_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_User_Name = m_Sub_Course_Bundle.getString("username", "User Name");
         m_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.categoryid),"Category");
+        m_Sub_Category_Title = m_Sub_Course_Bundle.getString("sub_category_title","Sub Category Title");
+
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title),"Sub Category Title");
         m_Sub_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.subcategoryid),"Sub Category Id");
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_TextView_Activity_Title.setText(m_Title);
-
         m_Button_Back = findViewById(R.id.button_Back);
-        m_Button_Back.setVisibility(View.VISIBLE);
+        m_RecyclerView_Exam_List = findViewById(R.id.recyclerView_Exam_List);
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        menuButton = findViewById(R.id.button_Menu);
 
         m_Exam_List = new ArrayList<>();
-        m_RecyclerView_Exam_List = findViewById(R.id.recyclerView_Exam_List);
         m_Exam_List_Adapter = new ExamListAdapter(m_Exam_List);
+        m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
 
+        m_TextView_Activity_Title.setText(m_Title);
+        m_Button_Back.setVisibility(View.VISIBLE);
         m_RecyclerView_Exam_List.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
         m_RecyclerView_Exam_List.setLayoutManager(m_Layout_Manager);
-
         m_RecyclerView_Exam_List.setAdapter(m_Exam_List_Adapter);
 
         prepareExamListData();
@@ -119,9 +133,62 @@ public class ExamListActivity extends AppCompatActivity {
                 Intent destinationDetailIntent = new Intent(ExamListActivity.this, SubCoursesActivity.class);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                 destinationDetailIntent.putExtra("username", m_User_Name);
-                destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Sub_Category_Title);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
                 startActivity(destinationDetailIntent);
+            }
+        });
+
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mDrawerLayout.openDrawer(navigationView);
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                // set item as selected to persist highlight
+                menuItem.setChecked(true);
+
+                if(menuItem.getTitle().equals("Courses")){
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), CoursesActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+                }else if(menuItem.getTitle().equals("Articles")){
+                    startActivity(new Intent(getApplicationContext(), ArticlesActivity.class));
+                }else if(menuItem.getTitle().equals("My Downloads")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), MyDownloadsActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
+                }else if(menuItem.getTitle().equals("My Results")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), MyResultsActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
+                }else if(menuItem.getTitle().equals("Update Profile")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+                }else if(menuItem.getTitle().equals("Logout")){
+
+                }
+
+                // close drawer when item is tapped
+                mDrawerLayout.closeDrawers();
+
+                return true;
             }
         });
     }

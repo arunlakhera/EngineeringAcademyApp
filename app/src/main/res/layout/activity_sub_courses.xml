@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorOffWhiteBg"
-    tools:context=".Activity.SubCoursesActivity">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <include layout="@layout/toolbar_layout"
-        android:id="@+id/toolbar"
-        />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_Sub_Courses"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:divider="@color/colorAccent"
-        android:scrollbars="vertical"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:background="@color/colorOffWhiteBg"
+        tools:context=".Activity.SubCoursesActivity">
 
-        />
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_layout" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_Sub_Courses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:divider="@color/colorAccent"
+            android:scrollbars="vertical"
 
-</RelativeLayout>
+            />
+    </RelativeLayout>
+    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu" />
+
+</android.support.v4.widget.DrawerLayout>

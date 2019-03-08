@@ -3,12 +3,16 @@ package com.pikchillytechnologies.engineeingacademy.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -45,21 +49,29 @@ public class SubCoursesActivity extends AppCompatActivity {
     private Button m_Button_Back;
     private Bundle m_Course_Bundle;
     private String m_Title;
+    private String m_Category_Title;
     private String m_User_Id;
     private String m_User_Name;
+    private String m_Sub_Category_Title;
 
     private EAHelper m_Helper;
+
+    //Navigation Drawer
+    private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
+    private Button menuButton;
 
     private List<SubCoursePackage> m_Sub_Course_Package_List;
     private RecyclerView m_RecyclerView_Course_Package;
     private SubCoursesPackageAdapter m_Sub_Course_Package_Adapter;
     private ImageView m_Background_ImageView;
 
+    private RecyclerView.LayoutManager m_Layout_Manager;
     //private String url = "http://onlineengineeringacademy.co.in/api/sub_category_request";
 
     private String url = "https://pikchilly.com/api/sub_category.php";
 
-    String m_Category_Id;
+    private String m_Category_Id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,24 +86,24 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_User_Id = m_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_User_Name = m_Course_Bundle.getString("username", "User Name");
         m_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
+        m_Category_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
         m_Category_Id = m_Course_Bundle.getString(getResources().getString(R.string.categoryid),"category_id");
+        m_Sub_Category_Title = m_Course_Bundle.getString("sub_category_title","Sub Category");
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_TextView_Activity_Title.setText(m_Title);
-
         m_Button_Back = findViewById(R.id.button_Back);
-        m_Button_Back.setVisibility(View.VISIBLE);
+        m_RecyclerView_Course_Package = findViewById(R.id.recyclerView_Sub_Courses);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        menuButton = findViewById(R.id.button_Menu);
 
         m_Sub_Course_Package_List = new ArrayList<>();
-        m_RecyclerView_Course_Package = findViewById(R.id.recyclerView_Sub_Courses);
-
+        m_TextView_Activity_Title.setText(m_Title);
+        m_Button_Back.setVisibility(View.VISIBLE);
         m_Sub_Course_Package_Adapter = new SubCoursesPackageAdapter(getApplicationContext(),m_Sub_Course_Package_List);
-
         m_RecyclerView_Course_Package.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
+        m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
         m_RecyclerView_Course_Package.setLayoutManager(m_Layout_Manager);
-
         m_RecyclerView_Course_Package.setItemAnimator(new DefaultItemAnimator());
         m_RecyclerView_Course_Package.setAdapter(m_Sub_Course_Package_Adapter);
 
@@ -108,6 +120,7 @@ public class SubCoursesActivity extends AppCompatActivity {
                 destinationDetailIntent.putExtra(getResources().getString(R.string.title), scp.getM_Sub_Course_Name());
                 destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), scp.getM_Sub_Course_Id());
+                destinationDetailIntent.putExtra("sub_category_title", scp.getM_Sub_Course_Name());
                 startActivity(destinationDetailIntent);
 
             }
@@ -127,6 +140,61 @@ public class SubCoursesActivity extends AppCompatActivity {
                 destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                 destinationDetailIntent.putExtra("username", m_User_Name);
                 startActivity(destinationDetailIntent);
+            }
+        });
+
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mDrawerLayout.openDrawer(navigationView);
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                // set item as selected to persist highlight
+                menuItem.setChecked(true);
+
+                if(menuItem.getTitle().equals("Courses")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), CoursesActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
+                }else if(menuItem.getTitle().equals("Articles")){
+                    startActivity(new Intent(getApplicationContext(), ArticlesActivity.class));
+                }else if(menuItem.getTitle().equals("My Downloads")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), MyDownloadsActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
+                }else if(menuItem.getTitle().equals("My Results")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), MyResultsActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
+                }else if(menuItem.getTitle().equals("Update Profile")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+                }else if(menuItem.getTitle().equals("Logout")){
+
+                }
+
+                // close drawer when item is tapped
+                mDrawerLayout.closeDrawers();
+
+                return true;
             }
         });
 
