@@ -109,7 +109,7 @@ public class MyDownloadsActivity extends AppCompatActivity {
 
     // Method for opening a pdf file
     private void viewPdf(String pdfFileName) {
-        
+
         File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Answers");
         File pdfFile = new File(ea_folder + File.separator + pdfFileName);
         Uri path = Uri.fromFile(pdfFile);
