@@ -339,8 +339,6 @@ public class ExamActivity extends AppCompatActivity {
 
                 }
 
-                //saveUserResponse();
-
                 isSubmitPressed = true;
             }
         });
@@ -581,8 +579,6 @@ public class ExamActivity extends AppCompatActivity {
                     userResponse.setM_User_Answer6_Flag("Y");
                     break;
             }
-
-
     }
 
     public void onImageCheckBoxClicked(View view) {

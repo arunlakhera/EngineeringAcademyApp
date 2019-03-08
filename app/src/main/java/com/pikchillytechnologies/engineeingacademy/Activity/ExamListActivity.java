@@ -100,6 +100,8 @@ public class ExamListActivity extends AppCompatActivity {
                 destinationDetailIntent.putExtra(getResources().getString(R.string.title), exam.getM_Exam_Name());
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examid), exam.getM_Exam_Id());
                 destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), exam.getM_Exam_Duration());
+                destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), m_Sub_Category_Id);
                 startActivity(destinationDetailIntent);
             }
 
@@ -113,7 +115,13 @@ public class ExamListActivity extends AppCompatActivity {
         m_Button_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                m_Helper.start_Activity(ExamListActivity.this, SubCoursesActivity.class,"");
+
+                Intent destinationDetailIntent = new Intent(ExamListActivity.this, SubCoursesActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra("username", m_User_Name);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
+                startActivity(destinationDetailIntent);
             }
         });
     }

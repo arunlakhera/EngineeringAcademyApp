@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.AnswersActivity">
+    tools:context=".Activity.MyResultsActivity">
 
     <include layout="@layout/toolbar_layout"
         android:id="@+id/toolbar"
@@ -18,5 +18,4 @@
         android:scaleType="center"
         android:alpha="0.5"
         />
-
 </RelativeLayout>

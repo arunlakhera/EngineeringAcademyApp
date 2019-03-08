@@ -122,7 +122,11 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_Button_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                m_Helper.start_Activity(SubCoursesActivity.this, CoursesActivity.class);
+
+                Intent destinationDetailIntent = new Intent(SubCoursesActivity.this, CoursesActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra("username", m_User_Name);
+                startActivity(destinationDetailIntent);
             }
         });
 

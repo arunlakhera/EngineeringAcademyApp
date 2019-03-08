@@ -1,10 +1,8 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.constraint.solver.widgets.Helper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,20 +16,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.Adapter.CoursesAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
-import com.pikchillytechnologies.engineeingacademy.Model.SubCoursePackage;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import org.json.JSONArray;
@@ -100,14 +95,7 @@ public class CoursesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
 
-                CoursesModel course = m_Courses_List.get(position);
-
-                Intent destinationDetailIntent = new Intent(CoursesActivity.this, SubCoursesActivity.class);
-                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
-                destinationDetailIntent.putExtra("username", m_User_Name);
-                destinationDetailIntent.putExtra(getResources().getString(R.string.title), course.getM_Name());
-                destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), course.getM_Category_Id());
-                startActivity(destinationDetailIntent);
+                start_Activity(position);
 
             }
 
@@ -122,8 +110,6 @@ public class CoursesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                m_Helper.start_Activity(CoursesActivity.this, SubCoursesActivity.class, getResources().getString(R.string.mechanical));
                 mDrawerLayout.openDrawer(navigationView);
             }
         });
@@ -135,12 +121,37 @@ public class CoursesActivity extends AppCompatActivity {
                 // set item as selected to persist highlight
                 menuItem.setChecked(true);
 
+                if(menuItem.getTitle().equals("Courses")){
+                    mDrawerLayout.closeDrawers();
+                }else if(menuItem.getTitle().equals("Articles")){
+                    startActivity(new Intent(getApplicationContext(), ArticlesActivity.class));
+                }else if(menuItem.getTitle().equals("My Downloads")){
+                    startActivity(new Intent(getApplicationContext(), MyDownloadsActivity.class));
+                }else if(menuItem.getTitle().equals("My Results")){
+                    startActivity(new Intent(getApplicationContext(), MyResultsActivity.class));
+                }else if(menuItem.getTitle().equals("Update Profile")){
+                    startActivity(new Intent(getApplicationContext(), UpdateProfileActivity.class));
+                }else if(menuItem.getTitle().equals("Logout")){
+
+                }
+
                 // close drawer when item is tapped
                 mDrawerLayout.closeDrawers();
 
                 return true;
             }
         });
+    }
+
+    public void start_Activity(int pos){
+
+        CoursesModel course = m_Courses_List.get(pos);
+        Intent destinationDetailIntent = new Intent(CoursesActivity.this, SubCoursesActivity.class);
+        destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+        destinationDetailIntent.putExtra("username", m_User_Name);
+        destinationDetailIntent.putExtra(getResources().getString(R.string.title), course.getM_Name());
+        destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), course.getM_Category_Id());
+        startActivity(destinationDetailIntent);
     }
 
     public void prepareCourseData(){

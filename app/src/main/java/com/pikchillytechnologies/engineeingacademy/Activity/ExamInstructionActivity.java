@@ -38,6 +38,8 @@ public class ExamInstructionActivity extends AppCompatActivity {
     private String m_Total_Questions;
     private Bundle m_Sub_Course_Bundle;
     private String m_User_Name;
+    private String m_Category_Id;
+    private String m_Sub_Category_Id;
 
     private String url = "https://pikchilly.com/api/exam_instruction.php";
 
@@ -64,6 +66,8 @@ public class ExamInstructionActivity extends AppCompatActivity {
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title),"Exam");
         m_Exam_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examid),"Exam Id");
         m_Exam_Duration = m_Sub_Course_Bundle.getString(getResources().getString(R.string.examduration),"Exam Duration");
+        m_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.categoryid),"Category Id");
+        m_Sub_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.subcategoryid),"Sub Category Id");
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_TextView_Activity_Title.setText(m_Title);
@@ -100,8 +104,6 @@ public class ExamInstructionActivity extends AppCompatActivity {
                 destinationDetailIntent.putExtra(getResources().getString(R.string.totalquestions), m_Total_Questions);
                 destinationDetailIntent.putExtra("Marks", m_Marks);
                 destinationDetailIntent.putExtra("Negative_Marks", m_Negative_Marks);
-
-
                 startActivity(destinationDetailIntent);
 
             }
@@ -111,7 +113,13 @@ public class ExamInstructionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(ExamInstructionActivity.this, ExamListActivity.class));
+                Intent destinationDetailIntent = new Intent(ExamInstructionActivity.this, ExamListActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra("username", m_User_Name);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), m_Sub_Category_Id);
+                startActivity(destinationDetailIntent);
             }
         });
     }

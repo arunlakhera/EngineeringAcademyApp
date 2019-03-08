@@ -13,9 +13,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ea_bg"
+        android:src="@drawable/ea_logo_icon"
         android:layout_below="@id/toolbar"
-        android:scaleType="fitXY"
-        android:alpha="0.8"
+        android:scaleType="center"
+        android:alpha="0.5"
         />
 </RelativeLayout>

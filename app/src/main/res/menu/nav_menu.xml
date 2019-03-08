@@ -5,6 +5,12 @@
         android:title="Courses"/>
     <item android:id="@+id/articles"
         android:title="Articles"/>
+    <item android:id="@+id/myDownloads"
+        android:title="My Downloads"/>
+    <item android:id="@+id/myResults"
+        android:title="My Results"/>
+    <item android:id="@+id/updateProfile"
+        android:title="Update Profile"/>
     <item android:id="@+id/logout"
         android:title="Logout"/>
 
