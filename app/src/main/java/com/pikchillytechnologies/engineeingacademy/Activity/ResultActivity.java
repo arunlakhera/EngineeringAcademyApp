@@ -12,10 +12,15 @@ import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -70,6 +75,12 @@ public class ResultActivity extends AppCompatActivity {
     private LinearLayout m_Layout_Result_PDF;
     private Bitmap bitmap;
 
+    //Navigation Drawer
+    private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
+    private Button menuButton;
+    private RecyclerView.LayoutManager m_Layout_Manager;
+
     private ProgressDialog progressDialog;
     private UserResultModel userResult;
     private StringRequest stringRequest;
@@ -110,6 +121,10 @@ public class ResultActivity extends AppCompatActivity {
         m_Not_Attempted = m_User_Exam_Bundle.getString("not_attempted", "Not Attempted");
         m_Score = m_User_Exam_Bundle.getString("total_marks", "Total Marks");
 
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        menuButton = findViewById(R.id.button_Menu);
+
         progressDialog.show();
         updateUI();
 
@@ -141,6 +156,59 @@ public class ResultActivity extends AppCompatActivity {
                 Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getWidth());
                 bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
                 createPdf();
+            }
+        });
+
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mDrawerLayout.openDrawer(navigationView);
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                // set item as selected to persist highlight
+                menuItem.setChecked(true);
+
+                if(menuItem.getTitle().equals("Courses")){
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), CoursesActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+                }else if(menuItem.getTitle().equals("Articles")){
+                    startActivity(new Intent(getApplicationContext(), ArticlesActivity.class));
+                }else if(menuItem.getTitle().equals("My Downloads")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), MyDownloadsActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
+                }else if(menuItem.getTitle().equals("My Results")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), MyResultsActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
+                }else if(menuItem.getTitle().equals("Update Profile")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+                }else if(menuItem.getTitle().equals("Logout")){
+
+                }
+
+                // close drawer when item is tapped
+                mDrawerLayout.closeDrawers();
+
+                return true;
             }
         });
 

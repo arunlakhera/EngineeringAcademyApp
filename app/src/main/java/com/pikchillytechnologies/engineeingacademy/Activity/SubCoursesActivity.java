@@ -120,6 +120,8 @@ public class SubCoursesActivity extends AppCompatActivity {
                 destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), scp.getM_Sub_Course_Id());
                 destinationDetailIntent.putExtra("category_title", m_Category_Title);
+                destinationDetailIntent.putExtra("sub_category_title", scp.getM_Sub_Course_Name());
+
                 startActivity(destinationDetailIntent);
 
             }

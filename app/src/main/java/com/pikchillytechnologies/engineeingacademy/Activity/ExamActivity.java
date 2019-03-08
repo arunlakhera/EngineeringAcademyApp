@@ -114,7 +114,8 @@ public class ExamActivity extends AppCompatActivity {
     private int total_marks;
 
     private Boolean isSubmitPressed;
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
+    private Button menuButton;
 
     private String url = "https://pikchilly.com/api/exam_question.php";
     private String getUserResponseURL = "http://onlineengineeringacademy.co.in/api/user_response";
@@ -125,6 +126,40 @@ public class ExamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
+
+        menuButton = findViewById(R.id.button_Menu);
+        m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
+        m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
+        m_TextView_Time_Remaining = findViewById(R.id.textView_Time_Remaining);
+        m_TextView_Total_Question = findViewById(R.id.textView_Current_Question);
+        m_ImageView_QuestionSupported_Image = findViewById(R.id.imageview_QuestionSupportedImage);
+        m_ImageView_Question_Image = findViewById(R.id.imageview_Question_Image);
+        m_Layout_Answers_Text = findViewById(R.id.layout_Answers_Text);
+        m_Layout_Answers_Image = findViewById(R.id.layout_Answers_Image);
+        m_ImageView_Answer1_Image = findViewById(R.id.imageview_Answer1);
+        m_ImageView_Answer2_Image = findViewById(R.id.imageview_Answer2);
+        m_ImageView_Answer3_Image = findViewById(R.id.imageview_Answer3);
+        m_ImageView_Answer4_Image = findViewById(R.id.imageview_Answer4);
+        m_ImageView_Answer5_Image = findViewById(R.id.imageview_Answer5);
+        m_ImageView_Answer6_Image = findViewById(R.id.imageview_Answer6);
+        m_TextView_Question = findViewById(R.id.textView_Question_Text);
+        m_CheckBox_Answer1 = findViewById(R.id.checkbox_Answer1);
+        m_CheckBox_Answer2 = findViewById(R.id.checkbox_Answer2);
+        m_CheckBox_Answer3 = findViewById(R.id.checkbox_Answer3);
+        m_CheckBox_Answer4 = findViewById(R.id.checkbox_Answer4);
+        m_CheckBox_Answer5 = findViewById(R.id.checkbox_Answer5);
+        m_CheckBox_Answer6 = findViewById(R.id.checkbox_Answer6);
+        m_CheckBox_Answer1_Image = findViewById(R.id.checkbox_Answer1_Image);
+        m_CheckBox_Answer2_Image = findViewById(R.id.checkbox_Answer2_Image);
+        m_CheckBox_Answer3_Image = findViewById(R.id.checkbox_Answer3_Image);
+        m_CheckBox_Answer4_Image = findViewById(R.id.checkbox_Answer4_Image);
+        m_CheckBox_Answer5_Image = findViewById(R.id.checkbox_Answer5_Image);
+        m_CheckBox_Answer6_Image = findViewById(R.id.checkbox_Answer6_Image);
+        m_Button_Next = findViewById(R.id.button_Next);
+        m_Button_Previous = findViewById(R.id.button_Previous);
+        m_Button_Hindi = findViewById(R.id.button_Hindi);
+        m_Button_Eng = findViewById(R.id.button_Eng);
+        m_Button_Submit = findViewById(R.id.button_Submit);
 
         m_Sub_Course_Bundle = getIntent().getExtras();
         m_User_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.userid), "User Id");
@@ -138,74 +173,27 @@ public class ExamActivity extends AppCompatActivity {
 
         m_Exam_Question_List = new ArrayList<>();
         m_User_Response_List = new ArrayList<>();
-
         userResponseJSONArray = new JSONArray();
         userResponseWholeJSON = new JSONObject();
         isSubmitPressed = false;
-
         m_Total_Questions = Integer.valueOf(m_Questions);
         m_Current_Question = 0;
         m_Hindi_Flag = false;
         m_English_Flag = true;
         m_User_Response_Flag = false;
-
         m_Correct = 0;
         m_Wrong = 0;
         m_NotAttempted = 0;
-
-        m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
-        m_TextView_Time_Remaining = findViewById(R.id.textView_Time_Remaining);
-
-        m_TextView_Total_Question = findViewById(R.id.textView_Current_Question);
-        m_ImageView_QuestionSupported_Image = findViewById(R.id.imageview_QuestionSupportedImage);
-        m_ImageView_Question_Image = findViewById(R.id.imageview_Question_Image);
-
-        m_Layout_Answers_Text = findViewById(R.id.layout_Answers_Text);
-        m_Layout_Answers_Image = findViewById(R.id.layout_Answers_Image);
-
-        m_ImageView_Answer1_Image = findViewById(R.id.imageview_Answer1);
-        m_ImageView_Answer2_Image = findViewById(R.id.imageview_Answer2);
-        m_ImageView_Answer3_Image = findViewById(R.id.imageview_Answer3);
-        m_ImageView_Answer4_Image = findViewById(R.id.imageview_Answer4);
-        m_ImageView_Answer5_Image = findViewById(R.id.imageview_Answer5);
-        m_ImageView_Answer6_Image = findViewById(R.id.imageview_Answer6);
-
-        m_TextView_Question = findViewById(R.id.textView_Question_Text);
-        m_CheckBox_Answer1 = findViewById(R.id.checkbox_Answer1);
-        m_CheckBox_Answer2 = findViewById(R.id.checkbox_Answer2);
-        m_CheckBox_Answer3 = findViewById(R.id.checkbox_Answer3);
-        m_CheckBox_Answer4 = findViewById(R.id.checkbox_Answer4);
-        m_CheckBox_Answer5 = findViewById(R.id.checkbox_Answer5);
-        m_CheckBox_Answer6 = findViewById(R.id.checkbox_Answer6);
-
-        m_CheckBox_Answer1_Image = findViewById(R.id.checkbox_Answer1_Image);
-        m_CheckBox_Answer2_Image = findViewById(R.id.checkbox_Answer2_Image);
-        m_CheckBox_Answer3_Image = findViewById(R.id.checkbox_Answer3_Image);
-        m_CheckBox_Answer4_Image = findViewById(R.id.checkbox_Answer4_Image);
-        m_CheckBox_Answer5_Image = findViewById(R.id.checkbox_Answer5_Image);
-        m_CheckBox_Answer6_Image = findViewById(R.id.checkbox_Answer6_Image);
-
-        m_Button_Next = findViewById(R.id.button_Next);
-        m_Button_Previous = findViewById(R.id.button_Previous);
-        m_Button_Hindi = findViewById(R.id.button_Hindi);
-        m_Button_Eng = findViewById(R.id.button_Eng);
-        m_Button_Submit = findViewById(R.id.button_Submit);
-
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
 
+        progressDialog.setMessage("Loading...");
         m_TextView_Activity_Title.setText(m_Title);
         m_Button_Submit.setVisibility(View.INVISIBLE);
-
         // To make textview scrollable of Question
         m_TextView_Question.setMovementMethod(new ScrollingMovementMethod());
-
         m_RecyclerView_Question_List.setHasFixedSize(true);
-
         m_Layout_Manager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         m_RecyclerView_Question_List.setLayoutManager(m_Layout_Manager);
-
         currentQuestion = 0;
         noOfMinutes = Long.valueOf(m_Exam_Duration) * 60 * 60 * 1000;
 
@@ -342,6 +330,8 @@ public class ExamActivity extends AppCompatActivity {
                 isSubmitPressed = true;
             }
         });
+
+        menuButton.setVisibility(View.INVISIBLE);
 
     }
 

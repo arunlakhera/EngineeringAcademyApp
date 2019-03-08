@@ -12,13 +12,17 @@ import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -90,6 +94,11 @@ public class AnswersActivity extends AppCompatActivity {
 
     private RecyclerView.LayoutManager m_Layout_Manager;
 
+    //Navigation Drawer
+    private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
+    private Button menuButton;
+
     private LinearLayout m_Layout_Result_PDF;
     private Bitmap bitmap;
     private Button m_Button_Download;
@@ -120,6 +129,10 @@ public class AnswersActivity extends AppCompatActivity {
         m_Layout_Result_PDF = findViewById(R.id.layout_All_Answers);
         m_Button_Download = findViewById(R.id.button_Ans_Download);
         mTextView_Title = findViewById(R.id.textview_Title);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        menuButton = findViewById(R.id.button_Menu);
+
         mTextView_Title.setText(m_Title);
 
         m_Answer_List = new ArrayList<>();
@@ -166,6 +179,59 @@ public class AnswersActivity extends AppCompatActivity {
                 destinationDetailIntent.putExtra("total_marks", String.valueOf(total_marks));
                 startActivity(destinationDetailIntent);
 
+            }
+        });
+
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mDrawerLayout.openDrawer(navigationView);
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                // set item as selected to persist highlight
+                menuItem.setChecked(true);
+
+                if(menuItem.getTitle().equals("Courses")){
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), CoursesActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+                }else if(menuItem.getTitle().equals("Articles")){
+                    startActivity(new Intent(getApplicationContext(), ArticlesActivity.class));
+                }else if(menuItem.getTitle().equals("My Downloads")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), MyDownloadsActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
+                }else if(menuItem.getTitle().equals("My Results")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), MyResultsActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+
+                }else if(menuItem.getTitle().equals("Update Profile")){
+
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+                }else if(menuItem.getTitle().equals("Logout")){
+
+                }
+
+                // close drawer when item is tapped
+                mDrawerLayout.closeDrawers();
+
+                return true;
             }
         });
     }

@@ -125,10 +125,14 @@ public class MyDownloadsActivity extends AppCompatActivity {
                     startActivity(destinationDetailIntent);
 
                 }else if(menuItem.getTitle().equals("Articles")){
-                    startActivity(new Intent(getApplicationContext(), ArticlesActivity.class));
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), ArticlesActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
                 }else if(menuItem.getTitle().equals("My Downloads")){
 
                     mDrawerLayout.closeDrawers();
+
                 }else if(menuItem.getTitle().equals("My Results")){
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), MyResultsActivity.class);
