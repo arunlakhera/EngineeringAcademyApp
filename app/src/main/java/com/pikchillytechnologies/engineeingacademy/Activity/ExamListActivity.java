@@ -62,7 +62,7 @@ public class ExamListActivity extends AppCompatActivity {
     private String m_Category_Id;
     private String m_Title;
     private String m_Sub_Category_Id;
-    private String m_Sub_Category_Title;
+    private String m_Category_Title;
 
     private String url = "https://pikchilly.com/api/exam_list.php";
 
@@ -78,8 +78,7 @@ public class ExamListActivity extends AppCompatActivity {
         m_User_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_User_Name = m_Sub_Course_Bundle.getString("username", "User Name");
         m_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.categoryid),"Category");
-        m_Sub_Category_Title = m_Sub_Course_Bundle.getString("sub_category_title","Sub Category Title");
-
+        m_Category_Title = m_Sub_Course_Bundle.getString("category_title","Sub Category Title");
         m_Title = m_Sub_Course_Bundle.getString(getResources().getString(R.string.title),"Sub Category Title");
         m_Sub_Category_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.subcategoryid),"Sub Category Id");
 
@@ -133,7 +132,8 @@ public class ExamListActivity extends AppCompatActivity {
                 Intent destinationDetailIntent = new Intent(ExamListActivity.this, SubCoursesActivity.class);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                 destinationDetailIntent.putExtra("username", m_User_Name);
-                destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Sub_Category_Title);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Category_Title);
+                destinationDetailIntent.putExtra("sub_category_title", m_Category_Title);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
                 startActivity(destinationDetailIntent);
             }

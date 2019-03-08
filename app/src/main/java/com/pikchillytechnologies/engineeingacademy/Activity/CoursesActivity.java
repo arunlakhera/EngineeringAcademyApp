@@ -163,7 +163,7 @@ public class CoursesActivity extends AppCompatActivity {
         destinationDetailIntent.putExtra("username", m_User_Name);
         destinationDetailIntent.putExtra(getResources().getString(R.string.title), course.getM_Name());
         destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), course.getM_Category_Id());
-        destinationDetailIntent.putExtra("sub_category_title", "Sub Category Name");
+        destinationDetailIntent.putExtra("category_title", course.getM_Name());
         startActivity(destinationDetailIntent);
     }
 

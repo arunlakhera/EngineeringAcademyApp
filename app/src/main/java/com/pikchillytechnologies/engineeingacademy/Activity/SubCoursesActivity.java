@@ -85,10 +85,9 @@ public class SubCoursesActivity extends AppCompatActivity {
 
         m_User_Id = m_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_User_Name = m_Course_Bundle.getString("username", "User Name");
-        m_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
-        m_Category_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
+        m_Category_Title = m_Course_Bundle.getString("category_title",getResources().getString(R.string.packages));
         m_Category_Id = m_Course_Bundle.getString(getResources().getString(R.string.categoryid),"category_id");
-        m_Sub_Category_Title = m_Course_Bundle.getString("sub_category_title","Sub Category");
+        m_Title = m_Course_Bundle.getString(getResources().getString(R.string.title),getResources().getString(R.string.packages));
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_Button_Back = findViewById(R.id.button_Back);
@@ -120,7 +119,7 @@ public class SubCoursesActivity extends AppCompatActivity {
                 destinationDetailIntent.putExtra(getResources().getString(R.string.title), scp.getM_Sub_Course_Name());
                 destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), scp.getM_Sub_Course_Id());
-                destinationDetailIntent.putExtra("sub_category_title", scp.getM_Sub_Course_Name());
+                destinationDetailIntent.putExtra("category_title", m_Category_Title);
                 startActivity(destinationDetailIntent);
 
             }
