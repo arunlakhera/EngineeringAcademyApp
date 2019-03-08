@@ -195,6 +195,7 @@ public class ResultActivity extends AppCompatActivity {
         String targetPdf = ea_folder + File.separator + m_Title + ".pdf";
         File filePath;
         filePath = new File(targetPdf);
+
         try {
             document.writeTo(new FileOutputStream(filePath));
 
@@ -221,7 +222,6 @@ public class ResultActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_SENDTO);
 
             Uri uri = Uri.fromFile(file);
-
             intent.setData(Uri.parse("mailto:"));
             intent.putExtra(Intent.EXTRA_SUBJECT,  "Exam Result for:" + m_User_Name);
             intent.putExtra(Intent.EXTRA_STREAM, uri);
