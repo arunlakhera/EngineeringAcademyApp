@@ -6,9 +6,13 @@
     <string name="logo_description">EA Logo</string>
     <string name="email_id_hint">Email Id</string>
     <string name="password_hint">Password</string>
+    <string name="add_hint">Address</string>
+    <string name="add_city">City</string>
+    <string name="add_state">State</string>
     <string name="sign_in">Sign In</string>
     <string name="not_registered">Not Registered ?</string>
     <string name="sign_up">Sign Up</string>
+    <string name="update">Update</string>
 
     <!-- Sign Up Screen -->
     <string name="first_name">First Name</string>
@@ -24,7 +28,6 @@
     <string name="miscellaneous">Miscellaneous</string>
 
     <!-- Toolbar Title-->
-
     <string name="courses">Courses</string>
     <string name="packages">Packages</string>
     <string name="exams">Exams</string>

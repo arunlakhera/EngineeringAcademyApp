@@ -40,7 +40,6 @@ public class SignInActivity extends AppCompatActivity {
     private EAHelper m_Helper;
 
     private ProgressDialog pd;
-
     private static String loginURL = "https://pikchilly.com/api/login.php";
 
     //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";
@@ -50,15 +49,13 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        m_Helper = new EAHelper();
-
-        pd = new ProgressDialog(SignInActivity.this);
-
         m_Email_Id_TextView = findViewById(R.id.edittext_Email_Id);
         m_Password_TextView = findViewById(R.id.edittext_Password);
-
         m_Sign_Up_TextView = findViewById(R.id.textview_New_Sign_Up);
         m_Sign_In_Button = findViewById(R.id.button_Sign_In);
+
+        m_Helper = new EAHelper();
+        pd = new ProgressDialog(SignInActivity.this);
 
         m_Sign_In_Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,8 +90,6 @@ public class SignInActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         pd.hide();
-
-
 
                             if(response.equals("Sign_In_Failed")){
 

@@ -1,18 +1,49 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
+import com.pikchillytechnologies.engineeingacademy.Model.UserModel;
 import com.pikchillytechnologies.engineeingacademy.R;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class UpdateProfileActivity extends AppCompatActivity {
 
@@ -23,10 +54,44 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private String m_User_Id;
     private String m_User_Name;
 
+    private EditText mEditText_FirstName;
+    private EditText mEditText_LastName;
+    private EditText mEditText_PhoneNumber;
+    private EditText mEditText_EmailId;
+    private EditText mEditText_Password;
+    private EditText mEditText_Address;
+    private EditText mEditText_City;
+    private EditText mEditText_State;
+    private ImageView mImageView_UserProfilePhoto;
+    private TextView mTextView_UploadPhoto;
+    private Button mButton_Update;
+
+    private String userFirstName;
+    private String userLastName;
+    private String userPhoneNumber;
+    private String userEmailId;
+    private String userPassword;
+    private String userAddress;
+    private String userCity;
+    private String userState;
+    private String userProfilePhoto;
+
+    private UserModel user;
+    private List<UserModel> m_User_List;
+
     //Navigation Drawer
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private Button menuButton;
+
+    private ProgressDialog pd;
+    Bitmap bitmap;
+
+    private Uri filePath;
+    private final int PICK_IMAGE_REQUEST = 71;
+
+    private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
+    private static String updateUserDataURL = "https://pikchilly.com/api/update_user_profile.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +104,47 @@ public class UpdateProfileActivity extends AppCompatActivity {
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_Button_Back = findViewById(R.id.button_Back);
 
-        m_TextView_Activity_Title.setText("Articles");
+        mEditText_FirstName = findViewById(R.id.edittext_First_Name);
+        mEditText_LastName = findViewById(R.id.edittext_Last_Name);
+        mEditText_PhoneNumber = findViewById(R.id.edittext_Phone);
+        mEditText_EmailId = findViewById(R.id.edittext_Email_Id);
+        mEditText_Password = findViewById(R.id.edittext_Password);
+        mEditText_Address = findViewById(R.id.edittext_Address);
+        mEditText_City = findViewById(R.id.edittext_City);
+        mEditText_State = findViewById(R.id.edittext_State);
+        mImageView_UserProfilePhoto = findViewById(R.id.imageView_UserProfilePhoto);
+        mTextView_UploadPhoto = findViewById(R.id.textView_UploadPhoto);
+        mButton_Update = findViewById(R.id.button_Update);
+
+        pd = new ProgressDialog(UpdateProfileActivity.this);
+        m_TextView_Activity_Title.setText("My Profile");
         m_User_Bundle = getIntent().getExtras();
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_User_Bundle.getString("username", "User Name");
+
+        prepareUserData();
+
+        //loadUserData();
+
+        mTextView_UploadPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadUserPhoto();
+            }
+        });
+
+        mButton_Update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUserData();
+            }
+        });
 
         m_Button_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent destinationDetailIntent = new Intent(getApplicationContext(), CoursesActivity.class);
+                Intent destinationDetailIntent = new Intent(UpdateProfileActivity.this, CoursesActivity.class);
                 destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                 destinationDetailIntent.putExtra("username", m_User_Name);
                 startActivity(destinationDetailIntent);
@@ -108,4 +204,205 @@ public class UpdateProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Function to Prepate user data
+    public void prepareUserData(){
+
+        pd.setMessage("Loading . . .");
+        pd.show();
+
+        RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
+        String response = null;
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, userDataURL,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+
+                        pd.hide();
+
+                        //Toast.makeText(getApplicationContext(),"Response:" + response.toString(),Toast.LENGTH_LONG).show();
+
+                        try{
+                            JSONObject userJSON = new JSONObject(response);
+                            JSONArray userArray = userJSON.getJSONArray("user_data");
+                            JSONObject userObject = userArray.getJSONObject(0);
+
+                                //creating a tutorial object and giving them the values from json object
+                            user = new UserModel(userObject.getString("first_name"), userObject.getString("last_name"),userObject.getString("email")
+                                        ,userObject.getString("phone"),userObject.getString("password"),userObject.getString("address"),
+                                        userObject.getString("city"),userObject.getString("state"),userObject.getString("photo"));
+
+                            loadUserData();
+
+                        }catch (Exception e){
+
+                                Log.e("Error:", e.getMessage());
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        pd.hide();
+                        String err = (error.getMessage()==null)?"Error is:":error.getMessage();
+                        Log.d("ErrorResponse", err);
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("username", m_User_Id);
+                return params;
+            }
+        };
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        m_Queue.add(postRequest);
+
+       // loadUserData();
+    }
+
+    // Function to load user data
+    public void loadUserData(){
+
+        mEditText_FirstName.setText(user.getmFirstName().toUpperCase());
+        mEditText_LastName.setText(user.getmLastName().toUpperCase());
+        mEditText_EmailId.setText(user.getmEmailId());
+        mEditText_PhoneNumber.setText(user.getmPhoneNumber());
+        mEditText_Password.setText(user.getmPassword());
+        mEditText_Address.setText(user.getmAddress());
+        mEditText_City.setText(user.getmCity());
+        mEditText_State.setText(user.getmState());
+
+        String userPhotoURL = user.getmUserPhotoURL() + m_User_Id + ".jpg";
+
+        try {
+            Glide.with(this)
+                    .load(userPhotoURL)
+                    .placeholder(R.drawable.ea_logo_icon)
+                    .error(R.drawable.back_icon)
+                    .into(mImageView_UserProfilePhoto);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    // Function to upload user Photo
+    public void uploadUserPhoto(){
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+    }
+
+
+    // To Set selected Image
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null )
+        {
+            filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
+
+                mImageView_UserProfilePhoto.setImageBitmap(bitmap);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    // Function to Update user data
+    public void updateUserData(){
+
+        user.setmFirstName(mEditText_FirstName.getText().toString());
+        user.setmLastName(mEditText_LastName.getText().toString());
+
+        pd.setMessage("Loading . . .");
+        pd.show();
+
+        RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
+        String response = null;
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, updateUserDataURL,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+
+                        pd.hide();
+
+                        try{
+
+                            JSONObject userJSON = new JSONObject(response);
+
+                                String status;
+                                status = userJSON.getString("user_data");
+
+                                if(userJSON.getString("user_data").equals("Successful")){
+                                    Toast.makeText(getApplicationContext(),"Your update has been saved successfully.", Toast.LENGTH_LONG).show();
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"Your update could not be stored. Please try Again!!.", Toast.LENGTH_LONG).show();
+                                }
+
+                        }catch (Exception e){
+
+                            Log.e("Error:", e.getMessage());
+                        }
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        pd.hide();
+                        String err = (error.getMessage()==null)?"Error is:":error.getMessage();
+                        Log.d("ErrorResponse", err);
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("username", m_User_Id);
+                params.put("first_name", mEditText_FirstName.getText().toString());
+                params.put("last_name", mEditText_LastName.getText().toString());
+                params.put("email", mEditText_EmailId.getText().toString());
+                params.put("phone", mEditText_PhoneNumber.getText().toString());
+                params.put("password", mEditText_Password.getText().toString());
+                params.put("address", mEditText_Address.getText().toString());
+                params.put("city", mEditText_City.getText().toString());
+                params.put("state", mEditText_State.getText().toString());
+
+                //params.put("photo", mEditText_FirstName.getText().toString());
+
+
+                return params;
+            }
+        };
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        m_Queue.add(postRequest);
+
+
+    }
+
 }
