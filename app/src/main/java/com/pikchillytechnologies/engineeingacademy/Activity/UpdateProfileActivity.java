@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,10 +23,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -35,12 +38,15 @@ import com.pikchillytechnologies.engineeingacademy.Model.UserModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -63,7 +69,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private EditText mEditText_City;
     private EditText mEditText_State;
     private ImageView mImageView_UserProfilePhoto;
-    private TextView mTextView_UploadPhoto;
+    private TextView mTextView_ChangePhoto;
     private Button mButton_Update;
 
     private String userFirstName;
@@ -85,13 +91,15 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private Button menuButton;
 
     private ProgressDialog pd;
-    Bitmap bitmap;
+    private Bitmap bitmap;
+    private String mUserUpdatedImage;
 
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
 
     private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
     private static String updateUserDataURL = "https://pikchilly.com/api/update_user_profile.php";
+    private String updatePhotoUrl = "https://pikchilly.com/api/update_user_photo.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +121,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mEditText_City = findViewById(R.id.edittext_City);
         mEditText_State = findViewById(R.id.edittext_State);
         mImageView_UserProfilePhoto = findViewById(R.id.imageView_UserProfilePhoto);
-        mTextView_UploadPhoto = findViewById(R.id.textView_UploadPhoto);
+        mTextView_ChangePhoto = findViewById(R.id.textView_UploadPhoto);
         mButton_Update = findViewById(R.id.button_Update);
 
         pd = new ProgressDialog(UpdateProfileActivity.this);
@@ -126,10 +134,10 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         //loadUserData();
 
-        mTextView_UploadPhoto.setOnClickListener(new View.OnClickListener() {
+        mTextView_ChangePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadUserPhoto();
+                changeUserPhoto();
             }
         });
 
@@ -280,7 +288,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mEditText_City.setText(user.getmCity());
         mEditText_State.setText(user.getmState());
 
-        String userPhotoURL = user.getmUserPhotoURL() + m_User_Id + ".jpg";
+        String userPhotoURL = user.getmUserPhotoURL();// + m_User_Id + ".jpg";
+        //Toast.makeText(getApplicationContext(),"Photo:"+ userPhotoURL, Toast.LENGTH_LONG).show();
 
         try {
             Glide.with(this)
@@ -294,8 +303,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     }
 
-    // Function to upload user Photo
-    public void uploadUserPhoto(){
+    // Function to change user Photo
+    public void changeUserPhoto(){
 
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -303,7 +312,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
 
     }
-
 
     // To Set selected Image
     @Override
@@ -316,14 +324,78 @@ public class UpdateProfileActivity extends AppCompatActivity {
             filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
-
                 mImageView_UserProfilePhoto.setImageBitmap(bitmap);
+
+                Bitmap lastBitmap;
+                lastBitmap = bitmap;
+
+                //encoding image to string
+                mUserUpdatedImage = getStringImage(lastBitmap);
+
+                uploadImage(mUserUpdatedImage);
+
             }
             catch (IOException e)
             {
                 e.printStackTrace();
             }
         }
+    }
+
+    // Encode Image to string
+    public String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedUserImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedUserImage;
+
+    }
+
+    public void uploadImage(final String updatedImage){
+
+        pd.setMessage("Loading . . .");
+        pd.show();
+
+        RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
+        String response = null;
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, updatePhotoUrl,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+
+                        pd.hide();
+                        Toast.makeText(getApplicationContext(),"response." + response, Toast.LENGTH_LONG).show();
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        pd.hide();
+                        String err = (error.getMessage()==null)?"Error is:":error.getMessage();
+                        Log.d("ErrorResponse", err);
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("username", m_User_Id);
+                params.put("userphotostring", updatedImage);
+
+                return params;
+            }
+        };
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        m_Queue.add(postRequest);
+
     }
 
 
