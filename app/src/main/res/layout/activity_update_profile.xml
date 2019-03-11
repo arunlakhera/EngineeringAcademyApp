@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_default"
-                    android:text="Upload Photo"
+                    android:text="Update Photo"
                     android:textColor="@color/colorPrimary" />
 
                 <LinearLayout

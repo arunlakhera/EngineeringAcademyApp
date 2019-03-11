@@ -30,6 +30,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
@@ -81,6 +82,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private String userCity;
     private String userState;
     private String userProfilePhoto;
+    private boolean userPhotoChangeFlag;
 
     private UserModel user;
     private List<UserModel> m_User_List;
@@ -100,6 +102,12 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
     private static String updateUserDataURL = "https://pikchilly.com/api/update_user_profile.php";
     private String updatePhotoUrl = "https://pikchilly.com/api/update_user_photo.php";
+
+    RequestQueue m_Queue;
+    StringRequest loadRequest;
+    StringRequest uploadImageRequest;
+    StringRequest updateUserRequest;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +131,12 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mImageView_UserProfilePhoto = findViewById(R.id.imageView_UserProfilePhoto);
         mTextView_ChangePhoto = findViewById(R.id.textView_UploadPhoto);
         mButton_Update = findViewById(R.id.button_Update);
+
+
+        m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
+        m_Queue.getCache().clear();
+
+        userPhotoChangeFlag = false;
 
         pd = new ProgressDialog(UpdateProfileActivity.this);
         m_TextView_Activity_Title.setText("My Profile");
@@ -219,18 +233,17 @@ public class UpdateProfileActivity extends AppCompatActivity {
         pd.setMessage("Loading . . .");
         pd.show();
 
-        RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
+        //RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
         String response = null;
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, userDataURL,
+        //StringRequest postRequest = new StringRequest(Request.Method.POST, userDataURL,
+        loadRequest = new StringRequest(Request.Method.POST, userDataURL,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
 
                         pd.hide();
-
-                        //Toast.makeText(getApplicationContext(),"Response:" + response.toString(),Toast.LENGTH_LONG).show();
 
                         try{
                             JSONObject userJSON = new JSONObject(response);
@@ -270,9 +283,10 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 return params;
             }
         };
-        postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        m_Queue.add(postRequest);
-
+        //postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //m_Queue.add(postRequest);
+        loadRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        m_Queue.add(loadRequest);
        // loadUserData();
     }
 
@@ -288,12 +302,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mEditText_City.setText(user.getmCity());
         mEditText_State.setText(user.getmState());
 
-        String userPhotoURL = user.getmUserPhotoURL();// + m_User_Id + ".jpg";
-        //Toast.makeText(getApplicationContext(),"Photo:"+ userPhotoURL, Toast.LENGTH_LONG).show();
-
         try {
             Glide.with(this)
-                    .load(userPhotoURL)
+                    .load(user.getmUserPhotoURL())
                     .placeholder(R.drawable.ea_logo_icon)
                     .error(R.drawable.back_icon)
                     .into(mImageView_UserProfilePhoto);
@@ -326,13 +337,13 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
                 mImageView_UserProfilePhoto.setImageBitmap(bitmap);
 
-                Bitmap lastBitmap;
+                Bitmap lastBitmap = null;
                 lastBitmap = bitmap;
 
                 //encoding image to string
                 mUserUpdatedImage = getStringImage(lastBitmap);
-
-                uploadImage(mUserUpdatedImage);
+                userPhotoChangeFlag = true;
+                //uploadImage(mUserUpdatedImage);
 
             }
             catch (IOException e)
@@ -345,7 +356,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     // Encode Image to string
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedUserImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedUserImage;
@@ -354,20 +365,21 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     public void uploadImage(final String updatedImage){
 
-        pd.setMessage("Loading . . .");
+        pd.setMessage("Saving User Photo . . .");
         pd.show();
 
-        RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
+        //RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
         String response = null;
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, updatePhotoUrl,
+        //StringRequest postRequest = new StringRequest(Request.Method.POST, updatePhotoUrl,
+        uploadImageRequest = new StringRequest(Request.Method.POST, updatePhotoUrl,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
 
                         pd.hide();
-                        Toast.makeText(getApplicationContext(),"response." + response, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
 
                     }
                 },
@@ -387,31 +399,39 @@ public class UpdateProfileActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
+                String photoName = m_User_Id + ".jpg";
                 params.put("username", m_User_Id);
+                params.put("photoname", photoName);
                 params.put("userphotostring", updatedImage);
 
                 return params;
             }
         };
-        postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        m_Queue.add(postRequest);
+        //postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //m_Queue.add(postRequest);
 
+        uploadImageRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        m_Queue.add(uploadImageRequest);
     }
-
 
     // Function to Update user data
     public void updateUserData(){
 
-        user.setmFirstName(mEditText_FirstName.getText().toString());
-        user.setmLastName(mEditText_LastName.getText().toString());
+        //user.setmFirstName(mEditText_FirstName.getText().toString());
+        //user.setmLastName(mEditText_LastName.getText().toString());
 
-        pd.setMessage("Loading . . .");
+        pd.setMessage("Saving Data . . .");
         pd.show();
 
-        RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
+        if(userPhotoChangeFlag){
+            uploadImage(mUserUpdatedImage);
+        }
+
+        //RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
         String response = null;
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, updateUserDataURL,
+       // StringRequest postRequest = new StringRequest(Request.Method.POST, updateUserDataURL,
+        updateUserRequest = new StringRequest(Request.Method.POST, updateUserDataURL,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -428,6 +448,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                                 if(userJSON.getString("user_data").equals("Successful")){
                                     Toast.makeText(getApplicationContext(),"Your update has been saved successfully.", Toast.LENGTH_LONG).show();
+                                    //prepareUserData();
                                 }else{
                                     Toast.makeText(getApplicationContext(),"Your update could not be stored. Please try Again!!.", Toast.LENGTH_LONG).show();
                                 }
@@ -471,10 +492,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 return params;
             }
         };
-        postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        m_Queue.add(postRequest);
+        //postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //m_Queue.add(postRequest);
 
-
+        updateUserRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        m_Queue.add(updateUserRequest);
     }
 
 }
