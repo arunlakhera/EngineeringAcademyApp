@@ -148,8 +148,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         prepareUserData();
 
-        //loadUserData();
-
         mTextView_ChangePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,10 +233,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
         pd.setMessage("Loading . . .");
         pd.show();
 
-        //RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
         String response = null;
 
-        //StringRequest postRequest = new StringRequest(Request.Method.POST, userDataURL,
         loadRequest = new StringRequest(Request.Method.POST, userDataURL,
                 new Response.Listener<String>()
                 {
@@ -285,11 +281,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 return params;
             }
         };
-        //postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //m_Queue.add(postRequest);
+
         loadRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         m_Queue.add(loadRequest);
-       // loadUserData();
     }
 
     // Function to load user data
@@ -373,10 +367,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
         pd.setMessage("Saving User Photo . . .");
         pd.show();
 
-        //RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
         String response = null;
 
-        //StringRequest postRequest = new StringRequest(Request.Method.POST, updatePhotoUrl,
         uploadImageRequest = new StringRequest(Request.Method.POST, updatePhotoUrl,
                 new Response.Listener<String>()
                 {
@@ -412,8 +404,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 return params;
             }
         };
-        //postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //m_Queue.add(postRequest);
 
         uploadImageRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         m_Queue.add(uploadImageRequest);
@@ -422,9 +412,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
     // Function to Update user data
     public void updateUserData(){
 
-        //user.setmFirstName(mEditText_FirstName.getText().toString());
-        //user.setmLastName(mEditText_LastName.getText().toString());
-
         pd.setMessage("Saving Data . . .");
         pd.show();
 
@@ -432,10 +419,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
             uploadImage(mUserUpdatedImage);
         }
 
-        //RequestQueue m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
         String response = null;
 
-       // StringRequest postRequest = new StringRequest(Request.Method.POST, updateUserDataURL,
         updateUserRequest = new StringRequest(Request.Method.POST, updateUserDataURL,
                 new Response.Listener<String>()
                 {
@@ -497,8 +482,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 return params;
             }
         };
-        //postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //m_Queue.add(postRequest);
 
         updateUserRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         m_Queue.add(updateUserRequest);
