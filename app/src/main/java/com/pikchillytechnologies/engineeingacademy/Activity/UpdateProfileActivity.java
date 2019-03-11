@@ -34,6 +34,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.Model.UserModel;
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -302,9 +304,12 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mEditText_City.setText(user.getmCity());
         mEditText_State.setText(user.getmState());
 
+        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
+
         try {
             Glide.with(this)
                     .load(user.getmUserPhotoURL())
+                    .apply(requestOptions)
                     .placeholder(R.drawable.ea_logo_icon)
                     .error(R.drawable.back_icon)
                     .into(mImageView_UserProfilePhoto);
