@@ -104,7 +104,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
     private static String updateUserDataURL = "https://pikchilly.com/api/update_user_profile.php";
-   
+
     RequestQueue m_Queue;
     StringRequest loadRequest;
     StringRequest uploadImageRequest;
