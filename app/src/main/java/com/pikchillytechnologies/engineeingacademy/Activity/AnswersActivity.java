@@ -1,9 +1,11 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,6 +17,8 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,6 +55,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -357,27 +362,41 @@ public class AnswersActivity extends AppCompatActivity {
         canvas.drawBitmap(bitmap, 0, 0 , null);
         document.finishPage(page);
 
-        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Answers");
-        ea_folder.mkdir();
 
-        Date date = new Date();
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_mmss", Locale.ENGLISH).format(date);
+        try{
 
-        // write the document content
-        File filePath;
+            String dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString(); //ExternalStorageUtil.getPublicExternalStorageBaseDir(Environment.DIRECTORY_DCIM);
 
-        filePath = new File(ea_folder + File.separator + m_Title + timeStamp + ".pdf");
-        try {
-            document.writeTo(new FileOutputStream(filePath));
+            File ea_folder = new File(dirPath + File.separator + "EA Exam Answers");
+            boolean dirFlag = ea_folder.mkdir();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error Occurred while Creating PDF " + e.toString(), Toast.LENGTH_LONG).show();
+            if(dirFlag){
+                Date date = new Date();
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_mmss", Locale.ENGLISH).format(date);
+
+                // write the document content
+                File filePath;
+                filePath = new File(ea_folder + File.separator + m_Title + timeStamp + ".pdf");
+
+                try {
+                    document.writeTo(new FileOutputStream(filePath));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Error Occurred while Creating PDF " + e.toString(), Toast.LENGTH_LONG).show();
+                }
+
+                // close the document
+                document.close();
+                Toast.makeText(this, "PDF Downloaded Successfully!!!", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Could not find Directory!!!" + ea_folder, Toast.LENGTH_SHORT).show();
+            }
+
+        }catch (Exception e){
+            Log.e("Error:",e.getMessage());
         }
 
-        // close the document
-        document.close();
-        Toast.makeText(this, "PDF Downloaded Successfully!!!", Toast.LENGTH_SHORT).show();
 
     }
 }

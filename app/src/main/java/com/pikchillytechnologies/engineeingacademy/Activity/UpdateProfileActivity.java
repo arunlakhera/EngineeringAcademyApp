@@ -104,8 +104,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
     private static String updateUserDataURL = "https://pikchilly.com/api/update_user_profile.php";
-    private String updatePhotoUrl = "https://pikchilly.com/api/update_user_photo.php";
-
+   
     RequestQueue m_Queue;
     StringRequest loadRequest;
     StringRequest uploadImageRequest;
@@ -366,61 +365,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     }
 
-    public void uploadImage(final String updatedImage){
-
-        pd.setMessage("Saving User Photo . . .");
-        pd.show();
-
-        String response = null;
-
-        uploadImageRequest = new StringRequest(Request.Method.POST, updatePhotoUrl,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-
-                        pd.hide();
-
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        pd.hide();
-                        String err = (error.getMessage()==null)?"Error is:":error.getMessage();
-                        Log.d("ErrorResponse", err);
-
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
-                String photoName = m_User_Id + ".jpg";
-                params.put("username", m_User_Id);
-                params.put("photoname", photoName);
-                params.put("userphotostring", updatedImage);
-
-                return params;
-            }
-        };
-
-        uploadImageRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        m_Queue.add(uploadImageRequest);
-    }
-
     // Function to Update user data
     public void updateUserData(){
 
         pd.setMessage("Saving Data . . .");
         pd.show();
-
-        if(userPhotoChangeFlag){
-            uploadImage(mUserUpdatedImage);
-        }
 
         String response = null;
 
@@ -477,6 +426,10 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 params.put("address", mEditText_Address.getText().toString());
                 params.put("city", mEditText_City.getText().toString());
                 params.put("state", mEditText_State.getText().toString());
+
+                String photoName = m_User_Id + ".jpg";
+                params.put("photoname", photoName);
+                params.put("userphotostring", mUserUpdatedImage);
 
                 //params.put("photo", mEditText_FirstName.getText().toString());
                 return params;

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.pikchillytechnologies.engineeingacademy.Adapter.CoursesAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
@@ -51,6 +55,7 @@ public class CoursesActivity extends AppCompatActivity {
     private Bundle m_User_Bundle;
     private String m_User_Id;
     private String m_User_Name;
+    private String m_User_Photo_URL;
 
     //Navigation Drawer
     private DrawerLayout mDrawerLayout;
@@ -80,6 +85,7 @@ public class CoursesActivity extends AppCompatActivity {
 
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_User_Bundle.getString("username", "User Name");
+        m_User_Photo_URL = m_User_Bundle.getString("userphoto", "NA");
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Courses = findViewById(R.id.recyclerView_Courses);

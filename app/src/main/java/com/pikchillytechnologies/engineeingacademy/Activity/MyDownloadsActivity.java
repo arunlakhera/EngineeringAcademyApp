@@ -1,5 +1,6 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -173,24 +174,31 @@ public class MyDownloadsActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Answers");
-        String path = ea_folder + File.separator;
-        File file = new File(path);
 
-        File[] files = file.listFiles();
+        try{
+            File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Answers");
+            String path = ea_folder + File.separator;
+            File file = new File(path);
 
-        if (files.length == 0) {
-            Toast.makeText(getApplicationContext(), "No Files to Show", Toast.LENGTH_SHORT).show();
-            DownloadedFileModel downloadedFileName = new DownloadedFileModel("No Downloaded Files");
-            m_DownloadedFile_List.add(downloadedFileName);
-        }else{
-            for(File aFile : files){
+            File[] files = file.listFiles();
 
-                String fileName = aFile.getName();
-                DownloadedFileModel downloadedFileName = new DownloadedFileModel(aFile.getName());
+            if (files.length == 0) {
+                Toast.makeText(getApplicationContext(), "No Files to Show", Toast.LENGTH_SHORT).show();
+                DownloadedFileModel downloadedFileName = new DownloadedFileModel("No Downloaded Files");
                 m_DownloadedFile_List.add(downloadedFileName);
+            }else{
+                for(File aFile : files){
+
+                    String fileName = aFile.getName();
+                    DownloadedFileModel downloadedFileName = new DownloadedFileModel(aFile.getName());
+                    m_DownloadedFile_List.add(downloadedFileName);
+                }
             }
+
+        }catch (Exception e){
+            Log.e("Error:",e.getMessage());
         }
+
         m_DownloadFile_Adapter.notifyDataSetChanged();
         progressDialog.dismiss();
     }
