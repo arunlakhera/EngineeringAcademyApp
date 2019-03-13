@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import java.util.HashMap;
@@ -40,10 +41,14 @@ public class SignUpActivity extends AppCompatActivity {
 
     private static String signupURL ="https://pikchilly.com/api/signup.php";
 
+    private SessionHandler session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        session = new SessionHandler(getApplicationContext());
 
         m_Helper = new EAHelper();
         pd = new ProgressDialog(SignUpActivity.this);
@@ -95,6 +100,8 @@ public class SignUpActivity extends AppCompatActivity {
                             String firstName = m_First_Name_EditText.getText().toString();
                             String lastName = m_Last_Name_EditText.getText().toString();
                             String userName = firstName + " " + lastName;
+
+                            session.loginUser(m_User_Id);
 
                             Intent destinationDetailIntent = new Intent(SignUpActivity.this, CoursesActivity.class);
                             destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);

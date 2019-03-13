@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
             android:alpha="0.8"
-            android:scaleType="fitXY"
+            android:contentDescription="TODO" android:scaleType="fitXY"
             android:src="@drawable/ea_bg" />
 
         <ScrollView
@@ -183,7 +183,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
-                            android:src="@drawable/correct" />
+                            android:contentDescription="TODO" android:src="@drawable/correct" />
 
                         <TextView
                             android:id="@+id/textView_Marks"
@@ -201,7 +201,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
-                            android:src="@drawable/clock" />
+                            android:contentDescription="TODO" android:src="@drawable/clock" />
 
                         <TextView
                             android:id="@+id/textView_Duration"
@@ -232,7 +232,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
-                            android:src="@drawable/wrong" />
+                            android:contentDescription="TODO" android:src="@drawable/wrong" />
 
                         <TextView
                             android:id="@+id/textView_Negative_Marks"
@@ -250,7 +250,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
-                            android:src="@drawable/doc" />
+                            android:contentDescription="TODO" android:src="@drawable/doc" />
 
                         <TextView
                             android:id="@+id/textView_Total_Questions"

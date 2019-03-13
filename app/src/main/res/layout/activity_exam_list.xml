@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
             android:alpha="0.8"
-            android:scaleType="fitXY"
+            android:contentDescription="TODO" android:scaleType="fitXY"
             android:src="@drawable/ea_bg" />
 
         <android.support.v7.widget.RecyclerView

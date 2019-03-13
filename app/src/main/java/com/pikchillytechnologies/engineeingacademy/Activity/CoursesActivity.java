@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.Adapter.CoursesAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -64,10 +65,15 @@ public class CoursesActivity extends AppCompatActivity {
     //private String url = "http://onlineengineeringacademy.co.in/api/category_request";
     private String url = "https://pikchilly.com/api/category.php";
 
+    private SessionHandler session;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
+
+        session = new SessionHandler(getApplicationContext());
 
         m_Helper = new EAHelper();
         m_User_Bundle = getIntent().getExtras();
@@ -148,6 +154,9 @@ public class CoursesActivity extends AppCompatActivity {
                     startActivity(destinationDetailIntent);
                 }else if(menuItem.getTitle().equals("Logout")){
 
+                    session.logoutUser();
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(destinationDetailIntent);
                 }
 
                 // close drawer when item is tapped

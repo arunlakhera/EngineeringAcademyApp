@@ -38,6 +38,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.Adapter.AnswersAdapter;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamQuestionAdapter;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamQuestionModel;
 import com.pikchillytechnologies.engineeingacademy.Model.SubCoursePackage;
@@ -105,11 +106,14 @@ public class AnswersActivity extends AppCompatActivity {
 
     private String url = "https://pikchilly.com/api/exam_question.php";
     private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
+    private SessionHandler session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answers);
+
+        session = new SessionHandler(getApplicationContext());
 
         m_Exam_Answer_Bundle = getIntent().getExtras();
         m_User_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.userid), "User Id");
@@ -225,6 +229,10 @@ public class AnswersActivity extends AppCompatActivity {
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
                 }else if(menuItem.getTitle().equals("Logout")){
+
+                    session.logoutUser();
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(destinationDetailIntent);
 
                 }
 

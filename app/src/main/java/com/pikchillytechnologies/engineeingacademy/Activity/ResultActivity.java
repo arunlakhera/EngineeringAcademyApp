@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.UserResultModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 
@@ -87,10 +88,14 @@ public class ResultActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     private String url = "https://pikchilly.com/api/get_user_result.php";
 
+    private SessionHandler session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        session = new SessionHandler(getApplicationContext());
 
         m_User_Exam_Bundle = getIntent().getExtras();
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
@@ -202,6 +207,10 @@ public class ResultActivity extends AppCompatActivity {
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
                 }else if(menuItem.getTitle().equals("Logout")){
+
+                    session.logoutUser();
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(destinationDetailIntent);
 
                 }
 

@@ -36,6 +36,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.Model.UserModel;
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -109,12 +110,14 @@ public class UpdateProfileActivity extends AppCompatActivity {
     StringRequest loadRequest;
     StringRequest uploadImageRequest;
     StringRequest updateUserRequest;
-
+    private SessionHandler session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
+
+        session = new SessionHandler(getApplicationContext());
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -133,7 +136,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mImageView_UserProfilePhoto = findViewById(R.id.imageView_UserProfilePhoto);
         mTextView_ChangePhoto = findViewById(R.id.textView_UploadPhoto);
         mButton_Update = findViewById(R.id.button_Update);
-
 
         m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
         m_Queue.getCache().clear();
@@ -217,6 +219,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     mDrawerLayout.closeDrawers();
                 }else if(menuItem.getTitle().equals("Logout")){
 
+                    session.logoutUser();
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(destinationDetailIntent);
                 }
 
                 // close drawer when item is tapped
@@ -342,7 +347,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 //encoding image to string
                 mUserUpdatedImage = getStringImage(lastBitmap);
                 userPhotoChangeFlag = true;
-                //uploadImage(mUserUpdatedImage);
 
             }
             catch (IOException e)
@@ -376,7 +380,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         pd.hide();
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
 
                     }
                 },
@@ -438,7 +441,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                                 if(userJSON.getString("user_data").equals("Successful")){
                                     Toast.makeText(getApplicationContext(),"Your update has been saved successfully.", Toast.LENGTH_LONG).show();
-                                    //prepareUserData();
                                 }else{
                                     Toast.makeText(getApplicationContext(),"Your update could not be stored. Please try Again!!.", Toast.LENGTH_LONG).show();
                                 }
@@ -477,8 +479,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 params.put("state", mEditText_State.getText().toString());
 
                 //params.put("photo", mEditText_FirstName.getText().toString());
-
-
                 return params;
             }
         };

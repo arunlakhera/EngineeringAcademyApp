@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import org.json.JSONArray;
@@ -42,12 +43,17 @@ public class SignInActivity extends AppCompatActivity {
     private ProgressDialog pd;
     private static String loginURL = "https://pikchilly.com/api/login.php";
 
+
+    private SessionHandler session;
+
     //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        session = new SessionHandler(getApplicationContext());
 
         m_Email_Id_TextView = findViewById(R.id.edittext_Email_Id);
         m_Password_TextView = findViewById(R.id.edittext_Password);
@@ -105,6 +111,8 @@ public class SignInActivity extends AppCompatActivity {
                                 String userFirstName = userObject.getString("first_name");
                                 String userLastName = userObject.getString("last_name");
                                 String userName = userFirstName + " " + userLastName;
+
+                                session.loginUser(m_User_Id);
 
                                 Intent destinationDetailIntent = new Intent(SignInActivity.this, CoursesActivity.class);
                                 destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);

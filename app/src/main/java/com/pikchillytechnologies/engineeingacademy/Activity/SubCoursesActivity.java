@@ -28,6 +28,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
@@ -72,11 +73,14 @@ public class SubCoursesActivity extends AppCompatActivity {
     private String url = "https://pikchilly.com/api/sub_category.php";
 
     private String m_Category_Id;
+    private SessionHandler session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_courses);
+
+        session = new SessionHandler(getApplicationContext());
 
         m_Helper = new EAHelper();
 
@@ -189,6 +193,10 @@ public class SubCoursesActivity extends AppCompatActivity {
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
                 }else if(menuItem.getTitle().equals("Logout")){
+
+                    session.logoutUser();
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(destinationDetailIntent);
 
                 }
 

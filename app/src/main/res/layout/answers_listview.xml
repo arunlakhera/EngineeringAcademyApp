@@ -35,7 +35,7 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/ea_logo_icon"
+            android:contentDescription="TODO" android:src="@drawable/ea_logo_icon"
             android:layout_marginRight="@dimen/margin_default"
             android:layout_marginEnd="@dimen/margin_default"
             android:layout_marginTop="@dimen/margin_default"
@@ -66,7 +66,7 @@
         android:layout_marginEnd="@dimen/margin_default"
         android:layout_marginRight="@dimen/margin_default"
         android:background="@drawable/question_base"
-        android:padding="@dimen/padding_small"
+        android:contentDescription="TODO" android:padding="@dimen/padding_small"
         android:scaleType="fitXY"
         android:scrollbars="vertical"
         android:text="Question:"
@@ -82,7 +82,7 @@
         android:layout_marginEnd="@dimen/margin_default"
         android:layout_marginRight="@dimen/margin_default"
         android:background="@drawable/question_base"
-        android:padding="@dimen/padding_small"
+        android:contentDescription="TODO" android:padding="@dimen/padding_small"
         android:scaleType="fitXY"
         android:scrollbars="vertical"
         android:text="Question:"
@@ -190,7 +190,7 @@
                 android:layout_marginEnd="@dimen/margin_default"
                 android:layout_marginRight="@dimen/margin_default"
                 android:layout_weight="1"
-                android:scaleType="fitXY" />
+                android:contentDescription="TODO" android:scaleType="fitXY" />
         </LinearLayout>
 
         <LinearLayout
@@ -215,7 +215,7 @@
                 android:layout_marginEnd="@dimen/margin_default"
                 android:layout_marginRight="@dimen/margin_default"
                 android:layout_weight="1"
-                android:scaleType="fitXY" />
+                android:contentDescription="TODO" android:scaleType="fitXY" />
         </LinearLayout>
 
         <LinearLayout
@@ -240,7 +240,7 @@
                 android:layout_marginEnd="@dimen/margin_default"
                 android:layout_marginRight="@dimen/margin_default"
                 android:layout_weight="1"
-                android:scaleType="fitXY" />
+                android:contentDescription="TODO" android:scaleType="fitXY" />
         </LinearLayout>
 
         <LinearLayout
@@ -265,7 +265,7 @@
                 android:layout_marginEnd="@dimen/margin_default"
                 android:layout_marginRight="@dimen/margin_default"
                 android:layout_weight="1"
-                android:scaleType="fitXY" />
+                android:contentDescription="TODO" android:scaleType="fitXY" />
         </LinearLayout>
 
         <LinearLayout
@@ -290,7 +290,7 @@
                 android:layout_marginEnd="@dimen/margin_default"
                 android:layout_marginRight="@dimen/margin_default"
                 android:layout_weight="1"
-                android:scaleType="fitXY" />
+                android:contentDescription="TODO" android:scaleType="fitXY" />
         </LinearLayout>
 
         <LinearLayout
@@ -315,7 +315,7 @@
                 android:layout_marginEnd="@dimen/margin_default"
                 android:layout_marginRight="@dimen/margin_default"
                 android:layout_weight="1"
-                android:scaleType="fitXY" />
+                android:contentDescription="TODO" android:scaleType="fitXY" />
         </LinearLayout>
     </LinearLayout>
 

@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamListAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamListModel;
 import com.pikchillytechnologies.engineeingacademy.Model.SubCoursePackage;
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -67,12 +68,17 @@ public class ExamListActivity extends AppCompatActivity {
 
     private String url = "https://pikchilly.com/api/exam_list.php";
 
+    private SessionHandler session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_list);
 
+        session = new SessionHandler(getApplicationContext());
+
         m_Helper = new EAHelper();
+
 
         // Get variable from prev activity
         m_Sub_Course_Bundle = getIntent().getExtras();
@@ -187,6 +193,10 @@ public class ExamListActivity extends AppCompatActivity {
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
                 }else if(menuItem.getTitle().equals("Logout")){
+
+                    session.logoutUser();
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(destinationDetailIntent);
 
                 }
 

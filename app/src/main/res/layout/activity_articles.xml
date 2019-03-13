@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
             android:alpha="0.5"
-            android:scaleType="center"
+            android:contentDescription="TODO" android:scaleType="center"
             android:src="@drawable/ea_logo_icon" />
 
     </RelativeLayout>

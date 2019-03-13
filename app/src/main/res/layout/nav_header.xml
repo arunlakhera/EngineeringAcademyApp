@@ -13,7 +13,7 @@
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginBottom="@dimen/margin_default"
         android:src="@drawable/ea_logo_icon"
-        android:scaleType="fitXY"
+        android:contentDescription="TODO" android:scaleType="fitXY"
         android:layout_gravity="center"
          />
 

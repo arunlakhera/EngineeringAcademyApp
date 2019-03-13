@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.pikchillytechnologies.engineeingacademy.Adapter.CoursesAdapter;
 import com.pikchillytechnologies.engineeingacademy.Adapter.MyDownloadsAdapter;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.Model.DownloadedFileModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
@@ -52,10 +53,14 @@ public class MyDownloadsActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Button menuButton;
 
+    private SessionHandler session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_downloads);
+
+        session = new SessionHandler(getApplicationContext());
 
         m_User_Bundle = getIntent().getExtras();
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
@@ -147,6 +152,10 @@ public class MyDownloadsActivity extends AppCompatActivity {
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
                 }else if(menuItem.getTitle().equals("Logout")){
+
+                    session.logoutUser();
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(destinationDetailIntent);
 
                 }
 

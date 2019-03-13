@@ -9,7 +9,7 @@
         android:id="@+id/imageview_Background"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:scaleType="fitXY"
+        android:contentDescription="TODO" android:scaleType="fitXY"
         android:src="@drawable/mechanical"
         />
 
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scaleType="center"
+            android:contentDescription="TODO" android:scaleType="center"
             android:src="@drawable/lock_icon"
             android:text="Package"
             android:textColor="@color/colorOffWhiteBg"

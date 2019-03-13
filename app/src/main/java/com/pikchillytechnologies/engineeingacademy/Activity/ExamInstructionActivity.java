@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import org.json.JSONArray;
@@ -67,10 +68,14 @@ public class ExamInstructionActivity extends AppCompatActivity {
 
     private String url = "https://pikchilly.com/api/exam_instruction.php";
 
+    private SessionHandler session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_instruction);
+
+        session = new SessionHandler(getApplicationContext());
 
         m_Sub_Course_Bundle = getIntent().getExtras();
         m_User_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
@@ -185,6 +190,10 @@ public class ExamInstructionActivity extends AppCompatActivity {
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
                 }else if(menuItem.getTitle().equals("Logout")){
+
+                    session.logoutUser();
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(destinationDetailIntent);
 
                 }
 
