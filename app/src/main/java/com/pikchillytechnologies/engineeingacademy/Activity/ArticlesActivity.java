@@ -111,7 +111,7 @@ public class ArticlesActivity extends AppCompatActivity {
                 articleName = m_Articles_List.get(position).getM_Article_Name();
 
                 new DownloadFile().execute(articleURL);
-                
+
             }
 
             @Override
