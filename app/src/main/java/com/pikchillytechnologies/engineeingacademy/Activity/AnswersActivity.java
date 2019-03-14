@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -337,9 +338,11 @@ public class AnswersActivity extends AppCompatActivity {
     }
 
     private void createPdf(){
+
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         //  Display display = wm.getDefaultDisplay();
         DisplayMetrics displaymetrics = new DisplayMetrics();
+
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         float hight = displaymetrics.heightPixels;
         float width = displaymetrics.widthPixels;
@@ -348,6 +351,7 @@ public class AnswersActivity extends AppCompatActivity {
         int convertWidth = (int) width;
 
         PdfDocument document = new PdfDocument();
+
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet * total_Questions, total_Questions).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
@@ -362,15 +366,16 @@ public class AnswersActivity extends AppCompatActivity {
         canvas.drawBitmap(bitmap, 0, 0 , null);
         document.finishPage(page);
 
-
         try{
 
-            String dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString(); //ExternalStorageUtil.getPublicExternalStorageBaseDir(Environment.DIRECTORY_DCIM);
+            File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAAnswers");
+            boolean success = true;
 
-            File ea_folder = new File(dirPath + File.separator + "EA Exam Answers");
-            boolean dirFlag = ea_folder.mkdir();
+            if (!ea_folder.exists()) {
+                success = ea_folder.mkdirs();
+            }
 
-            if(dirFlag){
+            if(success){
                 Date date = new Date();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_mmss", Locale.ENGLISH).format(date);
 
@@ -381,14 +386,15 @@ public class AnswersActivity extends AppCompatActivity {
                 try {
                     document.writeTo(new FileOutputStream(filePath));
 
+                    // close the document
+                    document.close();
+                    Toast.makeText(this, "PDF Downloaded Successfully!!!", Toast.LENGTH_SHORT).show();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Error Occurred while Creating PDF " + e.toString(), Toast.LENGTH_LONG).show();
                 }
 
-                // close the document
-                document.close();
-                Toast.makeText(this, "PDF Downloaded Successfully!!!", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(this, "Could not find Directory!!!" + ea_folder, Toast.LENGTH_SHORT).show();
             }
@@ -396,7 +402,7 @@ public class AnswersActivity extends AppCompatActivity {
         }catch (Exception e){
             Log.e("Error:",e.getMessage());
         }
-
-
     }
+
+
 }

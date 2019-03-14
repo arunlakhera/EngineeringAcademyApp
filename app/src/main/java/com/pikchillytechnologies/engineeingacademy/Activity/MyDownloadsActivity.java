@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -176,7 +177,8 @@ public class MyDownloadsActivity extends AppCompatActivity {
 
 
         try{
-            File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Answers");
+
+            File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAAnswers");
             String path = ea_folder + File.separator;
             File file = new File(path);
 
@@ -206,7 +208,7 @@ public class MyDownloadsActivity extends AppCompatActivity {
     // Method for opening a pdf file
     private void viewPdf(String pdfFileName) {
 
-        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Answers");
+        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAAnswers");
         File pdfFile = new File(ea_folder + File.separator + pdfFileName);
         Uri path = Uri.fromFile(pdfFile);
 
@@ -214,11 +216,7 @@ public class MyDownloadsActivity extends AppCompatActivity {
         Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
         pdfIntent.setDataAndType(path, "application/pdf");
         pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(pdfIntent);
 
-        try {
-            startActivity(pdfIntent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "Can't read pdf file", Toast.LENGTH_SHORT).show();
-        }
     }
 }
