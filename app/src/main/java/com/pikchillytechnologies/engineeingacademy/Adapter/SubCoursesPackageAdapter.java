@@ -19,10 +19,12 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
 
     private List<SubCoursePackage> m_Sub_Course_Packages_List;
     private Context mContext;
+    private String mCategoryName;
 
-    public SubCoursesPackageAdapter(Context context, List<SubCoursePackage> subCoursesPackage){
+    public SubCoursesPackageAdapter(Context context, List<SubCoursePackage> subCoursesPackage, String categoryName){
         this.mContext = context;
         this.m_Sub_Course_Packages_List = subCoursesPackage;
+        this.mCategoryName = categoryName;
     }
 
     @NonNull
@@ -41,6 +43,20 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
         holder.m_TextView_Sub_Category.setText(subCourse.getM_Sub_Course_Name());
         holder.m_TextView_Cost.setText("Rs." + subCourse.getM_Cost());
         holder.m_TextView_Total_Exams.setText(subCourse.getM_Total_Exams());
+
+        if(mCategoryName.equals("Mechanical")){
+            holder.m_Background_ImageView.setImageResource(R.drawable.mechanical);
+        }else if(mCategoryName.equals("Civil")){
+            holder.m_Background_ImageView.setImageResource(R.drawable.civil_bg);
+        }else if(mCategoryName.equals("Computers")){
+            holder.m_Background_ImageView.setImageResource(R.drawable.computer_bg);
+        }else if(mCategoryName.equals("Railways")){
+            holder.m_Background_ImageView.setImageResource(R.drawable.railways_bg);
+        }else if(mCategoryName.equals("Non Technical")){
+            holder.m_Background_ImageView.setImageResource(R.drawable.railways_bg);
+        }else{
+            holder.m_Background_ImageView.setImageResource(R.drawable.ea_bg);
+        }
 
         // If user paid for the sub category hide the lock image
         if(subCourse.getM_Payment_Status().equals("Paid")){
@@ -64,6 +80,7 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
         private TextView m_TextView_Total_Exams;
         private ImageView m_ImageView_Lock;
         private Button m_Button_Buy;
+        private ImageView m_Background_ImageView;
 
         public MyViewHolder(View view){
             super(view);
@@ -73,6 +90,7 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
             m_TextView_Total_Exams = view.findViewById(R.id.textView_Total_Exams);
             m_ImageView_Lock = view.findViewById(R.id.imageView_Lock);
             m_Button_Buy = view.findViewById(R.id.button_Buy);
+            m_Background_ImageView = view.findViewById(R.id.imageview_Background);
         }
     }
 }

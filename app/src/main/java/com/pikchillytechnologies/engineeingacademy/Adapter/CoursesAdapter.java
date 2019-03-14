@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
@@ -38,6 +39,20 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.MyViewHo
 
         CoursesModel course = m_Courses_List.get(position);
         holder.m_CourseName_TextView.setText(course.getM_Name());
+
+        if(course.getM_Name().equals("Mechanical")){
+            holder.m_Background_ImageView.setImageResource(R.drawable.mechanical);
+        }else if(course.getM_Name().equals("Civil")){
+            holder.m_Background_ImageView.setImageResource(R.drawable.civil_bg);
+        }else if(course.getM_Name().equals("Computers")){
+            holder.m_Background_ImageView.setImageResource(R.drawable.computer_bg);
+        }else if(course.getM_Name().equals("Railways")){
+            holder.m_Background_ImageView.setImageResource(R.drawable.railways_bg);
+        }else if(course.getM_Name().equals("Non Technical")){
+            holder.m_Background_ImageView.setImageResource(R.drawable.railways_bg);
+        }else{
+            holder.m_Background_ImageView.setImageResource(R.drawable.ea_bg);
+        }
     }
 
     @Override
@@ -48,11 +63,13 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         private TextView m_CourseName_TextView;
+        private ImageView m_Background_ImageView;
 
         public MyViewHolder(View view){
             super(view);
 
             m_CourseName_TextView = view.findViewById(R.id.textView_CourseName);
+            m_Background_ImageView = view.findViewById(R.id.imageview_Background);
         }
     }
 }

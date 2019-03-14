@@ -103,7 +103,7 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_Sub_Course_Package_List = new ArrayList<>();
         m_TextView_Activity_Title.setText(m_Title);
         m_Button_Back.setVisibility(View.VISIBLE);
-        m_Sub_Course_Package_Adapter = new SubCoursesPackageAdapter(getApplicationContext(),m_Sub_Course_Package_List);
+        m_Sub_Course_Package_Adapter = new SubCoursesPackageAdapter(getApplicationContext(),m_Sub_Course_Package_List, m_Category_Title);
         m_RecyclerView_Course_Package.setHasFixedSize(true);
         m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
         m_RecyclerView_Course_Package.setLayoutManager(m_Layout_Manager);
