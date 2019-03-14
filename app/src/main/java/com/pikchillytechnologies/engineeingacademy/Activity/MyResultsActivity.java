@@ -45,7 +45,7 @@ public class MyResultsActivity extends AppCompatActivity {
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_Button_Back = findViewById(R.id.button_Back);
 
-        m_TextView_Activity_Title.setText("Articles");
+        m_TextView_Activity_Title.setText("My Results");
         m_User_Bundle = getIntent().getExtras();
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_User_Bundle.getString("username", "User Name");

@@ -266,30 +266,40 @@ public class ResultActivity extends AppCompatActivity {
         document.finishPage(page);
 
         // write the document content
-        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Results");
-        ea_folder.mkdir();
+        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAExamResults");
+        boolean success = true;
 
-        String targetPdf = ea_folder + File.separator + m_Title + ".pdf";
-        File filePath;
-        filePath = new File(targetPdf);
-
-        try {
-            document.writeTo(new FileOutputStream(filePath));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+        if (!ea_folder.exists()) {
+            success = ea_folder.mkdirs();
         }
 
-        // close the document
-        document.close();
+        if(success){
 
-        shareData();
+            String targetPdf = ea_folder + File.separator + m_Title + ".pdf";
+            File filePath;
+            filePath = new File(targetPdf);
+
+            try {
+                document.writeTo(new FileOutputStream(filePath));
+                // close the document
+                document.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            shareData();
+
+        }else{
+            Toast.makeText(this, "Could not find Directory!!!" + ea_folder, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void shareData(){
 
-        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EA Exam Results");
+        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAExamResults");
         String path = ea_folder + File.separator + m_Title + ".pdf";
 
         File file = new File(path);
