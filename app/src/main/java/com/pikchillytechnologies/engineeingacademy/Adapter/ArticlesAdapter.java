@@ -28,7 +28,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
     @NonNull
     @Override
     public ArticlesAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.courses_list_listview,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.articles_listview,parent,false);
         mContext = parent.getContext();
         return new ArticlesAdapter.MyViewHolder(itemView);
     }
@@ -37,7 +37,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
     public void onBindViewHolder(@NonNull ArticlesAdapter.MyViewHolder holder, int position) {
 
         ArticlesModel article = m_Articles_List.get(position);
-        holder.m_ArticleName_TextView.setText(article.getM_Article_Name());
+        holder.m_ArticleName_TextView.setText(article.getM_Article_Name() + " [PDF]");
 
     }
 
@@ -45,6 +45,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
     public int getItemCount() {
         return m_Articles_List.size();
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 

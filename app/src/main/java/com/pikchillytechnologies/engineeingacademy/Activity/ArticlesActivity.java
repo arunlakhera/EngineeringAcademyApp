@@ -2,6 +2,8 @@ package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,14 +29,25 @@ import com.pikchillytechnologies.engineeingacademy.Adapter.CoursesAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.ArticlesModel;
 import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
+import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ArticlesActivity extends AppCompatActivity {
 
@@ -55,6 +69,9 @@ public class ArticlesActivity extends AppCompatActivity {
     private ArticlesAdapter m_Articles_Adapter;
     private RecyclerView.LayoutManager m_Layout_Manager;
 
+    private String articleURL;
+    private String articleName;
+
     //private String url = "http://onlineengineeringacademy.co.in/api/category_request";
     private String url = "https://pikchilly.com/api/get_all_articles.php";
 
@@ -70,13 +87,13 @@ public class ArticlesActivity extends AppCompatActivity {
         menuButton = findViewById(R.id.button_Menu);
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_Button_Back = findViewById(R.id.button_Back);
+        m_RecyclerView_Articles = findViewById(R.id.recyclerView_Articles);
 
         m_TextView_Activity_Title.setText("Articles");
         m_User_Bundle = getIntent().getExtras();
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_User_Bundle.getString("username", "User Name");
 
-        m_RecyclerView_Articles = findViewById(R.id.recyclerView_Articles);
         m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
         m_Articles_List = new ArrayList<>();
         m_Articles_Adapter = new ArticlesAdapter(getApplicationContext(),m_Articles_List);
@@ -85,6 +102,25 @@ public class ArticlesActivity extends AppCompatActivity {
         m_RecyclerView_Articles.setAdapter(m_Articles_Adapter);
 
         prepareArticlesData();
+
+        m_RecyclerView_Articles.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Articles, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+                articleURL = m_Articles_List.get(position).getM_Article_URL();
+                articleName = m_Articles_List.get(position).getM_Article_Name();
+
+                new DownloadFile().execute(articleURL);
+                
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                // Nothing
+                Log.d("LongClick","Long Click");
+            }
+        }));
+
 
         m_Button_Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +204,30 @@ public class ArticlesActivity extends AppCompatActivity {
                         //hiding the progressbar after completion
                         progressDialog.dismiss();
 
-                       Toast.makeText(getApplicationContext(),"Response:"+ response, Toast.LENGTH_LONG).show();
+                        try {
+                            //getting the whole json object from the response
+                            JSONObject obj = new JSONObject(response);
+
+                            // Getting array inside the JSONObject
+                            JSONArray articlesArray = obj.getJSONArray("articles");
+
+                            //now looping through all the elements of the json array
+                            for (int i = 0; i < articlesArray.length(); i++) {
+                                //getting the json object of the particular index inside the array
+                                JSONObject articlesObject = articlesArray.getJSONObject(i);
+
+                                //creating a tutorial object and giving them the values from json object
+                                ArticlesModel article = new ArticlesModel(articlesObject.getString("article_url"),articlesObject.getString("article_name"), articlesObject.getString("article_category"));
+                                m_Articles_List.add(article);
+                            }
+
+                            //creating custom adapter object
+                            m_Articles_Adapter.notifyDataSetChanged();
+                            progressDialog.dismiss();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -187,4 +246,114 @@ public class ArticlesActivity extends AppCompatActivity {
 
     }
 
+    private class DownloadFile extends AsyncTask<String, String, String> {
+
+        private ProgressDialog progressDialog;
+        private String fileName;
+        private String folder;
+        private boolean isDownloaded;
+
+        /**
+         * Before starting background thread
+         * Show Progress Bar Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            this.progressDialog = new ProgressDialog(ArticlesActivity.this);
+            this.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            this.progressDialog.setCancelable(false);
+            this.progressDialog.show();
+        }
+
+        /**
+         * Downloading file in background thread
+         */
+        @Override
+        protected String doInBackground(String... f_url) {
+            int count;
+            try {
+                URL url = new URL(f_url[0]);
+                URLConnection connection = url.openConnection();
+                connection.connect();
+                // getting file length
+                int lengthOfFile = connection.getContentLength();
+
+
+                // input stream to read file - with 8k buffer
+                InputStream input = new BufferedInputStream(url.openStream(), 8192);
+
+                Date date = new Date();
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_mmss", Locale.ENGLISH).format(date);
+
+                //Extract file name from URL
+                //fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
+
+
+                //Append timestamp to file name
+                fileName = timeStamp + "_" + articleName + ".pdf";
+
+                //External directory path to save file
+                folder = Environment.getExternalStorageDirectory() + File.separator + "EAArticles/";
+
+                //Create androiddeft folder if it does not exist
+                File directory = new File(folder);
+
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+
+                // Output stream to write file
+                OutputStream output = new FileOutputStream(folder + fileName);
+
+                byte data[] = new byte[1024];
+
+                long total = 0;
+
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+                    publishProgress("" + (int) ((total * 100) / lengthOfFile));
+                    Log.d("Progress", "Progress: " + (int) ((total * 100) / lengthOfFile));
+
+                    // writing data to file
+                    output.write(data, 0, count);
+                }
+
+                // flushing output
+                output.flush();
+
+                // closing streams
+                output.close();
+                input.close();
+                return "Downloaded at: " + folder + fileName;
+
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return "Something went wrong";
+        }
+
+        /**
+         * Updating progress bar
+         */
+        protected void onProgressUpdate(String... progress) {
+            // setting progress percentage
+            progressDialog.setProgress(Integer.parseInt(progress[0]));
+        }
+
+
+        @Override
+        protected void onPostExecute(String message) {
+            // dismiss the dialog after the file was downloaded
+            this.progressDialog.dismiss();
+
+            // Display File path after downloading
+            Toast.makeText(getApplicationContext(),
+                    message, Toast.LENGTH_LONG).show();
+        }
+    }
 }
+

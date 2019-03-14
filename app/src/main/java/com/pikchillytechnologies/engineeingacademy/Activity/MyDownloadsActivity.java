@@ -175,7 +175,6 @@ public class MyDownloadsActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-
         try{
 
             File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAAnswers");
