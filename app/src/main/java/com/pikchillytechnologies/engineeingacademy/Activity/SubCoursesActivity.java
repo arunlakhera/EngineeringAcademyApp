@@ -117,7 +117,6 @@ public class SubCoursesActivity extends AppCompatActivity {
                 SubCoursePackage scp = m_Sub_Course_Package_List.get(position);
 
                 if(scp.getM_Payment_Status().equals("Paid")){
-                    Toast.makeText(getApplicationContext(),"Paid",Toast.LENGTH_LONG).show();
 
                     Intent destinationDetailIntent = new Intent(SubCoursesActivity.this, ExamListActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);

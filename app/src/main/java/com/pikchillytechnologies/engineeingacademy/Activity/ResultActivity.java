@@ -375,10 +375,10 @@ public class ResultActivity extends AppCompatActivity {
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(10f);
-        data.setValueTextColor(Color.BLACK);
+        data.setValueTextColor(Color.WHITE);
 
         Description description = new Description();
-        description.setText("My Performance");
+        description.setText("");
         description.setTextColor(Color.CYAN);
 
         pieChart.setDescription(description);

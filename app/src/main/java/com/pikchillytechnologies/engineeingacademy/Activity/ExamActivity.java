@@ -625,9 +625,6 @@ public class ExamActivity extends AppCompatActivity {
             m_Button_Eng.setBackgroundResource(R.drawable.button_red_flat);
             m_Button_Hindi.setBackgroundResource(R.drawable.button_flat);
 
-            m_Button_Eng.setTextColor(getResources().getColor(R.color.textColorWhite));
-            m_Button_Hindi.setTextColor(getResources().getColor(R.color.textColorBlack));
-
             //Check if the question is Text or Image
             if (questionType.equals("T")) {
 
@@ -702,9 +699,6 @@ public class ExamActivity extends AppCompatActivity {
 
                 m_Button_Hindi.setBackgroundResource(R.drawable.button_red_flat);
                 m_Button_Eng.setBackgroundResource(R.drawable.button_flat);
-
-                m_Button_Eng.setTextColor(getResources().getColor(R.color.textColorBlack));
-                m_Button_Hindi.setTextColor(getResources().getColor(R.color.textColorWhite));
 
                 //Check if the question is Text or Image
                 if (questionType.equals("T")) {

@@ -12,6 +12,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/ea_bg"
         tools:context=".Activity.ExamInstructionActivity">
 
         <include
@@ -59,7 +60,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="Instructions for Exam"
-                        android:textColor="@android:color/holo_green_dark"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/text_large" />
 
                 </LinearLayout>
@@ -159,7 +160,7 @@
                     android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_default"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:background="@drawable/email_base"
+                    android:background="@drawable/nav_base"
                     android:layout_marginRight="@dimen/margin_small"
                     android:orientation="vertical">
 
@@ -196,7 +197,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
-                            android:src="@drawable/clock_black" />
+                            android:src="@drawable/clock" />
 
                         <TextView
                             android:id="@+id/textView_Duration"
@@ -243,7 +244,6 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
-                            android:background="@android:color/black"
                             android:src="@drawable/doc" />
 
                         <TextView
