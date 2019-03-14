@@ -27,6 +27,7 @@
                 android:id="@+id/layout_All_Answers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/ea_bg"
                 android:orientation="vertical">
 
                 <TextView
@@ -36,6 +37,7 @@
                     android:layout_margin="@dimen/margin_default"
                     android:textAlignment="center"
                     android:textSize="@dimen/text_medium"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
@@ -46,7 +48,6 @@
                     android:layout_marginBottom="@dimen/margin_default" />
             </LinearLayout>
         </ScrollView>
-
 
         <Button
             android:id="@+id/button_Ans_Download"

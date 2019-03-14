@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -24,11 +23,11 @@
             android:layout_height="match_parent"
             android:layout_above="@id/button_Res_View_Answers"
             android:layout_below="@id/toolbar"
-            android:background="@color/colorOffWhiteBg"
+            android:background="@drawable/ea_bg"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="30dp" android:contentDescription="TODO" 
+                android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_default"

@@ -45,7 +45,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -89,6 +92,8 @@ public class ResultActivity extends AppCompatActivity {
     private String url = "https://pikchilly.com/api/get_user_result.php";
 
     private SessionHandler session;
+    private Date date;
+    private String timeStamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,7 +280,10 @@ public class ResultActivity extends AppCompatActivity {
 
         if(success){
 
-            String targetPdf = ea_folder + File.separator + m_Title + ".pdf";
+            date = new Date();
+            timeStamp = new SimpleDateFormat("yyyyMMdd_mmss", Locale.ENGLISH).format(date);
+
+            String targetPdf = ea_folder + File.separator + m_Title + timeStamp + ".pdf";
             File filePath;
             filePath = new File(targetPdf);
 
@@ -300,7 +308,7 @@ public class ResultActivity extends AppCompatActivity {
     public void shareData(){
 
         File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAExamResults");
-        String path = ea_folder + File.separator + m_Title + ".pdf";
+        String path = ea_folder + File.separator + m_Title + timeStamp + ".pdf";
 
         File file = new File(path);
         if (file.exists())

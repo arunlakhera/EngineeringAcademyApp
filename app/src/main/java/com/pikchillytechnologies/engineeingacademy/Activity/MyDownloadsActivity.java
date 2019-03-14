@@ -64,19 +64,19 @@ public class MyDownloadsActivity extends AppCompatActivity {
 
         session = new SessionHandler(getApplicationContext());
 
-        m_User_Bundle = getIntent().getExtras();
-        m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
-        m_User_Name = m_User_Bundle.getString("username", "User Name");
-
         mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        menuButton = findViewById(R.id.button_Menu);
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_Button_Back = findViewById(R.id.button_Back);
         m_RecyclerView_DownloadedFile = findViewById(R.id.recyclerView_MyDownloads);
-        navigationView = findViewById(R.id.nav_view);
-        menuButton = findViewById(R.id.button_Menu);
 
+        m_User_Bundle = getIntent().getExtras();
+        m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
+        m_User_Name = m_User_Bundle.getString("username", "User Name");
         m_TextView_Activity_Title.setText("My Downloads");
         m_Button_Back.setVisibility(View.VISIBLE);
+
         m_DownloadedFile_List = new ArrayList<>();
         m_DownloadFile_Adapter = new MyDownloadsAdapter(m_DownloadedFile_List);
         m_Layout_Manager = new LinearLayoutManager(getApplicationContext());

@@ -7,20 +7,20 @@
     android:orientation="vertical"
     >
 
-        <TextView
-            android:id="@+id/textView_FileName"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_medium"
-            android:layout_margin="@dimen/margin_default"
+    <TextView
+        android:id="@+id/textView_FileName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_medium"
+        android:layout_margin="@dimen/margin_default"
 
-            />
+        />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/holo_green_dark"
-            />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_green_dark"
+        />
 
 </LinearLayout>

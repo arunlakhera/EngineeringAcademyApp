@@ -30,12 +30,12 @@
             android:layout_marginEnd="@dimen/margin_default"
             android:layout_marginRight="@dimen/margin_default"
             android:scrollbars="vertical"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/text_small" />
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:contentDescription="TODO" android:src="@drawable/ea_logo_icon"
+            android:src="@drawable/ea_logo_icon"
             android:layout_marginRight="@dimen/margin_default"
             android:layout_marginEnd="@dimen/margin_default"
             android:layout_marginTop="@dimen/margin_default"
@@ -54,7 +54,7 @@
         android:layout_marginBottom="@dimen/margin_medium"
         android:padding="@dimen/padding_small"
         android:scrollbars="vertical"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/text_small" />
 
     <ImageView
@@ -66,7 +66,8 @@
         android:layout_marginEnd="@dimen/margin_default"
         android:layout_marginRight="@dimen/margin_default"
         android:background="@drawable/question_base"
-        android:contentDescription="TODO" android:padding="@dimen/padding_small"
+        android:contentDescription="TODO"
+        android:padding="@dimen/padding_small"
         android:scaleType="fitXY"
         android:scrollbars="vertical"
         android:text="Question:"
