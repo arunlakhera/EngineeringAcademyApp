@@ -19,6 +19,15 @@
             android:id="@+id/toolbar"
             />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ea_logo_icon"
+            android:layout_below="@id/toolbar"
+            android:scaleType="center"
+            android:alpha="0.2"
+            />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_Courses"
             android:layout_width="match_parent"

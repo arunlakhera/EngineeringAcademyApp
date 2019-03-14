@@ -6,4 +6,6 @@
 
     <color name="colorOffWhiteBg">#E4E1E5</color>
     <color name="textColorYellow">#F8E71C</color>
+    <color name="textColorBlack">#000000</color>
+    <color name="textColorWhite">#FFFFFF</color>
 </resources>

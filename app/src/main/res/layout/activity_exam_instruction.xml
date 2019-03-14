@@ -21,10 +21,11 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:src="@drawable/ea_logo_icon"
             android:layout_below="@id/toolbar"
-            android:alpha="0.8"
-            android:contentDescription="TODO" android:scaleType="fitXY"
-            android:src="@drawable/ea_bg" />
+            android:scaleType="center"
+            android:alpha="0.2"
+            />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -49,7 +50,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:layout_marginEnd="@dimen/margin_small"
                     android:layout_marginRight="@dimen/margin_small"
-                    android:background="@drawable/exam_list_base">
+                    android:background="@drawable/email_base">
 
                     <TextView
                         android:id="@+id/textView_Instruction_Title"
@@ -58,7 +59,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="Instructions for Exam"
-                        android:textColor="@color/colorOffWhiteBg"
+                        android:textColor="@android:color/holo_green_dark"
                         android:textSize="@dimen/text_large" />
 
                 </LinearLayout>
@@ -73,7 +74,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:layout_marginEnd="@dimen/margin_small"
                     android:layout_marginRight="@dimen/margin_small"
-                    android:background="@drawable/exam_list_base"
+                    android:background="@drawable/blackbase"
                     android:orientation="vertical">
 
                     <TextView
@@ -88,7 +89,7 @@
                         android:layout_marginRight="@dimen/margin_small"
                         android:gravity="start"
                         android:text="Instructions for Exam"
-                        android:textColor="@color/colorOffWhiteBg"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
                     <TextView
@@ -103,7 +104,7 @@
                         android:layout_marginRight="@dimen/margin_small"
                         android:gravity="start"
                         android:text="Instructions for Exam"
-                        android:textColor="@color/colorOffWhiteBg"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
                     <TextView
@@ -118,7 +119,7 @@
                         android:layout_marginRight="@dimen/margin_small"
                         android:gravity="start"
                         android:text="Instructions for Exam"
-                        android:textColor="@color/colorOffWhiteBg"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
                     <TextView
@@ -133,7 +134,7 @@
                         android:layout_marginRight="@dimen/margin_small"
                         android:gravity="start"
                         android:text="Instructions for Exam"
-                        android:textColor="@color/colorOffWhiteBg"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
                     <TextView
@@ -149,7 +150,7 @@
                         android:layout_marginBottom="@dimen/margin_default"
                         android:gravity="start"
                         android:text="Instructions for Exam"
-                        android:textColor="@color/colorOffWhiteBg"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
                 </LinearLayout>
@@ -163,8 +164,8 @@
                     android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_default"
                     android:layout_marginEnd="@dimen/margin_small"
+                    android:background="@drawable/email_base"
                     android:layout_marginRight="@dimen/margin_small"
-                    android:background="@drawable/exam_list_base"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -183,7 +184,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
-                            android:contentDescription="TODO" android:src="@drawable/correct" />
+                            android:src="@drawable/correct" />
 
                         <TextView
                             android:id="@+id/textView_Marks"
@@ -193,7 +194,7 @@
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginLeft="@dimen/margin_small"
                             android:text="1 mark for correct answer"
-                            android:textColor="@color/textColorYellow"
+                            android:textColor="@android:color/holo_green_dark"
                             android:textSize="@dimen/text_default" />
 
                         <ImageView
@@ -201,7 +202,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
-                            android:contentDescription="TODO" android:src="@drawable/clock" />
+                            android:src="@drawable/clock_black" />
 
                         <TextView
                             android:id="@+id/textView_Duration"
@@ -211,7 +212,7 @@
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginLeft="@dimen/margin_small"
                             android:text="1 hour duration"
-                            android:textColor="@color/textColorYellow"
+                            android:textColor="@android:color/holo_green_dark"
                             android:textSize="@dimen/text_default" />
 
                     </LinearLayout>
@@ -242,7 +243,7 @@
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginLeft="@dimen/margin_small"
                             android:text="0 mark for wrong answer"
-                            android:textColor="@color/textColorYellow"
+                            android:textColor="@android:color/holo_green_dark"
                             android:textSize="@dimen/text_default" />
 
                         <ImageView
@@ -250,7 +251,9 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
-                            android:contentDescription="TODO" android:src="@drawable/doc" />
+                            android:background="@android:color/black"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/doc" />
 
                         <TextView
                             android:id="@+id/textView_Total_Questions"
@@ -260,7 +263,7 @@
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginLeft="@dimen/margin_small"
                             android:text="100 Questions"
-                            android:textColor="@color/textColorYellow"
+                            android:textColor="@android:color/holo_green_dark"
                             android:textSize="@dimen/text_default" />
                     </LinearLayout>
                 </LinearLayout>

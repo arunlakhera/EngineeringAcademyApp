@@ -602,7 +602,6 @@ public class ExamActivity extends AppCompatActivity {
                     break;
             }
 
-
     }
 
     public void updateUI(int curQuestion) {
@@ -611,7 +610,6 @@ public class ExamActivity extends AppCompatActivity {
         m_Question_List_Adapter.row_index = curQuestion;
 
         userResponse = m_User_Response_List.get(curQuestion);
-
         examQuestion.setRead(true);
 
         m_TextView_Total_Question.setText(examQuestion.getM_Question_Number() + "/" + m_Total_Questions);
@@ -626,6 +624,9 @@ public class ExamActivity extends AppCompatActivity {
 
             m_Button_Eng.setBackgroundResource(R.drawable.button_red_flat);
             m_Button_Hindi.setBackgroundResource(R.drawable.button_flat);
+
+            m_Button_Eng.setTextColor(getResources().getColor(R.color.textColorWhite));
+            m_Button_Hindi.setTextColor(getResources().getColor(R.color.textColorBlack));
 
             //Check if the question is Text or Image
             if (questionType.equals("T")) {
@@ -701,6 +702,9 @@ public class ExamActivity extends AppCompatActivity {
 
                 m_Button_Hindi.setBackgroundResource(R.drawable.button_red_flat);
                 m_Button_Eng.setBackgroundResource(R.drawable.button_flat);
+
+                m_Button_Eng.setTextColor(getResources().getColor(R.color.textColorBlack));
+                m_Button_Hindi.setTextColor(getResources().getColor(R.color.textColorWhite));
 
                 //Check if the question is Text or Image
                 if (questionType.equals("T")) {
