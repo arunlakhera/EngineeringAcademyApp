@@ -66,6 +66,7 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
             holder.m_ImageView_Lock.setVisibility(View.VISIBLE);
             holder.m_Button_Buy.setVisibility(View.VISIBLE);
         }
+
     }
 
     @Override

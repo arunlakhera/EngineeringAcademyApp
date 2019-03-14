@@ -88,7 +88,6 @@
                         android:layout_marginEnd="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:gravity="start"
-                        android:text="Instructions for Exam"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
@@ -103,7 +102,6 @@
                         android:layout_marginEnd="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:gravity="start"
-                        android:text="Instructions for Exam"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
@@ -118,7 +116,6 @@
                         android:layout_marginEnd="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:gravity="start"
-                        android:text="Instructions for Exam"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
@@ -133,7 +130,6 @@
                         android:layout_marginEnd="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:gravity="start"
-                        android:text="Instructions for Exam"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
@@ -149,7 +145,6 @@
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginBottom="@dimen/margin_default"
                         android:gravity="start"
-                        android:text="Instructions for Exam"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
@@ -193,7 +188,6 @@
                             android:layout_margin="@dimen/margin_default"
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginLeft="@dimen/margin_small"
-                            android:text="1 mark for correct answer"
                             android:textColor="@android:color/holo_green_dark"
                             android:textSize="@dimen/text_default" />
 
@@ -211,7 +205,6 @@
                             android:layout_margin="@dimen/margin_default"
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginLeft="@dimen/margin_small"
-                            android:text="1 hour duration"
                             android:textColor="@android:color/holo_green_dark"
                             android:textSize="@dimen/text_default" />
 
@@ -233,7 +226,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
-                            android:contentDescription="TODO" android:src="@drawable/wrong" />
+                            android:src="@drawable/wrong" />
 
                         <TextView
                             android:id="@+id/textView_Negative_Marks"
@@ -242,7 +235,6 @@
                             android:layout_margin="@dimen/margin_default"
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginLeft="@dimen/margin_small"
-                            android:text="0 mark for wrong answer"
                             android:textColor="@android:color/holo_green_dark"
                             android:textSize="@dimen/text_default" />
 
@@ -252,7 +244,6 @@
                             android:layout_height="20dp"
                             android:layout_margin="@dimen/margin_default"
                             android:background="@android:color/black"
-                            android:contentDescription="TODO"
                             android:src="@drawable/doc" />
 
                         <TextView
@@ -262,7 +253,6 @@
                             android:layout_margin="@dimen/margin_default"
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginLeft="@dimen/margin_small"
-                            android:text="100 Questions"
                             android:textColor="@android:color/holo_green_dark"
                             android:textSize="@dimen/text_default" />
                     </LinearLayout>
