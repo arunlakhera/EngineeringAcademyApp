@@ -1,19 +1,39 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.pikchillytechnologies.engineeingacademy.Adapter.ArticlesAdapter;
+import com.pikchillytechnologies.engineeingacademy.Adapter.CoursesAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
+import com.pikchillytechnologies.engineeingacademy.Model.ArticlesModel;
+import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArticlesActivity extends AppCompatActivity {
 
@@ -29,6 +49,14 @@ public class ArticlesActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Button menuButton;
     private SessionHandler session;
+
+    private List<ArticlesModel> m_Articles_List;
+    private RecyclerView m_RecyclerView_Articles;
+    private ArticlesAdapter m_Articles_Adapter;
+    private RecyclerView.LayoutManager m_Layout_Manager;
+
+    //private String url = "http://onlineengineeringacademy.co.in/api/category_request";
+    private String url = "https://pikchilly.com/api/get_all_articles.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +75,16 @@ public class ArticlesActivity extends AppCompatActivity {
         m_User_Bundle = getIntent().getExtras();
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_User_Bundle.getString("username", "User Name");
+
+        m_RecyclerView_Articles = findViewById(R.id.recyclerView_Articles);
+        m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
+        m_Articles_List = new ArrayList<>();
+        m_Articles_Adapter = new ArticlesAdapter(getApplicationContext(),m_Articles_List);
+        m_RecyclerView_Articles.setHasFixedSize(true);
+        m_RecyclerView_Articles.setLayoutManager(m_Layout_Manager);
+        m_RecyclerView_Articles.setAdapter(m_Articles_Adapter);
+
+        prepareArticlesData();
 
         m_Button_Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +153,38 @@ public class ArticlesActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void prepareArticlesData(){
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //hiding the progressbar after completion
+                        progressDialog.dismiss();
+
+                       Toast.makeText(getApplicationContext(),"Response:"+ response, Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //displaying the error in toast if occur
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        //creating a request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        //adding the string request to request queue
+        requestQueue.add(stringRequest);
+
     }
 
 }
