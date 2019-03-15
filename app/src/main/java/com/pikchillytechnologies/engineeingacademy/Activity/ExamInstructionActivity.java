@@ -76,7 +76,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exam_instruction);
 
         session = new SessionHandler(getApplicationContext());
-
+        m_Helper = new EAHelper();
         m_Sub_Course_Bundle = getIntent().getExtras();
         m_User_Id = m_Sub_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_User_Name = m_Sub_Course_Bundle.getString("username", "User Name");

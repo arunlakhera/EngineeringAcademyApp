@@ -123,7 +123,7 @@ public class AnswersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_answers);
 
         session = new SessionHandler(getApplicationContext());
-
+        m_Helper = new EAHelper();
         m_Exam_Answer_Bundle = getIntent().getExtras();
         m_User_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_Exam_Answer_Bundle.getString("username", "User Name");

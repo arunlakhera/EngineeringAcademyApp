@@ -58,13 +58,18 @@ import java.util.Map;
 
 public class UpdateProfileActivity extends AppCompatActivity {
 
+    private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
+    private static String updateUserDataURL = "https://pikchilly.com/api/update_user_profile.php";
+    private final int PICK_IMAGE_REQUEST = 71;
+    RequestQueue m_Queue;
+    StringRequest loadRequest;
+    StringRequest uploadImageRequest;
+    StringRequest updateUserRequest;
     private TextView m_TextView_Activity_Title;
-
     private Button m_Button_Back;
     private Bundle m_User_Bundle;
     private String m_User_Id;
     private String m_User_Name;
-
     private EditText mEditText_FirstName;
     private EditText mEditText_LastName;
     private EditText mEditText_PhoneNumber;
@@ -76,7 +81,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private ImageView mImageView_UserProfilePhoto;
     private TextView mTextView_ChangePhoto;
     private Button mButton_Update;
-
     private String userFirstName;
     private String userLastName;
     private String userPhoneNumber;
@@ -87,30 +91,17 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private String userState;
     private String userProfilePhoto;
     private boolean userPhotoChangeFlag;
-
     private UserModel user;
     private List<UserModel> m_User_List;
     private EAHelper m_Helper;
-
     //Navigation Drawer
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private Button menuButton;
-
     private ProgressDialog pd;
     private Bitmap bitmap;
     private String mUserUpdatedImage;
-
     private Uri filePath;
-    private final int PICK_IMAGE_REQUEST = 71;
-
-    private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
-    private static String updateUserDataURL = "https://pikchilly.com/api/update_user_profile.php";
-
-    RequestQueue m_Queue;
-    StringRequest loadRequest;
-    StringRequest uploadImageRequest;
-    StringRequest updateUserRequest;
     private SessionHandler session;
 
     @Override
@@ -119,7 +110,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_profile);
 
         session = new SessionHandler(getApplicationContext());
-
+        m_Helper = new EAHelper();
         mDrawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         menuButton = findViewById(R.id.button_Menu);
@@ -149,24 +140,24 @@ public class UpdateProfileActivity extends AppCompatActivity {
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_User_Bundle.getString("username", "User Name");
 
-        if(m_Helper.isNetworkAvailable(getApplicationContext())){
+        if (m_Helper.isNetworkAvailable(UpdateProfileActivity.this)) {
 
             prepareUserData();
 
-        }else{
-            Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
         }
 
         mTextView_ChangePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+                if (m_Helper.isNetworkAvailable(getApplicationContext())) {
 
                     changeUserPhoto();
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -175,12 +166,12 @@ public class UpdateProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+                if (m_Helper.isNetworkAvailable(getApplicationContext())) {
 
                     updateUserData();
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -211,34 +202,34 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 // set item as selected to persist highlight
                 menuItem.setChecked(true);
 
-                if(menuItem.getTitle().equals("Courses")){
+                if (menuItem.getTitle().equals("Courses")) {
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), CoursesActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
-                }else if(menuItem.getTitle().equals("Articles")){
+                } else if (menuItem.getTitle().equals("Articles")) {
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), ArticlesActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
-                }else if(menuItem.getTitle().equals("My Downloads")){
+                } else if (menuItem.getTitle().equals("My Downloads")) {
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), MyDownloadsActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
 
-                }else if(menuItem.getTitle().equals("My Results")){
+                } else if (menuItem.getTitle().equals("My Results")) {
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), MyResultsActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
 
-                }else if(menuItem.getTitle().equals("Update Profile")){
+                } else if (menuItem.getTitle().equals("Update Profile")) {
 
                     mDrawerLayout.closeDrawers();
-                }else if(menuItem.getTitle().equals("Logout")){
+                } else if (menuItem.getTitle().equals("Logout")) {
 
                     session.logoutUser();
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
@@ -254,7 +245,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     }
 
     // Function to Prepate user data
-    public void prepareUserData(){
+    public void prepareUserData() {
 
         pd.setMessage("Loading . . .");
         pd.show();
@@ -262,47 +253,44 @@ public class UpdateProfileActivity extends AppCompatActivity {
         String response = null;
 
         loadRequest = new StringRequest(Request.Method.POST, userDataURL,
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         pd.hide();
 
-                        try{
+                        try {
                             JSONObject userJSON = new JSONObject(response);
                             JSONArray userArray = userJSON.getJSONArray("user_data");
                             JSONObject userObject = userArray.getJSONObject(0);
 
-                                //creating a tutorial object and giving them the values from json object
-                            user = new UserModel(userObject.getString("first_name"), userObject.getString("last_name"),userObject.getString("email")
-                                        ,userObject.getString("phone"),userObject.getString("password"),userObject.getString("address"),
-                                        userObject.getString("city"),userObject.getString("state"),userObject.getString("photo"));
+                            //creating a tutorial object and giving them the values from json object
+                            user = new UserModel(userObject.getString("first_name"), userObject.getString("last_name"), userObject.getString("email")
+                                    , userObject.getString("phone"), userObject.getString("password"), userObject.getString("address"),
+                                    userObject.getString("city"), userObject.getString("state"), userObject.getString("photo"));
 
                             loadUserData();
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
 
-                                Log.e("Error:", e.getMessage());
+                            Log.e("Error:", e.getMessage());
                         }
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
                         pd.hide();
-                        String err = (error.getMessage()==null)?"Error is:":error.getMessage();
+                        String err = (error.getMessage() == null) ? "Error is:" : error.getMessage();
                         Log.d("ErrorResponse", err);
 
                     }
                 }
         ) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("username", m_User_Id);
                 return params;
             }
@@ -313,7 +301,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     }
 
     // Function to load user data
-    public void loadUserData(){
+    public void loadUserData() {
 
         mEditText_FirstName.setText(user.getmFirstName().toUpperCase());
         mEditText_LastName.setText(user.getmLastName().toUpperCase());
@@ -340,7 +328,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     }
 
     // Function to change user Photo
-    public void changeUserPhoto(){
+    public void changeUserPhoto() {
 
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -354,12 +342,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null )
-        {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 mImageView_UserProfilePhoto.setImageBitmap(bitmap);
 
                 Bitmap lastBitmap = null;
@@ -369,9 +356,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 mUserUpdatedImage = getStringImage(lastBitmap);
                 userPhotoChangeFlag = true;
 
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -388,7 +373,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     }
 
     // Function to Update user data
-    public void updateUserData(){
+    public void updateUserData() {
 
         pd.setMessage("Saving Data . . .");
         pd.show();
@@ -396,49 +381,47 @@ public class UpdateProfileActivity extends AppCompatActivity {
         String response = null;
 
         updateUserRequest = new StringRequest(Request.Method.POST, updateUserDataURL,
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         pd.hide();
 
-                        try{
+                        try {
 
                             JSONObject userJSON = new JSONObject(response);
 
-                                String status;
-                                status = userJSON.getString("user_data");
+                            String status;
+                            status = userJSON.getString("user_data");
 
-                                if(userJSON.getString("user_data").equals("Successful")){
-                                    Toast.makeText(getApplicationContext(),"Your update has been saved successfully.", Toast.LENGTH_LONG).show();
-                                }else{
-                                    Toast.makeText(getApplicationContext(),"Your update could not be stored. Please try Again!!.", Toast.LENGTH_LONG).show();
-                                }
+                            if (userJSON.getString("user_data").equals("Successful")) {
+                                Toast.makeText(getApplicationContext(), "Your update has been saved successfully.", Toast.LENGTH_LONG).show();
+                                prepareUserData();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Your update could not be stored. Please try Again!!.", Toast.LENGTH_LONG).show();
+                            }
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
 
                             Log.e("Error:", e.getMessage());
                         }
 
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
                         pd.hide();
-                        String err = (error.getMessage()==null)?"Error is:":error.getMessage();
+                        String err = (error.getMessage() == null) ? "Error is:" : error.getMessage();
                         Log.d("ErrorResponse", err);
 
                     }
                 }
         ) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("username", m_User_Id);
                 params.put("first_name", mEditText_FirstName.getText().toString());
                 params.put("last_name", mEditText_LastName.getText().toString());

@@ -46,7 +46,6 @@ public class SignInActivity extends AppCompatActivity {
     private ProgressDialog pd;
     private static String loginURL = "https://pikchilly.com/api/login.php";
 
-
     private SessionHandler session;
 
     //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";

@@ -82,7 +82,7 @@ public class ArticlesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_articles);
         session = new SessionHandler(getApplicationContext());
-
+        m_Helper = new EAHelper();
         mDrawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 

@@ -131,6 +131,8 @@ public class ExamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exam);
 
         menuButton = findViewById(R.id.button_Menu);
+        m_Helper = new EAHelper();
+
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Question_List = findViewById(R.id.recyclerView_question_List);
         m_TextView_Time_Remaining = findViewById(R.id.textView_Time_Remaining);
