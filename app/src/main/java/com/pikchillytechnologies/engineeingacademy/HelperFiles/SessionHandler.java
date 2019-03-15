@@ -31,7 +31,9 @@ public class SessionHandler {
      * Logs out user by clearing the session
      */
     public void logoutUser(){
+        mEditor.putString(KEY_USERNAME, "");
         mEditor.clear();
+        mEditor.apply();
         mEditor.commit();
     }
 

@@ -28,13 +28,15 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
     private String m_User_Id;
     private String m_Category_Id;
     private String m_SubCategory_Id;
+    private String m_Title;
 
-    public SubCoursesPackageAdapter(Context context, List<SubCoursePackage> subCoursesPackage, String categoryName, String userid, String categoryid){
+    public SubCoursesPackageAdapter(Context context, List<SubCoursePackage> subCoursesPackage, String categoryName, String title ,String userid, String categoryid){
         this.mContext = context;
         this.m_Sub_Course_Packages_List = subCoursesPackage;
         this.mCategoryName = categoryName;
         this.m_User_Id = userid;
         this.m_Category_Id = categoryid;
+        this.m_Title = title;
     }
 
     @NonNull
@@ -80,17 +82,16 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
         holder.m_Button_Buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"You clicked to Buy " + subCourse.getM_Sub_Course_Id(), Toast.LENGTH_LONG).show();
 
                 Intent destinationDetailIntent = new Intent(mContext, MyCartActivity.class);
                 destinationDetailIntent.putExtra(mContext.getResources().getString(R.string.userid), m_User_Id);
-                //destinationDetailIntent.putExtra("username", m_User_Name);
-                //destinationDetailIntent.putExtra(mContext.getResources().getString(R.string.title), scp.getM_Sub_Course_Name());
+                destinationDetailIntent.putExtra("category_title", mCategoryName);
+                destinationDetailIntent.putExtra("sub_category_title", subCourse.getM_Sub_Course_Name());
                 destinationDetailIntent.putExtra(mContext.getResources().getString(R.string.categoryid), m_Category_Id);
                 destinationDetailIntent.putExtra(mContext.getResources().getString(R.string.subcategoryid), subCourse.getM_Sub_Course_Id());
-                //destinationDetailIntent.putExtra("category_title", mCategoryName);
-                //destinationDetailIntent.putExtra("sub_category_title", scp.getM_Sub_Course_Name());
-
+                destinationDetailIntent.putExtra("cost", subCourse.getM_Cost());
+                destinationDetailIntent.putExtra(mContext.getResources().getString(R.string.title), m_Title);
+                destinationDetailIntent.putExtra("total_exams", subCourse.getM_Total_Exams());
                 mContext.startActivity(destinationDetailIntent);
 
             }
