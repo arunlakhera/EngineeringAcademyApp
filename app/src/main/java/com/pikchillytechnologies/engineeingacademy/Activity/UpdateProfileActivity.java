@@ -1,6 +1,8 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -103,12 +105,14 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private String mUserUpdatedImage;
     private Uri filePath;
     private SessionHandler session;
+    boolean mAlert_Action;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
 
+        mAlert_Action = false;
         session = new SessionHandler(getApplicationContext());
         m_Helper = new EAHelper();
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -168,7 +172,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                 if (m_Helper.isNetworkAvailable(getApplicationContext())) {
 
-                    updateUserData();
+                    showAlertDialog();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
@@ -242,6 +246,34 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void showAlertDialog(){
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setTitle("Save Changes");
+        alertBuilder.setMessage("Do you want to save the Changes ?");
+        alertBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                updateUserData();
+
+                Toast.makeText(getApplicationContext(), "Changes Saved Successfully!", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        alertBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                    Log.d("Save Changes:", "No");
+            }
+        });
+
+        alertBuilder.create();
+        alertBuilder.show();
+
     }
 
     // Function to Prepate user data

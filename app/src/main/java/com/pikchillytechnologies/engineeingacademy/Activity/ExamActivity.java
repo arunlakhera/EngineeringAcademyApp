@@ -1,6 +1,7 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 
 public class ExamActivity extends AppCompatActivity {
 
@@ -312,6 +318,24 @@ public class ExamActivity extends AppCompatActivity {
                 // Ask user to confirm if they want to submit the response
                 // If user says yes save the response and move to next screen
 
+                showAlertDialog();
+            }
+        });
+
+        menuButton.setVisibility(View.INVISIBLE);
+
+    }
+
+    public void showAlertDialog(){
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setTitle("Submit Answers");
+        alertBuilder.setMessage("Do you want to Submit your answers. ?");
+
+        alertBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
                 if (!isSubmitPressed) {
                     saveUserResult();
 
@@ -337,12 +361,19 @@ public class ExamActivity extends AppCompatActivity {
                     showResult();
 
                 }
-
                 isSubmitPressed = true;
             }
         });
 
-        menuButton.setVisibility(View.INVISIBLE);
+        alertBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("Save Changes:", "No");
+            }
+        });
+
+        alertBuilder.create();
+        alertBuilder.show();
 
     }
 

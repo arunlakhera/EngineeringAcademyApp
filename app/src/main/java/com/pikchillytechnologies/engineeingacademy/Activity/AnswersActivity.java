@@ -117,6 +117,9 @@ public class AnswersActivity extends AppCompatActivity {
     private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
     private SessionHandler session;
 
+    private int MY_PERMISSIONS_REQUEST_WRITE = 100;
+    private int MY_PERMISSIONS_REQUEST_READ = 200;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,6 +165,22 @@ public class AnswersActivity extends AppCompatActivity {
         m_RecyclerView_Answers_List.setLayoutManager(m_Layout_Manager);
         m_RecyclerView_Answers_List.setAdapter(m_Answers_Adapter);
         question_number = 0;
+
+        if (ContextCompat.checkSelfPermission(AnswersActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+
+            ActivityCompat.requestPermissions(AnswersActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE);
+        }
+
+        if (ContextCompat.checkSelfPermission(AnswersActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+
+            ActivityCompat.requestPermissions(AnswersActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ);
+        }
 
         if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
