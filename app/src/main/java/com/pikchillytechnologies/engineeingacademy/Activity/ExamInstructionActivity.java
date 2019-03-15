@@ -250,11 +250,11 @@ public class ExamInstructionActivity extends AppCompatActivity {
                                 //getting the json object of the particular index inside the array
                                 JSONObject examInstructionObject = examInstructionArray.getJSONObject(i);
 
-                                m_TextView_Instruction1.setText(examInstructionObject.getString("instruction1"));
-                                m_TextView_Instruction2.setText(examInstructionObject.getString("instruction2"));
-                                m_TextView_Instruction3.setText(examInstructionObject.getString("instruction3"));
-                                m_TextView_Instruction4.setText(examInstructionObject.getString("instruction4"));
-                                m_TextView_Instruction5.setText(examInstructionObject.getString("instruction5"));
+                                m_TextView_Instruction1.setText("> " + examInstructionObject.getString("instruction1"));
+                                m_TextView_Instruction2.setText("> " + examInstructionObject.getString("instruction2"));
+                                m_TextView_Instruction3.setText("> " + examInstructionObject.getString("instruction3"));
+                                m_TextView_Instruction4.setText("> " + examInstructionObject.getString("instruction4"));
+                                m_TextView_Instruction5.setText("> " + examInstructionObject.getString("instruction5"));
                                 m_Marks = examInstructionObject.getString("marks");
                                 m_TextView_Marks.setText(m_Marks + " marks for correct answer");
                                 m_Negative_Marks = examInstructionObject.getString("negative_marks");
