@@ -1,6 +1,11 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.app.ProgressDialog;
+import android.app.Activity;
+import instamojo.library.InstapayListener;
+import instamojo.library.InstamojoPay;
+import instamojo.library.Config;
+import android.content.IntentFilter;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -79,6 +84,7 @@ public class SubCoursesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_courses);
+        // Call the function callInstamojo to start payment here
 
         session = new SessionHandler(getApplicationContext());
         m_Helper = new EAHelper();
@@ -95,6 +101,7 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_Button_Back = findViewById(R.id.button_Back);
         m_RecyclerView_Course_Package = findViewById(R.id.recyclerView_Sub_Courses);
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         menuButton = findViewById(R.id.button_Menu);
@@ -102,7 +109,7 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_Sub_Course_Package_List = new ArrayList<>();
         m_TextView_Activity_Title.setText(m_Title);
         m_Button_Back.setVisibility(View.VISIBLE);
-        m_Sub_Course_Package_Adapter = new SubCoursesPackageAdapter(getApplicationContext(),m_Sub_Course_Package_List, m_Category_Title);
+        m_Sub_Course_Package_Adapter = new SubCoursesPackageAdapter(getApplicationContext(),m_Sub_Course_Package_List, m_Category_Title, m_User_Id,m_Category_Id);
         m_RecyclerView_Course_Package.setHasFixedSize(true);
         m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
         m_RecyclerView_Course_Package.setLayoutManager(m_Layout_Manager);
@@ -120,6 +127,7 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_RecyclerView_Course_Package.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Course_Package, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+
                 SubCoursePackage scp = m_Sub_Course_Package_List.get(position);
 
                 if(m_Helper.isNetworkAvailable(getApplicationContext())){
