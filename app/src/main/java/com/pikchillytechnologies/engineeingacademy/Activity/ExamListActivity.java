@@ -76,9 +76,7 @@ public class ExamListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exam_list);
 
         session = new SessionHandler(getApplicationContext());
-
         m_Helper = new EAHelper();
-
 
         // Get variable from prev activity
         m_Sub_Course_Bundle = getIntent().getExtras();
@@ -108,24 +106,39 @@ public class ExamListActivity extends AppCompatActivity {
         m_RecyclerView_Exam_List.setLayoutManager(m_Layout_Manager);
         m_RecyclerView_Exam_List.setAdapter(m_Exam_List_Adapter);
 
-        prepareExamListData();
+        if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+            prepareExamListData();
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+        }
 
         m_RecyclerView_Exam_List.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Exam_List, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                ExamListModel exam = m_Exam_List.get(position);
 
-                Intent destinationDetailIntent = new Intent(ExamListActivity.this, ExamInstructionActivity.class);
-                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
-                destinationDetailIntent.putExtra("username", m_User_Name);
-                destinationDetailIntent.putExtra(getResources().getString(R.string.title), exam.getM_Exam_Name());
-                destinationDetailIntent.putExtra(getResources().getString(R.string.examid), exam.getM_Exam_Id());
-                destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), exam.getM_Exam_Duration());
-                destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
-                destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), m_Sub_Category_Id);
-                destinationDetailIntent.putExtra("category_title", m_Category_Title);
-                destinationDetailIntent.putExtra("sub_category_title", m_Sub_Category_Title);
-                startActivity(destinationDetailIntent);
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+                    ExamListModel exam = m_Exam_List.get(position);
+
+                    Intent destinationDetailIntent = new Intent(ExamListActivity.this, ExamInstructionActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.title), exam.getM_Exam_Name());
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.examid), exam.getM_Exam_Id());
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), exam.getM_Exam_Duration());
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), m_Sub_Category_Id);
+                    destinationDetailIntent.putExtra("category_title", m_Category_Title);
+                    destinationDetailIntent.putExtra("sub_category_title", m_Sub_Category_Title);
+                    startActivity(destinationDetailIntent);
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                }
+
+
             }
 
             @Override

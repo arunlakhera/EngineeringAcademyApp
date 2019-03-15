@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamQuestionAdapter;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamQuestionModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
 import com.pikchillytechnologies.engineeingacademy.Model.UserResponseModel;
@@ -105,6 +106,8 @@ public class ExamActivity extends AppCompatActivity {
 
     private String remainingTime;
     private long noOfMinutes;
+
+    private EAHelper m_Helper;
 
     private int m_Correct;
     private int m_Wrong;
@@ -197,11 +200,17 @@ public class ExamActivity extends AppCompatActivity {
         currentQuestion = 0;
         noOfMinutes = Long.valueOf(m_Exam_Duration) * 60 * 60 * 1000;
 
-        // Prepare and Load Data from Exam
-        prepareExamQuestionListData();
+        if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
-        // Start the Timer
-        startExamTimer(noOfMinutes);
+            prepareExamQuestionListData();
+
+            // Start the Timer
+            startExamTimer(noOfMinutes);
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+        }
+
 
         m_RecyclerView_Question_List.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Question_List, new RecyclerTouchListener.ClickListener() {
             @Override

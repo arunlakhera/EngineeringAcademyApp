@@ -43,6 +43,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.Adapter.AnswersAdapter;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamQuestionAdapter;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamQuestionModel;
@@ -83,6 +84,8 @@ public class AnswersActivity extends AppCompatActivity {
     private String m_Wrong;
     private String m_NotAttempted;
     private String total_marks;
+
+    private EAHelper m_Helper;
 
     private int question_number;
     private int total_Questions;
@@ -160,15 +163,27 @@ public class AnswersActivity extends AppCompatActivity {
         m_RecyclerView_Answers_List.setAdapter(m_Answers_Adapter);
         question_number = 0;
 
-        prepareExamQuestionsData();
+        if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+            prepareExamQuestionsData();
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+        }
 
         m_Button_Download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getHeight());
-                bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
-                createPdf();
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+                    Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getHeight());
+                    bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
+                    createPdf();
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                }
 
             }
         });

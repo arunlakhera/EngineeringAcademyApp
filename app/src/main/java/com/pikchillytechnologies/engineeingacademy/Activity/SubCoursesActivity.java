@@ -109,28 +109,41 @@ public class SubCoursesActivity extends AppCompatActivity {
         m_RecyclerView_Course_Package.setItemAnimator(new DefaultItemAnimator());
         m_RecyclerView_Course_Package.setAdapter(m_Sub_Course_Package_Adapter);
 
-        prepareSubCoursePackageData();
+        if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+            prepareSubCoursePackageData();
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+        }
 
         m_RecyclerView_Course_Package.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Course_Package, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 SubCoursePackage scp = m_Sub_Course_Package_List.get(position);
 
-                if(scp.getM_Payment_Status().equals("Paid")){
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
-                    Intent destinationDetailIntent = new Intent(SubCoursesActivity.this, ExamListActivity.class);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
-                    destinationDetailIntent.putExtra("username", m_User_Name);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.title), scp.getM_Sub_Course_Name());
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), scp.getM_Sub_Course_Id());
-                    destinationDetailIntent.putExtra("category_title", m_Category_Title);
-                    destinationDetailIntent.putExtra("sub_category_title", scp.getM_Sub_Course_Name());
+                    if(scp.getM_Payment_Status().equals("Paid")){
 
-                    startActivity(destinationDetailIntent);
+                        Intent destinationDetailIntent = new Intent(SubCoursesActivity.this, ExamListActivity.class);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                        destinationDetailIntent.putExtra("username", m_User_Name);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.title), scp.getM_Sub_Course_Name());
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), scp.getM_Sub_Course_Id());
+                        destinationDetailIntent.putExtra("category_title", m_Category_Title);
+                        destinationDetailIntent.putExtra("sub_category_title", scp.getM_Sub_Course_Name());
+
+                        startActivity(destinationDetailIntent);
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Please Buy the Package to Access.",Toast.LENGTH_LONG).show();
+                    }
+
                 }else{
-                    Toast.makeText(getApplicationContext(),"Please Buy the Package to Access.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
                 }
+
             }
 
             @Override

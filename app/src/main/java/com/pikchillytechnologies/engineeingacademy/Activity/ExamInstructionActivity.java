@@ -108,30 +108,41 @@ public class ExamInstructionActivity extends AppCompatActivity {
         m_Helper = new EAHelper();
         m_Button_Back.setVisibility(View.VISIBLE);
 
-        prepapreExamInstructionsData();
+        if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+            prepapreExamInstructionsData();
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+        }
 
         m_Button_Start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(m_Total_Questions != null && !m_Total_Questions.isEmpty() && Integer.valueOf(m_Total_Questions) > 0){
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
-                    Intent destinationDetailIntent = new Intent(ExamInstructionActivity.this, ExamActivity.class);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
-                    destinationDetailIntent.putExtra("username", m_User_Name);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), m_Exam_Duration);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.totalquestions), m_Total_Questions);
-                    destinationDetailIntent.putExtra("Marks", m_Marks);
-                    destinationDetailIntent.putExtra("Negative_Marks", m_Negative_Marks);
-                    startActivity(destinationDetailIntent);
+                    if(m_Total_Questions != null && !m_Total_Questions.isEmpty() && Integer.valueOf(m_Total_Questions) > 0){
+
+                        Intent destinationDetailIntent = new Intent(ExamInstructionActivity.this, ExamActivity.class);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                        destinationDetailIntent.putExtra("username", m_User_Name);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.examid), m_Exam_Id);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), m_Exam_Duration);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.totalquestions), m_Total_Questions);
+                        destinationDetailIntent.putExtra("Marks", m_Marks);
+                        destinationDetailIntent.putExtra("Negative_Marks", m_Negative_Marks);
+                        startActivity(destinationDetailIntent);
+
+                    }else{
+
+                        Toast.makeText(getApplicationContext(),"No Questions assigned to Exam.", Toast.LENGTH_LONG).show();
+                    }
 
                 }else{
-
-                    Toast.makeText(getApplicationContext(),"No Questions assigned to Exam.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
                 }
-
 
             }
         });

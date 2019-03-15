@@ -36,6 +36,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.Model.UserModel;
@@ -89,6 +90,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     private UserModel user;
     private List<UserModel> m_User_List;
+    private EAHelper m_Helper;
 
     //Navigation Drawer
     private DrawerLayout mDrawerLayout;
@@ -147,19 +149,39 @@ public class UpdateProfileActivity extends AppCompatActivity {
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_User_Bundle.getString("username", "User Name");
 
-        prepareUserData();
+        if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+            prepareUserData();
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+        }
 
         mTextView_ChangePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeUserPhoto();
+
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+                    changeUserPhoto();
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
         mButton_Update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserData();
+
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+                    updateUserData();
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

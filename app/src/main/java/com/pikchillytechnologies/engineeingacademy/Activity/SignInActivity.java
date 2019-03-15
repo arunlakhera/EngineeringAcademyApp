@@ -1,7 +1,10 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.MainThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -66,8 +69,15 @@ public class SignInActivity extends AppCompatActivity {
         m_Sign_In_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                m_User_Id = m_Email_Id_TextView.getText().toString();
-                signInRequest();
+
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+                    m_User_Id = m_Email_Id_TextView.getText().toString();
+                    signInRequest();
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -153,5 +163,6 @@ public class SignInActivity extends AppCompatActivity {
         m_Queue.add(postRequest);
 
     }
+
 
 }

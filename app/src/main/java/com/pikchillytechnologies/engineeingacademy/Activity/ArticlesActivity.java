@@ -26,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ArticlesAdapter;
 import com.pikchillytechnologies.engineeingacademy.Adapter.CoursesAdapter;
+import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.ArticlesModel;
 import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
@@ -69,6 +70,7 @@ public class ArticlesActivity extends AppCompatActivity {
     private ArticlesAdapter m_Articles_Adapter;
     private RecyclerView.LayoutManager m_Layout_Manager;
 
+    private EAHelper m_Helper;
     private String articleURL;
     private String articleName;
 
@@ -101,16 +103,29 @@ public class ArticlesActivity extends AppCompatActivity {
         m_RecyclerView_Articles.setLayoutManager(m_Layout_Manager);
         m_RecyclerView_Articles.setAdapter(m_Articles_Adapter);
 
-        prepareArticlesData();
+        if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+            prepareArticlesData();
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+        }
+
 
         m_RecyclerView_Articles.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Articles, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
 
-                articleURL = m_Articles_List.get(position).getM_Article_URL();
-                articleName = m_Articles_List.get(position).getM_Article_Name();
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
-                new DownloadFile().execute(articleURL);
+                    articleURL = m_Articles_List.get(position).getM_Article_URL();
+                    articleName = m_Articles_List.get(position).getM_Article_Name();
+
+                    new DownloadFile().execute(articleURL);
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                }
 
             }
 

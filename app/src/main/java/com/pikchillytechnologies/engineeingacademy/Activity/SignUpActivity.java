@@ -65,8 +65,16 @@ public class SignUpActivity extends AppCompatActivity {
         m_Sign_Up_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                m_User_Id = m_Email_Id_EditText.getText().toString();
-                signupRequest();
+
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+                    m_User_Id = m_Email_Id_EditText.getText().toString();
+                    signupRequest();
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 

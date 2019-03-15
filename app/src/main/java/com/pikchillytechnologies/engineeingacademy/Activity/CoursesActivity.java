@@ -101,12 +101,26 @@ public class CoursesActivity extends AppCompatActivity {
         m_RecyclerView_Courses.setLayoutManager(m_Layout_Manager);
         m_RecyclerView_Courses.setAdapter(m_Courses_Adapter);
 
-        prepareCourseData();
+        if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+            prepareCourseData();
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+        }
 
         m_RecyclerView_Courses.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Courses, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                start_Activity(position);
+
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+                    start_Activity(position);
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                }
+
             }
 
             @Override

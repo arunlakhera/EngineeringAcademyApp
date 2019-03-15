@@ -2,6 +2,8 @@ package com.pikchillytechnologies.engineeingacademy.HelperFiles;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -45,5 +47,17 @@ public class EAHelper {
     }
 
 
+    /**
+     * Function to check if Device is connected to Internet
+     */
+    public boolean isNetworkAvailable(Context context) {
+
+        ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnected();
+        return isConnected;
+    }
 
 }
