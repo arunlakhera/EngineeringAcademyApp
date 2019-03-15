@@ -279,7 +279,7 @@ public class SubCoursesActivity extends AppCompatActivity {
             {
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("category_id", String.valueOf(m_Category_Id));
-                params.put("user_id", "arunlakhera@gmail.com");
+                params.put("user_id", m_User_Id);
                 return params;
             }
         };
