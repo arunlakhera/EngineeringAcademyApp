@@ -49,8 +49,8 @@ public class MyCartActivity extends AppCompatActivity {
     private Button m_Button_Pay;
     private Button m_Button_Back;
 
-    RequestQueue m_Queue;
-    StringRequest loadRequest;
+    private RequestQueue m_Queue;
+    //StringRequest loadRequest;
     private ProgressDialog pd;
     private UserModel user;
 
@@ -102,8 +102,10 @@ public class MyCartActivity extends AppCompatActivity {
         pd = new ProgressDialog(MyCartActivity.this);
         m_Queue = Volley.newRequestQueue(MyCartActivity.this);
         m_Queue.getCache().clear();
+
         session = new SessionHandler(getApplicationContext());
         m_Helper = new EAHelper();
+        user = null;
 
         m_User_Id = m_Course_Bundle.getString(getResources().getString(R.string.userid),"User Id");
         m_Category_Id = m_Course_Bundle.getString(getResources().getString(R.string.categoryid),getResources().getString(R.string.packages));
@@ -115,6 +117,7 @@ public class MyCartActivity extends AppCompatActivity {
         m_Total_Exams =  m_Course_Bundle.getString("total_exams","0");
 
         m_TextView_Activity_Title.setText("My Cart");
+        m_Button_Back.setVisibility(View.VISIBLE);
         m_TextView_SubCategory_Title.setText(m_Sub_Category_Title);
         m_TextView_Amount.setText("Rs." + m_Amount);
 
@@ -125,6 +128,21 @@ public class MyCartActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
         }
+
+        m_Button_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent destinationDetailIntent = new Intent(MyCartActivity.this, SubCoursesActivity.class);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                destinationDetailIntent.putExtra("username", userName);
+                destinationDetailIntent.putExtra("category_title", m_Category_Title);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
+                destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+                startActivity(destinationDetailIntent);
+
+            }
+        });
 
         m_Button_Pay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,8 +276,9 @@ public class MyCartActivity extends AppCompatActivity {
         pd.show();
 
         String response = null;
+        m_Queue.getCache().clear();
 
-        loadRequest = new StringRequest(Request.Method.POST,userDataURL ,
+        StringRequest loadRequest = new StringRequest(Request.Method.POST,userDataURL ,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -312,8 +331,9 @@ public class MyCartActivity extends AppCompatActivity {
         pd.show();
 
         String response = null;
+        m_Queue.getCache().clear();
 
-        loadRequest = new StringRequest(Request.Method.POST, userSubscriptionURL,
+        StringRequest loadRequest = new StringRequest(Request.Method.POST, userSubscriptionURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -325,6 +345,7 @@ public class MyCartActivity extends AppCompatActivity {
                         destinationDetailIntent.putExtra("category_title", m_Category_Title);
                         destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
                         destinationDetailIntent.putExtra(getResources().getString(R.string.title), m_Title);
+                        startActivity(destinationDetailIntent);
 
                     }
                 },
