@@ -123,17 +123,27 @@ public class ExamListActivity extends AppCompatActivity {
 
                     ExamListModel exam = m_Exam_List.get(position);
 
-                    Intent destinationDetailIntent = new Intent(ExamListActivity.this, ExamInstructionActivity.class);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
-                    destinationDetailIntent.putExtra("username", m_User_Name);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.title), exam.getM_Exam_Name());
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.examid), exam.getM_Exam_Id());
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), exam.getM_Exam_Duration());
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
-                    destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), m_Sub_Category_Id);
-                    destinationDetailIntent.putExtra("category_title", m_Category_Title);
-                    destinationDetailIntent.putExtra("sub_category_title", m_Sub_Category_Title);
-                    startActivity(destinationDetailIntent);
+                    // Condition to allow student to take exam only if not attempted before.
+                    int attempt_number = Integer.valueOf(exam.getM_No_Of_Attempts().trim());
+                    if(attempt_number < 1){
+
+                        Intent destinationDetailIntent = new Intent(ExamListActivity.this, ExamInstructionActivity.class);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                        destinationDetailIntent.putExtra("username", m_User_Name);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.title), exam.getM_Exam_Name());
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.examid), exam.getM_Exam_Id());
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.examduration), exam.getM_Exam_Duration());
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.categoryid), m_Category_Id);
+                        destinationDetailIntent.putExtra(getResources().getString(R.string.subcategoryid), m_Sub_Category_Id);
+                        destinationDetailIntent.putExtra("category_title", m_Category_Title);
+                        destinationDetailIntent.putExtra("sub_category_title", m_Sub_Category_Title);
+                        startActivity(destinationDetailIntent);
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),"You have already taken the exam. Only 1 attempt is allowed per exam.", Toast.LENGTH_LONG).show();
+
+                    }
+
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
@@ -276,6 +286,7 @@ public class ExamListActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
+                params.put("user_id", String.valueOf(m_User_Id));
                 params.put("sub_category_id", String.valueOf(m_Sub_Category_Id));
                 return params;
             }

@@ -45,7 +45,7 @@
 
         <meta-data
             android:name="instamojo.orderauth.url"
-            android:value="https://pikchilly.com/access_token.php" />
+            android:value="http://onlineengineeringacademy.co.in/package/access_token.php" />
     </application>
 
 </manifest>

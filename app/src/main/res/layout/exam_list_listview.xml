@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center|start"
-            android:text="Available From"
+            android:text="Attempted"
             android:textColor="@android:color/darker_gray"
             android:textSize="@dimen/text_default"
             android:textStyle="bold" />
@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center|end"
-            android:text="Available Till"
+            android:text="Score"
             android:textColor="@android:color/darker_gray"
             android:textSize="@dimen/text_default"
             android:textStyle="bold" />

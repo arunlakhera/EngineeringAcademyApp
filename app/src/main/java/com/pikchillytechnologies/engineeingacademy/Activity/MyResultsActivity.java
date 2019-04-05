@@ -1,6 +1,13 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.Manifest;
+import android.app.Activity;
+import instamojo.library.InstapayListener;
+import instamojo.library.InstamojoPay;
+import instamojo.library.Config;
+import org.json.JSONObject;
+import org.json.JSONException;
+import android.content.IntentFilter;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -61,6 +68,7 @@ public class MyResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_downloads);
+        // Call the function callInstamojo to start payment here
 
         session = new SessionHandler(getApplicationContext());
 
