@@ -66,7 +66,8 @@ public class ExamListActivity extends AppCompatActivity {
     private String m_Category_Title;
     private String m_Sub_Category_Title;
 
-    private String url = "https://pikchilly.com/api/exam_list.php";
+    //private String url = "https://pikchilly.com/api/exam_list.php";
+    private String url = "http://onlineengineeringacademy.co.in/api/exam_request";
 
     private SessionHandler session;
 
@@ -260,6 +261,7 @@ public class ExamListActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 },
                 new Response.ErrorListener() {

@@ -113,8 +113,8 @@ public class AnswersActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private Button m_Button_Download;
 
-    private String url = "https://pikchilly.com/api/exam_question.php";
-    private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
+   // private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
+    private String getUserResponseURL = "http://onlineengineeringacademy.co.in/api/get_response_request";
     private SessionHandler session;
 
     private int MY_PERMISSIONS_REQUEST_WRITE = 100;
@@ -294,6 +294,7 @@ public class AnswersActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         //hiding the progressbar after completion
 
+                        response = response.trim();
                         try {
                             //getting the whole json object from the response
                             JSONObject obj = new JSONObject(response);
@@ -302,12 +303,12 @@ public class AnswersActivity extends AppCompatActivity {
                             JSONArray examArray = obj.getJSONArray("user_response");
 
                             //now looping through all the elements of the json array
-                            for (int i = (examArray.length() - 1); i >= 0; i--) {
+                            for (int i = (examArray.length() - 1); i >= 0 ; i--) {
                                 //getting the json object of the particular index inside the array
                                 JSONObject examObject = examArray.getJSONObject(i);
                                 question_number = question_number + 1;
-                                AnswersModel exam = new AnswersModel(String.valueOf(question_number), examObject.getString("question_id"), examObject.getString("question_eng"), examObject.getString("question_hindi"),
-                                        examObject.getString("question_eng_img"), examObject.getString("question_hindi_img"),
+                                AnswersModel exam = new AnswersModel(String.valueOf(question_number), examObject.getString("question_id"), examObject.getString("question_eng"),
+                                        examObject.getString("question_hindi"), examObject.getString("question_eng_img"), examObject.getString("question_hindi_img"),
                                         examObject.getString("answer1_eng"), examObject.getString("answer2_eng"), examObject.getString("answer3_eng"),
                                         examObject.getString("answer4_eng"), examObject.getString("answer5_eng"), examObject.getString("answer6_eng"),
                                         examObject.getString("answer1_hindi"), examObject.getString("answer2_hindi"), examObject.getString("answer3_hindi"),
@@ -331,6 +332,7 @@ public class AnswersActivity extends AppCompatActivity {
                         }
 
                     }
+
                 },
                 new Response.ErrorListener() {
                     @Override
@@ -344,6 +346,7 @@ public class AnswersActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("user_id", String.valueOf(m_User_Id));
                 params.put("exam_id", String.valueOf(m_Exam_Id));
+
                 return params;
             }
         };

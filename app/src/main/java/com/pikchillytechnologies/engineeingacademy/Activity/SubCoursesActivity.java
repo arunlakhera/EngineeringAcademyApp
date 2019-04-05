@@ -73,9 +73,9 @@ public class SubCoursesActivity extends AppCompatActivity {
     private ImageView m_Background_ImageView;
 
     private RecyclerView.LayoutManager m_Layout_Manager;
-    //private String url = "http://onlineengineeringacademy.co.in/api/sub_category_request";
+    private String url = "http://onlineengineeringacademy.co.in/api/sub_category_request";
 
-    private String url = "https://pikchilly.com/api/sub_category.php";
+    //private String url = "https://pikchilly.com/api/sub_category.php";
 
     private String m_Category_Id;
     private SessionHandler session;

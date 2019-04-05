@@ -45,29 +45,29 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
 
         m_QuestionAnswer = m_QuestionAnswers_List.get(position);
 
-        String questionType = m_QuestionAnswer.getM_Question_Type();
-        String answerType = m_QuestionAnswer.getM_Answer_Type();
-        String questionSupportImage_Eng = m_QuestionAnswer.getM_Question_Eng_Img_url();
-        String questionSupportImage_Hindi = m_QuestionAnswer.getM_Question_Hindi_Img_url();
+        String questionType = m_QuestionAnswer.getM_Question_Type().trim();
+        String answerType = m_QuestionAnswer.getM_Answer_Type().trim();
+        String questionSupportImage_Eng = m_QuestionAnswer.getM_Question_Eng_Img_url().trim();
+        String questionSupportImage_Hindi = m_QuestionAnswer.getM_Question_Hindi_Img_url().trim();
 
-        holder.mTextView_Question_Number.setText("Question: "+ m_QuestionAnswer.getM_Question_Number());
+        holder.mTextView_Question_Number.setText("Question: "+ m_QuestionAnswer.getM_Question_Number().trim());
 
         //Check if the question is Text or Image
-        if (questionType.equals("T")) {
+        if (questionType.trim().equals("T")) {
 
             holder.mTextView_Question_Text.setVisibility(View.VISIBLE);
             holder.mImageView_Question_Image.setVisibility(View.GONE);
 
-            holder.mTextView_Question_Text.setText(m_QuestionAnswer.getM_Question_Eng());
+            holder.mTextView_Question_Text.setText(m_QuestionAnswer.getM_Question_Eng().trim());
 
-        } else if (questionType.equals("I")) {
+        } else if (questionType.trim().equals("I")) {
 
             holder.mTextView_Question_Text.setVisibility(View.GONE);
             holder.mImageView_Question_Image.setVisibility(View.VISIBLE);
 
             try {
                 Glide.with(context)
-                        .load(m_QuestionAnswer.getM_Question_Eng())
+                        .load(m_QuestionAnswer.getM_Question_Eng().trim())
                         .placeholder(R.drawable.logo)
                         .error(R.drawable.back_icon)
                         .into(holder.mImageView_Question_Image);
@@ -77,7 +77,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         }
 
         // Check if the supported image for question is available
-        if (questionSupportImage_Eng.equals("NA")) {
+        if (questionSupportImage_Eng.trim().equals("NA")) {
             holder.mImageView_QuestionSupportedImage.setVisibility(View.GONE);
 
         } else {
@@ -85,7 +85,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
 
             try {
                 Glide.with(context)
-                        .load(questionSupportImage_Eng)
+                        .load(questionSupportImage_Eng.trim())
                         .placeholder(R.drawable.logo)
                         .error(R.drawable.back_icon)
                         .into(holder.mImageView_QuestionSupportedImage);
@@ -94,14 +94,14 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             }
         }
 
-        if (answerType.equals("T")) {
+        if (answerType.trim().equals("T")) {
 
             holder.mLayout_Answers_Text.setVisibility(View.VISIBLE);
             holder.mLayout_Answers_Image.setVisibility(View.GONE);
 
             // Set Answer for Text English
-            setCheckboxAnswersText(holder,m_QuestionAnswer.getM_Answer1_Eng(), m_QuestionAnswer.getM_Answer2_Eng(), m_QuestionAnswer.getM_Answer3_Eng(),
-                    m_QuestionAnswer.getM_Answer4_Eng(), m_QuestionAnswer.getM_Answer5_Eng(), m_QuestionAnswer.getM_Answer6_Eng());
+            setCheckboxAnswersText(holder,m_QuestionAnswer.getM_Answer1_Eng().trim(), m_QuestionAnswer.getM_Answer2_Eng().trim(), m_QuestionAnswer.getM_Answer3_Eng().trim(),
+                    m_QuestionAnswer.getM_Answer4_Eng().trim(), m_QuestionAnswer.getM_Answer5_Eng().trim(), m_QuestionAnswer.getM_Answer6_Eng().trim());
 
 
         } else if (answerType.equals("I")) {
@@ -109,12 +109,12 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mLayout_Answers_Image.setVisibility(View.VISIBLE);
             holder.mLayout_Answers_Text.setVisibility(View.GONE);
 
-            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer1_Eng(), holder.mImageview_Answer1);
-            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer2_Eng(), holder.mImageview_Answer2);
-            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer3_Eng(), holder.mImageview_Answer3);
-            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer4_Eng(), holder.mImageview_Answer4);
-            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer5_Eng(), holder.mImageview_Answer5);
-            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer6_Eng(), holder.mImageview_Answer6);
+            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer1_Eng().trim(), holder.mImageview_Answer1);
+            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer2_Eng().trim(), holder.mImageview_Answer2);
+            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer3_Eng().trim(), holder.mImageview_Answer3);
+            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer4_Eng().trim(), holder.mImageview_Answer4);
+            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer5_Eng().trim(), holder.mImageview_Answer5);
+            setCheckboxAnswersImage(holder,m_QuestionAnswer.getM_Answer6_Eng().trim(), holder.mImageview_Answer6);
 
         }
     }
@@ -122,18 +122,18 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
     // Function to set the Text Answers into Text
     public void setCheckboxAnswersText(AnswersAdapter.MyViewHolder holder, String answer1, String answer2, String answer3, String answer4, String answer5, String answer6) {
 
-        holder.mCheckbox_Answer1_Text.setText(answer1);
-        holder.mCheckbox_Answer2_Text.setText(answer2);
-        holder.mCheckbox_Answer3_Text.setText(answer3);
-        holder.mCheckbox_Answer4_Text.setText(answer4);
-        holder.mCheckbox_Answer5_Text.setText(answer5);
-        holder.mCheckbox_Answer6_Text.setText(answer6);
+        holder.mCheckbox_Answer1_Text.setText(answer1.trim());
+        holder.mCheckbox_Answer2_Text.setText(answer2.trim());
+        holder.mCheckbox_Answer3_Text.setText(answer3.trim());
+        holder.mCheckbox_Answer4_Text.setText(answer4.trim());
+        holder.mCheckbox_Answer5_Text.setText(answer5.trim());
+        holder.mCheckbox_Answer6_Text.setText(answer6.trim());
 
-        if (m_QuestionAnswer.getM_Answer1_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer1_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer1_Text.setChecked(true);
             holder.mCheckbox_Answer1_Text.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer1_Text.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer1_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer1().equals("Y")){
+        } else if(m_QuestionAnswer.getM_Answer1_Flag().trim().equals("N") && m_QuestionAnswer.getM_User_Answer1().equals("Y")){
             holder.mCheckbox_Answer1_Text.setChecked(true);
             holder.mCheckbox_Answer1_Text.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer1_Text.setEnabled(false);
@@ -142,11 +142,11 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer1_Text.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_Answer2_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer2_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer2_Text.setChecked(true);
             holder.mCheckbox_Answer2_Text.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer2_Text.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer1_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer2().equals("Y")){
+        } else if(m_QuestionAnswer.getM_Answer1_Flag().trim().equals("N") && m_QuestionAnswer.getM_User_Answer2().equals("Y")){
             holder.mCheckbox_Answer2_Text.setChecked(true);
             holder.mCheckbox_Answer2_Text.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer2_Text.setEnabled(false);
@@ -155,11 +155,11 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer2_Text.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_Answer3_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer3_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer3_Text.setChecked(true);
             holder.mCheckbox_Answer3_Text.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer3_Text.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer3_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer3().equals("Y")){
+        } else if(m_QuestionAnswer.getM_Answer3_Flag().trim().equals("N") && m_QuestionAnswer.getM_User_Answer3().equals("Y")){
             holder.mCheckbox_Answer3_Text.setChecked(true);
             holder.mCheckbox_Answer3_Text.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer3_Text.setEnabled(false);
@@ -168,11 +168,11 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer3_Text.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_Answer4_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer4_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer4_Text.setChecked(true);
             holder.mCheckbox_Answer4_Text.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer4_Text.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer4_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer4().equals("Y")){
+        } else if(m_QuestionAnswer.getM_Answer4_Flag().trim().equals("N") && m_QuestionAnswer.getM_User_Answer4().equals("Y")){
             holder.mCheckbox_Answer4_Text.setChecked(true);
             holder.mCheckbox_Answer4_Text.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer4_Text.setEnabled(false);
@@ -181,11 +181,11 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer4_Text.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_Answer5_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer5_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer5_Text.setChecked(true);
             holder.mCheckbox_Answer5_Text.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer5_Text.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer5_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer5().equals("Y")){
+        } else if(m_QuestionAnswer.getM_Answer5_Flag().trim().equals("N") && m_QuestionAnswer.getM_User_Answer5().equals("Y")){
             holder.mCheckbox_Answer5_Text.setChecked(true);
             holder.mCheckbox_Answer5_Text.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer5_Text.setEnabled(false);
@@ -194,11 +194,11 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer5_Text.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_Answer6_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer6_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer6_Text.setChecked(true);
             holder.mCheckbox_Answer6_Text.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer6_Text.setEnabled(false);
-        } else if(m_QuestionAnswer.getM_Answer6_Flag().equals("N") && m_QuestionAnswer.getM_User_Answer6().equals("Y")){
+        } else if(m_QuestionAnswer.getM_Answer6_Flag().trim().equals("N") && m_QuestionAnswer.getM_User_Answer6().equals("Y")){
             holder.mCheckbox_Answer6_Text.setChecked(true);
             holder.mCheckbox_Answer6_Text.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer6_Text.setEnabled(false);
@@ -214,7 +214,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
 
         try {
             Glide.with(context)
-                    .load(answer)
+                    .load(answer.trim())
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.back_icon)
                     .into(imageViewAnswerImage);
@@ -222,7 +222,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             Toast.makeText(context, "Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
-        if (m_QuestionAnswer.getM_Answer1_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer1_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer1_Image.setChecked(true);
             holder.mCheckbox_Answer1_Image.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer1_Image.setEnabled(false);
@@ -231,7 +231,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer1_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_Answer2_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer2_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer2_Image.setChecked(true);
             holder.mCheckbox_Answer2_Image.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer2_Image.setEnabled(false);
@@ -240,7 +240,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer2_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_Answer3_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer3_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer3_Image.setChecked(true);
             holder.mCheckbox_Answer3_Image.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer3_Image.setEnabled(false);
@@ -249,7 +249,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer3_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_Answer4_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer4_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer4_Image.setChecked(true);
             holder.mCheckbox_Answer4_Image.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer4_Image.setEnabled(false);
@@ -258,7 +258,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer4_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_Answer5_Flag().equals("Y")){
+        if (m_QuestionAnswer.getM_Answer5_Flag().trim().equals("Y")){
             holder.mCheckbox_Answer5_Image.setChecked(true);
             holder.mCheckbox_Answer5_Image.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer5_Image.setEnabled(false);
@@ -267,7 +267,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer5_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_Answer6_Flag().equals("Y")) {
+        if (m_QuestionAnswer.getM_Answer6_Flag().trim().equals("Y")) {
             holder.mCheckbox_Answer6_Image.setChecked(true);
             holder.mCheckbox_Answer6_Image.setBackgroundColor(Color.GREEN);
             holder.mCheckbox_Answer6_Image.setEnabled(false);
@@ -276,37 +276,37 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
             holder.mCheckbox_Answer6_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_User_Answer1().equals("Y") && m_QuestionAnswer.getM_Answer1_Flag().equals("N")) {
+        if (m_QuestionAnswer.getM_User_Answer1().trim().equals("Y") && m_QuestionAnswer.getM_Answer1_Flag().equals("N")) {
             holder.mCheckbox_Answer1_Image.setChecked(true);
             holder.mCheckbox_Answer1_Image.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer1_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_User_Answer2().equals("Y") && m_QuestionAnswer.getM_Answer2_Flag().equals("N")) {
+        if (m_QuestionAnswer.getM_User_Answer2().trim().equals("Y") && m_QuestionAnswer.getM_Answer2_Flag().equals("N")) {
             holder.mCheckbox_Answer2_Image.setChecked(true);
             holder.mCheckbox_Answer2_Image.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer2_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_User_Answer3().equals("Y") && m_QuestionAnswer.getM_Answer3_Flag().equals("N")) {
+        if (m_QuestionAnswer.getM_User_Answer3().trim().equals("Y") && m_QuestionAnswer.getM_Answer3_Flag().equals("N")) {
             holder.mCheckbox_Answer3_Image.setChecked(true);
             holder.mCheckbox_Answer3_Image.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer3_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_User_Answer4().equals("Y") && m_QuestionAnswer.getM_Answer4_Flag().equals("N")) {
+        if (m_QuestionAnswer.getM_User_Answer4().trim().equals("Y") && m_QuestionAnswer.getM_Answer4_Flag().equals("N")) {
             holder.mCheckbox_Answer4_Image.setChecked(true);
             holder.mCheckbox_Answer4_Image.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer4_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_User_Answer5().equals("Y") && m_QuestionAnswer.getM_Answer5_Flag().equals("N")) {
+        if (m_QuestionAnswer.getM_User_Answer5().trim().equals("Y") && m_QuestionAnswer.getM_Answer5_Flag().equals("N")) {
             holder.mCheckbox_Answer5_Image.setChecked(true);
             holder.mCheckbox_Answer5_Image.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer5_Image.setEnabled(false);
         }
 
-        if (m_QuestionAnswer.getM_User_Answer6().equals("Y") && m_QuestionAnswer.getM_Answer6_Flag().equals("N")) {
+        if (m_QuestionAnswer.getM_User_Answer6().trim().equals("Y") && m_QuestionAnswer.getM_Answer6_Flag().equals("N")) {
             holder.mCheckbox_Answer6_Image.setChecked(true);
             holder.mCheckbox_Answer6_Image.setBackgroundColor(Color.RED);
             holder.mCheckbox_Answer6_Image.setEnabled(false);

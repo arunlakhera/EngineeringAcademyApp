@@ -22,20 +22,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MyCartActivity"></activity>
-        <activity android:name=".Activity.UpdateProfileActivity" />
-        <activity android:name=".Activity.MyResultsActivity" />
-        <activity android:name=".Activity.MyDownloadsActivity" />
-        <activity android:name=".Activity.ArticlesActivity" />
-        <activity android:name=".Activity.AnswersActivity" />
-        <activity android:name=".Activity.ResultActivity" />
-        <activity android:name=".Activity.ExamActivity" />
-        <activity android:name=".Activity.ExamInstructionActivity" />
-        <activity android:name=".Activity.ExamListActivity" />
-        <activity android:name=".Activity.SubCoursesActivity" />
-        <activity android:name=".Activity.CoursesActivity" />
-        <activity android:name=".Activity.SignUpActivity" />
-        <activity android:name=".Activity.SignInActivity">
+        <activity android:name=".Activity.MyCartActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.UpdateProfileActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.MyResultsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.MyDownloadsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.ArticlesActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.AnswersActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.ResultActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.ExamActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.ExamInstructionActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.ExamListActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.SubCoursesActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.CoursesActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.SignUpActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.SignInActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

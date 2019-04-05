@@ -80,8 +80,11 @@ public class MyCartActivity extends AppCompatActivity {
 
     private SessionHandler session;
 
-    private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
-    private static String userSubscriptionURL = "https://pikchilly.com/api/save_user_subscription.php";
+    //private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
+    //private static String userSubscriptionURL = "https://pikchilly.com/api/save_user_subscription.php";
+
+    private static String userDataURL = "http://onlineengineeringacademy.co.in/api/get_user_profile";
+    private static String userSubscriptionURL = "http://onlineengineeringacademy.co.in/api/save_user_subscription";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

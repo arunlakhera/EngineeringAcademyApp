@@ -74,8 +74,8 @@ public class ArticlesActivity extends AppCompatActivity {
     private String articleURL;
     private String articleName;
 
-    //private String url = "http://onlineengineeringacademy.co.in/api/category_request";
-    private String url = "https://pikchilly.com/api/get_all_articles.php";
+    private String url = "http://onlineengineeringacademy.co.in/api/all_article_request";
+    //private String url = "https://pikchilly.com/api/get_all_articles.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,6 +243,7 @@ public class ArticlesActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 },
                 new Response.ErrorListener() {

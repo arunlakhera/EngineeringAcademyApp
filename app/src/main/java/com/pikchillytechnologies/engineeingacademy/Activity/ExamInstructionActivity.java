@@ -66,7 +66,8 @@ public class ExamInstructionActivity extends AppCompatActivity {
     private String m_Category_Title;
     private String m_Sub_Category_Title;
 
-    private String url = "https://pikchilly.com/api/exam_instruction.php";
+    //private String url = "https://pikchilly.com/api/exam_instruction.php";
+    private String url = "http://onlineengineeringacademy.co.in/api/exam_instruction_request";
 
     private SessionHandler session;
 
@@ -236,14 +237,15 @@ public class ExamInstructionActivity extends AppCompatActivity {
                         //hiding the progressbar after completion
                         progressDialog.dismiss();
 
+                        //Toast.makeText(ExamInstructionActivity.this,response, Toast.LENGTH_LONG).show();
+
+
                         try {
                             //getting the whole json object from the response
                             JSONObject obj = new JSONObject(response);
 
                             // Getting array inside the JSONObject
                             JSONArray examInstructionArray = obj.getJSONArray("exam_instruction");
-
-                            //Toast.makeText(ExamInstructionActivity.this,"Response:" + examInstructionArray, Toast.LENGTH_LONG).show();
 
                             //now looping through all the elements of the json array
                             for (int i = 0; i < examInstructionArray.length(); i++) {
@@ -270,6 +272,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 },
                 new Response.ErrorListener() {

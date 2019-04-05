@@ -44,8 +44,8 @@ public class SignInActivity extends AppCompatActivity {
     private EAHelper m_Helper;
 
     private ProgressDialog pd;
-    private static String loginURL = "https://pikchilly.com/api/login.php";
-
+    //private static String loginURL = "https://pikchilly.com/api/login.php";
+    private static String loginURL = "http://onlineengineeringacademy.co.in/api/login_request";
     private SessionHandler session;
 
     //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";
@@ -105,8 +105,8 @@ public class SignInActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         pd.hide();
-
-                            if(response.equals("Sign_In_Failed")){
+                        response = response.trim();
+                            if(response.equals("SignInFailed")){
 
                                 Toast.makeText(getApplicationContext(),"User Name/Password does not match. Try Again.",Toast.LENGTH_LONG).show();
                             }else{

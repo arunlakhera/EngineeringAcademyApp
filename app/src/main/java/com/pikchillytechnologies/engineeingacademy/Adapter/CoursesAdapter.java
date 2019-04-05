@@ -40,18 +40,20 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.MyViewHo
         CoursesModel course = m_Courses_List.get(position);
         holder.m_CourseName_TextView.setText(course.getM_Name());
 
-        if(course.getM_Name().equals("Mechanical")){
+        // Needs to be dynamic and need to put default image for else condition.
+
+        if(course.getM_Name().equals("Mechanical Engineering")){
             holder.m_Background_ImageView.setImageResource(R.drawable.mechanical);
-        }else if(course.getM_Name().equals("Civil")){
+        }else if(course.getM_Name().equals("Civil Engineering")){
             holder.m_Background_ImageView.setImageResource(R.drawable.civil_bg);
-        }else if(course.getM_Name().equals("Computers")){
+        }else if(course.getM_Name().equals("Computer Engineering")){
             holder.m_Background_ImageView.setImageResource(R.drawable.computer_bg);
         }else if(course.getM_Name().equals("Railways")){
             holder.m_Background_ImageView.setImageResource(R.drawable.railways_bg);
         }else if(course.getM_Name().equals("Non Technical")){
             holder.m_Background_ImageView.setImageResource(R.drawable.railways_bg);
         }else{
-            holder.m_Background_ImageView.setImageResource(R.drawable.ea_bg);
+            holder.m_Background_ImageView.setImageResource(R.drawable.mechanical);
         }
     }
 

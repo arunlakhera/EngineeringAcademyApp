@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -60,8 +62,12 @@ import java.util.Map;
 
 public class UpdateProfileActivity extends AppCompatActivity {
 
-    private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
-    private static String updateUserDataURL = "https://pikchilly.com/api/update_user_profile.php";
+   // private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
+   // private static String updateUserDataURL = "https://pikchilly.com/api/update_user_profile.php";
+
+    private static String userDataURL = "http://onlineengineeringacademy.co.in/api/get_update_user_profile";
+    private static String updateUserDataURL = "http://onlineengineeringacademy.co.in/api/user_profile_update_2";
+
     private final int PICK_IMAGE_REQUEST = 71;
     RequestQueue m_Queue;
     StringRequest loadRequest;
@@ -259,7 +265,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                 updateUserData();
 
-                Toast.makeText(getApplicationContext(), "Changes Saved Successfully!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Changes Saved Successfully!", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -290,6 +296,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         pd.hide();
+                        //Log.d("RESPONSE:::>>>>",response);
+                        //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
 
                         try {
                             JSONObject userJSON = new JSONObject(response);
@@ -307,6 +315,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                             Log.e("Error:", e.getMessage());
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -344,7 +353,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mEditText_City.setText(user.getmCity());
         mEditText_State.setText(user.getmState());
 
-        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
+       RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
 
         try {
             Glide.with(this)
@@ -380,7 +389,20 @@ public class UpdateProfileActivity extends AppCompatActivity {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 mImageView_UserProfilePhoto.setImageBitmap(bitmap);
+/*
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
+                Cursor c = getContentResolver().query(selectedImage, filePathColumn,null,null,null);
+                c.moveToFirst();
+
+                int columnIndex = c.getColumnIndex(filePathColumn[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();
+
+                bitmap = BitmapFactory.decodeFile(picturePath);
+                mImageView_UserProfilePhoto.setImageBitmap(bitmap);
+*/
                 Bitmap lastBitmap = null;
                 lastBitmap = bitmap;
 
@@ -388,7 +410,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 mUserUpdatedImage = getStringImage(lastBitmap);
                 userPhotoChangeFlag = true;
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -407,6 +429,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     // Function to Update user data
     public void updateUserData() {
 
+
         pd.setMessage("Saving Data . . .");
         pd.show();
 
@@ -418,6 +441,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         pd.hide();
+                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
 
                         try {
 
@@ -455,6 +479,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("username", m_User_Id);
+
                 params.put("first_name", mEditText_FirstName.getText().toString());
                 params.put("last_name", mEditText_LastName.getText().toString());
                 params.put("email", mEditText_EmailId.getText().toString());
@@ -464,17 +489,19 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 params.put("city", mEditText_City.getText().toString());
                 params.put("state", mEditText_State.getText().toString());
 
-                String photoName = m_User_Id + ".jpg";
+                //String photoName = m_User_Id + ".jpg";
+                String photoName = "1" + ".jpg";
                 params.put("photoname", photoName);
                 params.put("userphotostring", mUserUpdatedImage);
 
-                //params.put("photo", mEditText_FirstName.getText().toString());
+                params.put("photo", mEditText_FirstName.getText().toString());
                 return params;
             }
         };
 
         updateUserRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         m_Queue.add(updateUserRequest);
+
     }
 
 }

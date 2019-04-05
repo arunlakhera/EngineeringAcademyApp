@@ -93,7 +93,6 @@ public class ResultActivity extends AppCompatActivity {
     private UserResultModel userResult;
     private StringRequest stringRequest;
     private RequestQueue requestQueue;
-    private String url = "https://pikchilly.com/api/get_user_result.php";
 
     private SessionHandler session;
     private Date date;

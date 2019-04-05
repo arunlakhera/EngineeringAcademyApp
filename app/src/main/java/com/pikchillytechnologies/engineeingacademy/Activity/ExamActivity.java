@@ -58,9 +58,9 @@ public class ExamActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     private int currentQuestion;
     private TextView m_TextView_Activity_Title;
-    private TextView m_TextView_Question;
     private TextView m_TextView_Time_Remaining;
     // Text Check box layout
+    private TextView m_TextView_Question;
     private LinearLayout m_Layout_Answers_Text;
     private CheckBox m_CheckBox_Answer1;
     private CheckBox m_CheckBox_Answer2;
@@ -109,7 +109,7 @@ public class ExamActivity extends AppCompatActivity {
     private JSONObject userResponseWholeJSON;
     private ExamQuestionModel examQuestion;
     boolean m_User_Response_Flag;
-
+    private JSONObject userFullResponseJSON;
     private String remainingTime;
     private long noOfMinutes;
 
@@ -126,10 +126,13 @@ public class ExamActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Button menuButton;
 
-    private String url = "https://pikchilly.com/api/exam_question.php";
-    private String getUserResponseURL = "http://onlineengineeringacademy.co.in/api/user_response";
+    //private String url = "https://pikchilly.com/api/exam_question.php";
     //private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
-    private String addUserResponseURL = "https://pikchilly.com/api/add_user_result.php";
+    //private String addUserResponseURL = "https://pikchilly.com/api/add_user_result.php";
+
+    private String url = "http://onlineengineeringacademy.co.in/api/exam_question";
+    private String getUserResponseURL = "http://onlineengineeringacademy.co.in/api/user_response";
+    private String addUserResponseURL = "http://onlineengineeringacademy.co.in/api/add_user_result";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +189,8 @@ public class ExamActivity extends AppCompatActivity {
         m_User_Response_List = new ArrayList<>();
         userResponseJSONArray = new JSONArray();
         userResponseWholeJSON = new JSONObject();
+        userFullResponseJSON = new JSONObject();
+
         isSubmitPressed = false;
         m_Total_Questions = Integer.valueOf(m_Questions);
         m_Current_Question = 0;
@@ -206,7 +211,9 @@ public class ExamActivity extends AppCompatActivity {
         m_Layout_Manager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         m_RecyclerView_Question_List.setLayoutManager(m_Layout_Manager);
         currentQuestion = 0;
-        noOfMinutes = Long.valueOf(m_Exam_Duration) * 60 * 60 * 1000;
+        //noOfMinutes = Long.valueOf(m_Exam_Duration) * 60 * 60 * 1000;
+
+        noOfMinutes = Long.valueOf(2) * 60 * 60 * 1000;
 
         if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
@@ -218,7 +225,6 @@ public class ExamActivity extends AppCompatActivity {
         }else{
             Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
         }
-
 
         m_RecyclerView_Question_List.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), m_RecyclerView_Question_List, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -337,8 +343,9 @@ public class ExamActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 if (!isSubmitPressed) {
-                    saveUserResult();
 
+                    saveUserResult();
+                    showResult();
                 } else {
 
                     //Disable Checkbox click
@@ -409,6 +416,7 @@ public class ExamActivity extends AppCompatActivity {
         UserResponseModel userResp;
 
         //int total_Questions = m_Question_List.size();
+
 
         for (int i = 0; i < m_Question_List.size(); i++) {
 
@@ -548,7 +556,6 @@ public class ExamActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
 
                 try {
-
                     params.put("user_response", userResponseJSONArray.toString());
 
                 } catch (Exception e) {
@@ -656,11 +663,14 @@ public class ExamActivity extends AppCompatActivity {
 
         m_TextView_Total_Question.setText(examQuestion.getM_Question_Number() + "/" + m_Total_Questions);
 
-        String questionSupportImage_Eng = examQuestion.getM_Question_Eng_Img_url();
-        String questionSupportImage_Hindi = examQuestion.getM_Question_Hindi_Img_url();
+        String questionSupportImage_Eng = examQuestion.getM_Question_Eng_Img_url().trim();
+        String questionSupportImage_Hindi = examQuestion.getM_Question_Hindi_Img_url().trim();
 
         String questionType = examQuestion.getM_Question_Type();
         String answerType = examQuestion.getM_Answer_Type();
+
+       // Toast.makeText(getApplicationContext(), "Img URL" + examQuestion.getM_Question_Eng(), Toast.LENGTH_LONG).show();
+
 
         if (m_English_Flag) {
 
@@ -682,7 +692,7 @@ public class ExamActivity extends AppCompatActivity {
 
                 try {
                     Glide.with(this)
-                            .load(examQuestion.getM_Question_Eng())
+                            .load(examQuestion.getM_Question_Eng().trim())
                             .placeholder(R.drawable.logo)
                             .error(R.drawable.back_icon)
                             .into(m_ImageView_Question_Image);
@@ -759,7 +769,7 @@ public class ExamActivity extends AppCompatActivity {
 
                     try {
                         Glide.with(this)
-                                .load(examQuestion.getM_Question_Hindi())
+                                .load(examQuestion.getM_Question_Hindi().trim())
                                 .placeholder(R.drawable.logo)
                                 .error(R.drawable.back_icon)
                                 .into(m_ImageView_Question_Image);
@@ -870,7 +880,7 @@ public class ExamActivity extends AppCompatActivity {
 
         try {
             Glide.with(this)
-                    .load(answer)
+                    .load(answer.trim())
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.back_icon)
                     .into(imageViewAnswerImage);
@@ -922,6 +932,7 @@ public class ExamActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
+                        //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                         prepareJson(response);
                         updateUI(currentQuestion);
 
@@ -976,7 +987,7 @@ public class ExamActivity extends AppCompatActivity {
                         examObject.getString("question_type"), examObject.getString("question_lang"), examObject.getString("answer_type"),
                         examObject.getString("answer_lang"), false);
 
-                UserResponseModel userResponse = new UserResponseModel("User_Id", m_Exam_Id, examObject.getString("question_id"), "N", "N", "N", "N", "N", "N", false);
+                UserResponseModel userResponse = new UserResponseModel(m_User_Id, m_Exam_Id, examObject.getString("question_id"), "N", "N", "N", "N", "N", "N", false);
                 m_User_Response_List.add(userResponse);
 
                 m_Question_List.add(exam);

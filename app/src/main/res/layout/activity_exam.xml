@@ -192,8 +192,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_default"
-                    android:background="@drawable/question_base"
                     android:orientation="vertical"
+                    android:backgroundTint="@color/off_white"
                     >
 
                     <CheckBox
@@ -268,7 +268,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_default"
-                    android:background="@drawable/question_base"
                     android:orientation="vertical"
                     android:visibility="gone"
                     >

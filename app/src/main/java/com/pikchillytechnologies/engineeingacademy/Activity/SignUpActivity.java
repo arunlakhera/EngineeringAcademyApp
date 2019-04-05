@@ -39,7 +39,8 @@ public class SignUpActivity extends AppCompatActivity {
     private ProgressDialog pd;
     private EAHelper m_Helper;
 
-    private static String signupURL ="https://pikchilly.com/api/signup.php";
+    //private static String signupURL ="https://pikchilly.com/api/signup.php";
+    private static String signupURL ="http://onlineengineeringacademy.co.in/api/user_profile";
 
     private SessionHandler session;
 
@@ -102,8 +103,9 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         pd.hide();
-
-                        if(response.equals("SignUp_Success")) {
+//                        Toast.makeText(getApplicationContext(),"Response" + response,Toast.LENGTH_LONG).show();
+                        response = response.trim();
+                        if(response.equals("SignUpSuccess")) {
 
                             String firstName = m_First_Name_EditText.getText().toString();
                             String lastName = m_Last_Name_EditText.getText().toString();
@@ -116,13 +118,17 @@ public class SignUpActivity extends AppCompatActivity {
                             destinationDetailIntent.putExtra("username", userName);
                             startActivity(destinationDetailIntent);
 
-                        }else if(response.equals("SignUp_Failed")){
+                        }else if(response.equals("SignUpFailed")){
 
                             Toast.makeText(getApplicationContext(),"Could not Sign Up",Toast.LENGTH_LONG).show();
                         }else if(response.equals("UsernameExists")){
                             Toast.makeText(getApplicationContext(),"User with this email already exists!",Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Response:" + response,Toast.LENGTH_LONG).show();
                         }
+
                     }
+
                 },
                 new Response.ErrorListener()
                 {
@@ -146,6 +152,7 @@ public class SignUpActivity extends AppCompatActivity {
                 params.put("password", m_Password_EditText.getText().toString());
 
                 return params;
+
             }
         };
         postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
