@@ -132,7 +132,7 @@ public class SubCoursesActivity extends AppCompatActivity {
 
                 if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
-                    if(scp.getM_Payment_Status().equals("Paid")){
+                    if(scp.getM_Payment_Status().equals("Paid") || scp.getM_Cost().trim().equals("0")){
 
                         Intent destinationDetailIntent = new Intent(SubCoursesActivity.this, ExamListActivity.class);
                         destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);

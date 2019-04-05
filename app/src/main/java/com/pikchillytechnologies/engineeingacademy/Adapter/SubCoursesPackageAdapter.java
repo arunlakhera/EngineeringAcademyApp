@@ -71,7 +71,7 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
         }
 
         // If user paid for the sub category hide the lock image
-        if(subCourse.getM_Payment_Status().equals("Paid")){
+        if(subCourse.getM_Payment_Status().equals("Paid") || subCourse.getM_Cost().equals("0")){
             holder.m_ImageView_Lock.setVisibility(View.INVISIBLE);
             holder.m_Button_Buy.setVisibility(View.GONE);
         }else{
