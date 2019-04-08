@@ -195,7 +195,7 @@ public class AnswersActivity extends AppCompatActivity {
 
         // Function to initialize values
 
-        
+
         //Function to Set Values
 
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
