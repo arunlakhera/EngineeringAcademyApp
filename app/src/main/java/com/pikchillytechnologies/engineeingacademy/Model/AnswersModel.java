@@ -1,6 +1,9 @@
 package com.pikchillytechnologies.engineeingacademy.Model;
 
-public class AnswersModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class AnswersModel{
 
     private String m_Question_Number;
     private String m_Question_Id;
@@ -37,8 +40,6 @@ public class AnswersModel {
     private String m_User_Answer4;
     private String m_User_Answer5;
     private String m_User_Answer6;
-
-
 
     public AnswersModel(String question_number,String question_id, String question_eng, String question_hindi, String question_eng_img_url, String question_hindi_img_url,
                              String answer1_eng, String answer2_eng, String answer3_eng, String answer4_eng, String answer5_eng, String answer6_eng,
@@ -355,4 +356,5 @@ public class AnswersModel {
     public void setM_User_Answer6(String m_User_Answer6) {
         this.m_User_Answer6 = m_User_Answer6;
     }
+
 }

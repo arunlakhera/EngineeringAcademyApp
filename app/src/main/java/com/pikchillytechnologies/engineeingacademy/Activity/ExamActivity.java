@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamQuestionAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
+import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamQuestionModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
 import com.pikchillytechnologies.engineeingacademy.Model.UserResponseModel;
@@ -213,7 +214,8 @@ public class ExamActivity extends AppCompatActivity {
         currentQuestion = 0;
         //noOfMinutes = Long.valueOf(m_Exam_Duration) * 60 * 60 * 1000;
 
-        noOfMinutes = Long.valueOf(2) * 60 * 60 * 1000;
+        Float examDuration = Float.valueOf(m_Exam_Duration) * 60 * 1000;
+        noOfMinutes = (examDuration.longValue());
 
         if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
@@ -406,6 +408,7 @@ public class ExamActivity extends AppCompatActivity {
 
                 m_TextView_Time_Remaining.setText("Time Up!");
                 saveUserResult();
+                showResult();
             }
         }.start();
     }
@@ -416,7 +419,6 @@ public class ExamActivity extends AppCompatActivity {
         UserResponseModel userResp;
 
         //int total_Questions = m_Question_List.size();
-
 
         for (int i = 0; i < m_Question_List.size(); i++) {
 
@@ -508,6 +510,7 @@ public class ExamActivity extends AppCompatActivity {
                 userResponseJSON.put("answer6_flag", userResponse.getM_User_Answer6_Flag());
 
                 userResponseJSONArray.put(userResponseJSON);
+
             }
 
         } catch (Exception e) {
@@ -585,6 +588,8 @@ public class ExamActivity extends AppCompatActivity {
         destinationDetailIntent.putExtra("wrong", String.valueOf(m_Wrong));
         destinationDetailIntent.putExtra("not_attempted", String.valueOf(m_NotAttempted));
         destinationDetailIntent.putExtra("total_marks", String.valueOf(total_marks));
+
+
         startActivity(destinationDetailIntent);
     }
 
@@ -596,25 +601,31 @@ public class ExamActivity extends AppCompatActivity {
 
                 case R.id.checkbox_Answer1:
                     userResponse.setM_User_Answer1_Flag("Y");
+
                     break;
                 case R.id.checkbox_Answer2:
                     //answer2_Flag = true;
                     userResponse.setM_User_Answer2_Flag("Y");
+
                     break;
                 case R.id.checkbox_Answer3:
                     userResponse.setM_User_Answer3_Flag("Y");
+
                     break;
                 case R.id.checkbox_Answer4:
                     //answer4_Flag = true;
                     userResponse.setM_User_Answer4_Flag("Y");
+
                     break;
                 case R.id.checkbox_Answer5:
                     //answer5_Flag = true;
                     userResponse.setM_User_Answer5_Flag("Y");
+
                     break;
                 case R.id.checkbox_Answer6:
                     //answer6_Flag = true;
                     userResponse.setM_User_Answer6_Flag("Y");
+
                     break;
             }
     }
@@ -628,26 +639,32 @@ public class ExamActivity extends AppCompatActivity {
                 case R.id.checkbox_Answer1_Image:
                     //answer1_Flag = true;
                     userResponse.setM_User_Answer1_Flag("Y");
+
                     break;
                 case R.id.checkbox_Answer2_Image:
                     //answer2_Flag = true;
                     userResponse.setM_User_Answer2_Flag("Y");
+
                     break;
                 case R.id.checkbox_Answer3_Image:
                     //answer3_Flag = true;
                     userResponse.setM_User_Answer3_Flag("Y");
+
                     break;
                 case R.id.checkbox_Answer4_Image:
                     //answer4_Flag = true;
                     userResponse.setM_User_Answer4_Flag("Y");
+
                     break;
                 case R.id.checkbox_Answer5_Image:
                     //answer5_Flag = true;
                     userResponse.setM_User_Answer5_Flag("Y");
+
                     break;
                 case R.id.checkbox_Answer6_Image:
                     //answer6_Flag = true;
                     userResponse.setM_User_Answer6_Flag("Y");
+
                     break;
             }
 
@@ -659,6 +676,7 @@ public class ExamActivity extends AppCompatActivity {
         m_Question_List_Adapter.row_index = curQuestion;
 
         userResponse = m_User_Response_List.get(curQuestion);
+
         examQuestion.setRead(true);
 
         m_TextView_Total_Question.setText(examQuestion.getM_Question_Number() + "/" + m_Total_Questions);
@@ -991,6 +1009,7 @@ public class ExamActivity extends AppCompatActivity {
                 m_User_Response_List.add(userResponse);
 
                 m_Question_List.add(exam);
+
 
             }
 

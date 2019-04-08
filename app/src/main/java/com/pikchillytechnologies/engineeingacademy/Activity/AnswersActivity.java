@@ -193,20 +193,11 @@ public class AnswersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answers);
 
-        session = new SessionHandler(getApplicationContext());
-        m_Helper = new EAHelper();
-        m_Exam_Answer_Bundle = getIntent().getExtras();
-        m_User_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.userid), "User Id");
-        m_User_Name = m_Exam_Answer_Bundle.getString("username", "User Name");
-        m_Exam_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
-        m_Title = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.title), "Exam");
-        m_Total_Questions = m_Exam_Answer_Bundle.getString("total_questions", "0");
-        m_Correct = m_Exam_Answer_Bundle.getString("correct", "0");
-        m_Wrong = m_Exam_Answer_Bundle.getString("wrong", "0");
-        m_NotAttempted = m_Exam_Answer_Bundle.getString("not_attempted", "0");
-        total_marks = m_Exam_Answer_Bundle.getString("total_marks", "0");
+        // Function to initialize values
 
-        total_Questions = Integer.valueOf(m_Total_Questions);
+        
+        //Function to Set Values
+
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Answers_List = findViewById(R.id.recyclerView_Answers);
         m_Button_Back = findViewById(R.id.button_Back);
@@ -217,15 +208,28 @@ public class AnswersActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         menuButton = findViewById(R.id.button_Menu);
 
-        mTextView_Title.setText(m_Title);
-
+        session = new SessionHandler(getApplicationContext());
+        m_Helper = new EAHelper();
         m_Answer_List = new ArrayList<>();
         m_Question_List = new ArrayList<>();
         m_User_Response_List = new ArrayList<>();
         m_Answers_Adapter = new AnswersAdapter(getApplicationContext(), m_Answer_List);
         m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
-
         progressDialog = new ProgressDialog(this);
+
+        m_Exam_Answer_Bundle = getIntent().getExtras();
+        m_User_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.userid), "User Id");
+        m_User_Name = m_Exam_Answer_Bundle.getString("username", "User Name");
+        m_Exam_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
+        m_Title = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.title), "Exam");
+        m_Total_Questions = m_Exam_Answer_Bundle.getString("total_questions", "0");
+        m_Correct = m_Exam_Answer_Bundle.getString("correct", "0");
+        m_Wrong = m_Exam_Answer_Bundle.getString("wrong", "0");
+        m_NotAttempted = m_Exam_Answer_Bundle.getString("not_attempted", "0");
+        total_marks = m_Exam_Answer_Bundle.getString("total_marks", "0");
+        total_Questions = Integer.valueOf(m_Total_Questions);
+
+        mTextView_Title.setText(m_Title);
         m_TextView_Activity_Title.setText(m_Title);
         progressDialog.setMessage("Loading...");
         m_Button_Back.setVisibility(View.VISIBLE);

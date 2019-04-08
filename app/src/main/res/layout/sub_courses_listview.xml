@@ -59,10 +59,11 @@
 
         <ImageView
             android:id="@+id/imageView_Lock"
-            android:layout_width="match_parent"
+            android:layout_width="60dp"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:contentDescription="TODO" android:scaleType="center"
+            android:contentDescription="TODO" android:scaleType="fitXY"
+            android:layout_gravity="center"
             android:src="@drawable/lock_icon"
             android:text="Package"
             android:textColor="@color/colorOffWhiteBg"

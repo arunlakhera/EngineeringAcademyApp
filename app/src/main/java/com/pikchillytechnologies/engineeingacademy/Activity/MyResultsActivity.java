@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.pikchillytechnologies.engineeingacademy.Adapter.MyDownloadsAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
+import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
 import com.pikchillytechnologies.engineeingacademy.Model.DownloadedFileModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -64,6 +65,9 @@ public class MyResultsActivity extends AppCompatActivity {
     private int MY_PERMISSIONS_REQUEST_WRITE = 100;
     private int MY_PERMISSIONS_REQUEST_READ = 200;
 
+    //TEST
+    private ArrayList<AnswersModel> m_UserAnswer_List;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +82,9 @@ public class MyResultsActivity extends AppCompatActivity {
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_Button_Back = findViewById(R.id.button_Back);
         m_RecyclerView_DownloadedFile = findViewById(R.id.recyclerView_MyDownloads);
+
+        //ADDED FOR TEST
+        m_UserAnswer_List = new ArrayList<>();
 
         m_TextView_Activity_Title.setText("My Results");
         m_User_Bundle = getIntent().getExtras();
