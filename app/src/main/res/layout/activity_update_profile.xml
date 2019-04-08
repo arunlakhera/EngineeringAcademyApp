@@ -22,7 +22,8 @@
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
             android:alpha="0.2"
-            android:contentDescription="TODO" android:scaleType="center"
+            android:contentDescription="TODO"
+            android:scaleType="center"
             android:src="@drawable/ea_logo_icon" />
 
         <ScrollView
@@ -30,7 +31,6 @@
             android:layout_height="match_parent"
             android:layout_above="@id/button_Update"
             android:layout_below="@id/toolbar"
-
             android:fillViewport="true">
 
             <LinearLayout
@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_default"
                 android:layout_marginRight="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
                 android:orientation="vertical">
 
                 <ImageView

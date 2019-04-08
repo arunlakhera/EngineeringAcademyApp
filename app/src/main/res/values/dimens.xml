@@ -21,10 +21,10 @@
 
     <!-- Toolbar -->
     <dimen name="toolbar_height">60dp</dimen>
-    <dimen name="menu_height">20dp</dimen>
-    <dimen name="menu_width">20dp</dimen>
-    <dimen name="back_height">20dp</dimen>
-    <dimen name="back_width">20dp</dimen>
+    <dimen name="menu_height">30dp</dimen>
+    <dimen name="menu_width">35dp</dimen>
+    <dimen name="back_height">30dp</dimen>
+    <dimen name="back_width">35dp</dimen>
 
     <dimen name="image_height">130dp</dimen>
 </resources>
