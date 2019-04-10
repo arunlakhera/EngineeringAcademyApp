@@ -129,7 +129,7 @@ public class ExamListActivity extends AppCompatActivity {
                     // Change it back 1
 
                     //if(attempt_number < 1){
-                    if(attempt_number < 25){
+                    if(attempt_number < 50){
                         Intent destinationDetailIntent = new Intent(ExamListActivity.this, ExamInstructionActivity.class);
                         destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                         destinationDetailIntent.putExtra("username", m_User_Name);

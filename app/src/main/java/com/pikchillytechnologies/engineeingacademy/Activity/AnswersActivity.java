@@ -194,50 +194,12 @@ public class AnswersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_answers);
 
         // Function to initialize values
-
+        initValues();
 
         //Function to Set Values
+        setValues();
 
-        m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_RecyclerView_Answers_List = findViewById(R.id.recyclerView_Answers);
-        m_Button_Back = findViewById(R.id.button_Back);
-        m_Layout_Result_PDF = findViewById(R.id.layout_All_Answers);
-        m_Button_Download = findViewById(R.id.button_Ans_Download);
-        mTextView_Title = findViewById(R.id.textview_Title);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        menuButton = findViewById(R.id.button_Menu);
-
-        session = new SessionHandler(getApplicationContext());
-        m_Helper = new EAHelper();
-        m_Answer_List = new ArrayList<>();
-        m_Question_List = new ArrayList<>();
-        m_User_Response_List = new ArrayList<>();
-        m_Answers_Adapter = new AnswersAdapter(getApplicationContext(), m_Answer_List);
-        m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
-        progressDialog = new ProgressDialog(this);
-
-        m_Exam_Answer_Bundle = getIntent().getExtras();
-        m_User_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.userid), "User Id");
-        m_User_Name = m_Exam_Answer_Bundle.getString("username", "User Name");
-        m_Exam_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
-        m_Title = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.title), "Exam");
-        m_Total_Questions = m_Exam_Answer_Bundle.getString("total_questions", "0");
-        m_Correct = m_Exam_Answer_Bundle.getString("correct", "0");
-        m_Wrong = m_Exam_Answer_Bundle.getString("wrong", "0");
-        m_NotAttempted = m_Exam_Answer_Bundle.getString("not_attempted", "0");
-        total_marks = m_Exam_Answer_Bundle.getString("total_marks", "0");
-        total_Questions = Integer.valueOf(m_Total_Questions);
-
-        mTextView_Title.setText(m_Title);
-        m_TextView_Activity_Title.setText(m_Title);
-        progressDialog.setMessage("Loading...");
-        m_Button_Back.setVisibility(View.VISIBLE);
-        m_RecyclerView_Answers_List.setHasFixedSize(true);
-        m_RecyclerView_Answers_List.setLayoutManager(m_Layout_Manager);
-        m_RecyclerView_Answers_List.setAdapter(m_Answers_Adapter);
-        question_number = 0;
-
+        // Check if app has read and write permissions
         if (ContextCompat.checkSelfPermission(AnswersActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
@@ -254,6 +216,7 @@ public class AnswersActivity extends AppCompatActivity {
                     MY_PERMISSIONS_REQUEST_READ);
         }
 
+        // Check if internet is available
         if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
             prepareExamQuestionsData();
@@ -262,6 +225,7 @@ public class AnswersActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
         }
 
+        // Action to perform when Download button is pressed
         m_Button_Download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -279,6 +243,7 @@ public class AnswersActivity extends AppCompatActivity {
             }
         });
 
+        // Action to perform when Back button is pressed
         m_Button_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,6 +263,7 @@ public class AnswersActivity extends AppCompatActivity {
             }
         });
 
+        // Action to perform when Menu Button is pressed
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,6 +272,7 @@ public class AnswersActivity extends AppCompatActivity {
             }
         });
 
+        // Action to draw Navigation drawer
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -356,6 +323,60 @@ public class AnswersActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Function to initialize the values
+     * */
+    public void initValues(){
+        m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
+        m_RecyclerView_Answers_List = findViewById(R.id.recyclerView_Answers);
+        m_Button_Back = findViewById(R.id.button_Back);
+        m_Layout_Result_PDF = findViewById(R.id.layout_All_Answers);
+        m_Button_Download = findViewById(R.id.button_Ans_Download);
+        mTextView_Title = findViewById(R.id.textview_Title);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        menuButton = findViewById(R.id.button_Menu);
+
+        session = new SessionHandler(getApplicationContext());
+        m_Helper = new EAHelper();
+        m_Answer_List = new ArrayList<>();
+        m_Question_List = new ArrayList<>();
+        m_User_Response_List = new ArrayList<>();
+        m_Answers_Adapter = new AnswersAdapter(getApplicationContext(), m_Answer_List);
+        m_Layout_Manager = new LinearLayoutManager(getApplicationContext());
+        progressDialog = new ProgressDialog(this);
+
+    }
+
+    /**
+     * Function to set values
+     * */
+    public void setValues(){
+        m_Exam_Answer_Bundle = getIntent().getExtras();
+        m_User_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.userid), "User Id");
+        m_User_Name = m_Exam_Answer_Bundle.getString("username", "User Name");
+        m_Exam_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.examid), "Exam Id");
+        m_Title = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.title), "Exam");
+        m_Total_Questions = m_Exam_Answer_Bundle.getString("total_questions", "0");
+        m_Correct = m_Exam_Answer_Bundle.getString("correct", "0");
+        m_Wrong = m_Exam_Answer_Bundle.getString("wrong", "0");
+        m_NotAttempted = m_Exam_Answer_Bundle.getString("not_attempted", "0");
+        total_marks = m_Exam_Answer_Bundle.getString("total_marks", "0");
+        total_Questions = Integer.valueOf(m_Total_Questions);
+
+        mTextView_Title.setText(m_Title);
+        m_TextView_Activity_Title.setText(m_Title);
+        progressDialog.setMessage("Loading...");
+        m_Button_Back.setVisibility(View.VISIBLE);
+        m_RecyclerView_Answers_List.setHasFixedSize(true);
+        m_RecyclerView_Answers_List.setLayoutManager(m_Layout_Manager);
+        m_RecyclerView_Answers_List.setAdapter(m_Answers_Adapter);
+        question_number = 0;
+    }
+
+    /**
+     * Function to load exam questions data
+     * */
     public void prepareExamQuestionsData() {
 
         progressDialog.show();
@@ -365,7 +386,8 @@ public class AnswersActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         //hiding the progressbar after completion
-
+                        Log.e("USERRESPONSE--->>" , response);
+/*
                         response = response.trim();
                         try {
                             //getting the whole json object from the response
@@ -402,7 +424,7 @@ public class AnswersActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+*/
                     }
 
                 },
@@ -446,6 +468,9 @@ public class AnswersActivity extends AppCompatActivity {
         return b;
     }
 
+    /**
+     * Function to create PDF File
+     * */
     private void createPdf(){
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);

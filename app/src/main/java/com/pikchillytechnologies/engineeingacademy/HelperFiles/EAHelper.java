@@ -1,16 +1,23 @@
 package com.pikchillytechnologies.engineeingacademy.HelperFiles;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.pikchillytechnologies.engineeingacademy.Activity.AnswersActivity;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 public class EAHelper {
 
-   private Context m_Context;
+    private Context m_Context;
+    private int MY_PERMISSIONS_REQUEST_WRITE = 100;
+    private int MY_PERMISSIONS_REQUEST_READ = 200;
 
     // Intent
     public void start_Activity(Context context, Class destClass){
@@ -59,5 +66,6 @@ public class EAHelper {
         boolean isConnected = activeNetwork != null && activeNetwork.isConnected();
         return isConnected;
     }
+
 
 }

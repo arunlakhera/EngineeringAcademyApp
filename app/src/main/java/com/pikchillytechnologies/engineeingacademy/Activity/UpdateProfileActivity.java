@@ -112,44 +112,20 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private Uri filePath;
     private SessionHandler session;
     boolean mAlert_Action;
+    private final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
 
-        mAlert_Action = false;
-        session = new SessionHandler(getApplicationContext());
-        m_Helper = new EAHelper();
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        menuButton = findViewById(R.id.button_Menu);
-        m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
-        m_Button_Back = findViewById(R.id.button_Back);
+        // Function to initialize values
+        initValues();
 
-        mEditText_FirstName = findViewById(R.id.edittext_First_Name);
-        mEditText_LastName = findViewById(R.id.edittext_Last_Name);
-        mEditText_PhoneNumber = findViewById(R.id.edittext_Phone);
-        mEditText_EmailId = findViewById(R.id.edittext_Email_Id);
-        mEditText_Password = findViewById(R.id.edittext_Password);
-        mEditText_Address = findViewById(R.id.edittext_Address);
-        mEditText_City = findViewById(R.id.edittext_City);
-        mEditText_State = findViewById(R.id.edittext_State);
-        mImageView_UserProfilePhoto = findViewById(R.id.imageView_UserProfilePhoto);
-        mTextView_ChangePhoto = findViewById(R.id.textView_UploadPhoto);
-        mButton_Update = findViewById(R.id.button_Update);
+        //Function to Set Values
+        setValues();
 
-        m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
-        m_Queue.getCache().clear();
-
-        userPhotoChangeFlag = false;
-
-        pd = new ProgressDialog(UpdateProfileActivity.this);
-        m_TextView_Activity_Title.setText("My Profile");
-        m_User_Bundle = getIntent().getExtras();
-        m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
-        m_User_Name = m_User_Bundle.getString("username", "User Name");
-
+        // Function to cehck if internet is available
         if (m_Helper.isNetworkAvailable(UpdateProfileActivity.this)) {
 
             prepareUserData();
@@ -164,7 +140,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                 if (m_Helper.isNetworkAvailable(getApplicationContext())) {
 
-                    changeUserPhoto();
+                    //changeUserPhoto();
+                    updateUserPhoto();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
@@ -254,6 +231,50 @@ public class UpdateProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Function to initialize values
+     * */
+    public void initValues(){
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        menuButton = findViewById(R.id.button_Menu);
+        m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
+        m_Button_Back = findViewById(R.id.button_Back);
+        mEditText_FirstName = findViewById(R.id.edittext_First_Name);
+        mEditText_LastName = findViewById(R.id.edittext_Last_Name);
+        mEditText_PhoneNumber = findViewById(R.id.edittext_Phone);
+        mEditText_EmailId = findViewById(R.id.edittext_Email_Id);
+        mEditText_Password = findViewById(R.id.edittext_Password);
+        mEditText_Address = findViewById(R.id.edittext_Address);
+        mEditText_City = findViewById(R.id.edittext_City);
+        mEditText_State = findViewById(R.id.edittext_State);
+        mImageView_UserProfilePhoto = findViewById(R.id.imageView_UserProfilePhoto);
+        mTextView_ChangePhoto = findViewById(R.id.textView_UploadPhoto);
+        mButton_Update = findViewById(R.id.button_Update);
+        m_Queue = Volley.newRequestQueue(UpdateProfileActivity.this);
+        m_Queue.getCache().clear();
+        mAlert_Action = false;
+        session = new SessionHandler(getApplicationContext());
+        m_Helper = new EAHelper();
+        userPhotoChangeFlag = false;
+        pd = new ProgressDialog(UpdateProfileActivity.this);
+    }
+
+    /**
+     * Function to Set values
+     * */
+    public void setValues(){
+        m_TextView_Activity_Title.setText("My Profile");
+        m_User_Bundle = getIntent().getExtras();
+        m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
+        m_User_Name = m_User_Bundle.getString("username", "User Name");
+
+    }
+
+    /**
+     * Function to show Alert Dialog
+     * */
     public void showAlertDialog(){
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
@@ -282,7 +303,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     }
 
-    // Function to Prepate user data
+    /**
+     * Function to prepare User Data
+     * */
     public void prepareUserData() {
 
         pd.setMessage("Loading . . .");
@@ -296,7 +319,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         pd.hide();
-                        //Log.d("RESPONSE:::>>>>",response);
+                        Log.d("RESPONSE:::>>>>",response);
                         //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
 
                         try {
@@ -341,7 +364,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
         m_Queue.add(loadRequest);
     }
 
-    // Function to load user data
+    /**
+     * Function to Load user
+     * */
     public void loadUserData() {
 
         mEditText_FirstName.setText(user.getmFirstName().toUpperCase());
@@ -353,11 +378,13 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mEditText_City.setText(user.getmCity());
         mEditText_State.setText(user.getmState());
 
-       RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
+        //setUserImage();
+
+        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
 
         try {
             Glide.with(this)
-                    .load(user.getmUserPhotoURL())
+                    .load("http://onlineengineeringacademy.co.in/api/public/user_images/1.jpg")
                     .apply(requestOptions)
                     .placeholder(R.drawable.ea_logo_icon)
                     .error(R.drawable.back_icon)
@@ -366,69 +393,87 @@ public class UpdateProfileActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
+       /*// RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
+
+        try {
+            Glide.with(this)
+                    .load(user.getmUserPhotoURL())
+                    .placeholder(R.drawable.ea_logo_icon)
+                    .error(R.drawable.back_icon)
+                    .into(mImageView_UserProfilePhoto);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+*/
     }
 
-    // Function to change user Photo
-    public void changeUserPhoto() {
+    /**
+     * Function to show Camera to user
+     */
+    public void updateUserPhoto() {
 
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
-    // To Set selected Image
+    /**
+     * Function to Set photo taken by user from camera
+     */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null) {
-            filePath = data.getData();
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                mImageView_UserProfilePhoto.setImageBitmap(bitmap);
-/*
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                mImageView_UserProfilePhoto.setImageBitmap(imageBitmap);
 
-                Cursor c = getContentResolver().query(selectedImage, filePathColumn,null,null,null);
-                c.moveToFirst();
-
-                int columnIndex = c.getColumnIndex(filePathColumn[0]);
-                String picturePath = c.getString(columnIndex);
-                c.close();
-
-                bitmap = BitmapFactory.decodeFile(picturePath);
-                mImageView_UserProfilePhoto.setImageBitmap(bitmap);
-*/
                 Bitmap lastBitmap = null;
-                lastBitmap = bitmap;
+                lastBitmap = imageBitmap;
 
                 //encoding image to string
                 mUserUpdatedImage = getStringImage(lastBitmap);
-                userPhotoChangeFlag = true;
 
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("Camera Error:", e.getMessage());
             }
         }
     }
 
-    // Encode Image to string
+    /**
+     * Function to Encode Image to String
+     */
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedUserImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedUserImage;
-
     }
 
-    // Function to Update user data
-    public void updateUserData() {
+    /**
+     * Function to Decode Image From String
+     */
+    public void setUserImage() {
 
+        if (mUserUpdatedImage != null && !mUserUpdatedImage.isEmpty() && mUserUpdatedImage.length() > 1) {
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] imageBytes = baos.toByteArray();
+            imageBytes = Base64.decode(mUserUpdatedImage, Base64.DEFAULT);
+            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            mImageView_UserProfilePhoto.setImageBitmap(decodedImage);
+        }
+    }
+
+    /**
+     * Function to update user data
+     * */
+    public void updateUserData() {
 
         pd.setMessage("Saving Data . . .");
         pd.show();
