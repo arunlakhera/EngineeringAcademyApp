@@ -232,8 +232,21 @@ public class AnswersActivity extends AppCompatActivity {
 
                 if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
+                    WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+                    //  Display display = wm.getDefaultDisplay();
+                    DisplayMetrics displaymetrics = new DisplayMetrics();
+
+                    getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                    float hight = displaymetrics.heightPixels;
+                    float width = displaymetrics.widthPixels;
+
+                    int convertHighet = (int) hight;
+                    int convertWidth = (int) width;
+
+
                     Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getHeight());
-                    bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
+                    //bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
+                    bitmap = loadBitmapFromView(m_Layout_Result_PDF, convertWidth, (convertHighet * total_Questions));
                     createPdf();
 
                 }else{
@@ -387,7 +400,7 @@ public class AnswersActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         //hiding the progressbar after completion
                         Log.e("USERRESPONSE--->>" , response);
-/*
+
                         response = response.trim();
                         try {
                             //getting the whole json object from the response
@@ -424,7 +437,7 @@ public class AnswersActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-*/
+
                     }
 
                 },
@@ -483,6 +496,10 @@ public class AnswersActivity extends AppCompatActivity {
 
         int convertHighet = (int) hight;
         int convertWidth = (int) width;
+
+        Log.d("PDF_Height",String.valueOf(convertHighet));
+        Log.d("PDF_QuesHeight",String.valueOf(convertHighet * total_Questions));
+
 
         PdfDocument document = new PdfDocument();
 

@@ -113,6 +113,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private SessionHandler session;
     boolean mAlert_Action;
     private final int REQUEST_IMAGE_CAPTURE = 1;
+    private boolean photoUpdateFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,6 +260,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         m_Helper = new EAHelper();
         userPhotoChangeFlag = false;
         pd = new ProgressDialog(UpdateProfileActivity.this);
+        photoUpdateFlag = false;
     }
 
     /**
@@ -319,6 +321,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         pd.hide();
+                        Log.d("UPDATEFLAG---",String.valueOf(photoUpdateFlag));
+                        Log.d("UPDATEIMAGE---",String.valueOf(mUserUpdatedImage));
+
                         Log.d("RESPONSE:::>>>>",response);
                         //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
 
@@ -369,6 +374,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
      * */
     public void loadUserData() {
 
+        Log.e("USERREPONSE--->",user.getmUserPhotoURL());
+
         mEditText_FirstName.setText(user.getmFirstName().toUpperCase());
         mEditText_LastName.setText(user.getmLastName().toUpperCase());
         mEditText_EmailId.setText(user.getmEmailId());
@@ -379,32 +386,18 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mEditText_State.setText(user.getmState());
 
         //setUserImage();
-
         RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
-
-        try {
-            Glide.with(this)
-                    .load("http://onlineengineeringacademy.co.in/api/public/user_images/1.jpg")
-                    .apply(requestOptions)
-                    .placeholder(R.drawable.ea_logo_icon)
-                    .error(R.drawable.back_icon)
-                    .into(mImageView_UserProfilePhoto);
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-
-       /*// RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
 
         try {
             Glide.with(this)
                     .load(user.getmUserPhotoURL())
                     .placeholder(R.drawable.ea_logo_icon)
+                    .apply(requestOptions)
                     .error(R.drawable.back_icon)
                     .into(mImageView_UserProfilePhoto);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Could not Load image.." + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-*/
     }
 
     /**
@@ -437,9 +430,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                 //encoding image to string
                 mUserUpdatedImage = getStringImage(lastBitmap);
+                photoUpdateFlag = true;
 
             } catch (Exception e) {
                 Log.e("Camera Error:", e.getMessage());
+                photoUpdateFlag = false;
             }
         }
     }
@@ -534,12 +529,18 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 params.put("city", mEditText_City.getText().toString());
                 params.put("state", mEditText_State.getText().toString());
 
-                //String photoName = m_User_Id + ".jpg";
-                String photoName = "1" + ".jpg";
-                params.put("photoname", photoName);
-                params.put("userphotostring", mUserUpdatedImage);
+                if(photoUpdateFlag){
+                    String photoName = m_User_Id + ".jpg";
+                    //String photoName = "1" + ".jpg";
+                    params.put("photoname", photoName);
+                    params.put("userphotostring", mUserUpdatedImage);
+                    params.put("photo", mEditText_FirstName.getText().toString());
+                }else{
+                    params.put("photoname", "NA");
+                    params.put("userphotostring", "NA");
+                    params.put("photo", mEditText_FirstName.getText().toString());
+                }
 
-                params.put("photo", mEditText_FirstName.getText().toString());
                 return params;
             }
         };
