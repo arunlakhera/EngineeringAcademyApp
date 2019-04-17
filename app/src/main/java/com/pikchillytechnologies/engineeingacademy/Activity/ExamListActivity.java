@@ -125,7 +125,7 @@ public class ExamListActivity extends AppCompatActivity {
 
                     // Condition to allow student to take exam only if not attempted before.
                     int attempt_number = Integer.valueOf(exam.getM_No_Of_Attempts().trim());
-                    
+
                     if(attempt_number < 1){
 
                         Intent destinationDetailIntent = new Intent(ExamListActivity.this, ExamInstructionActivity.class);
