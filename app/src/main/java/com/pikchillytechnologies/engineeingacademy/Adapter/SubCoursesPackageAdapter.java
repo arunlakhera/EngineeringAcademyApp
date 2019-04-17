@@ -70,9 +70,8 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
             holder.m_Background_ImageView.setImageResource(R.drawable.ea_bg);
         }
 
-
         // If user paid for the sub category hide the lock image
-        /*if(subCourse.getM_Payment_Status().equals("Paid") || subCourse.getM_Cost().equals("0")){
+        if(subCourse.getM_Payment_Status().equals("Paid") || subCourse.getM_Cost().equals("0")){
 
             holder.m_ImageView_Lock.setVisibility(View.INVISIBLE);
             holder.m_Button_Buy.setVisibility(View.GONE);
@@ -80,7 +79,7 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
             holder.m_ImageView_Lock.setVisibility(View.VISIBLE);
             holder.m_Button_Buy.setVisibility(View.VISIBLE);
         }
-*/
+
         holder.m_Button_Buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
