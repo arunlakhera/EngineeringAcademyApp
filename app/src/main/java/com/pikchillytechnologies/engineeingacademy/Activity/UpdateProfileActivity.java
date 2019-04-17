@@ -267,7 +267,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
      * Function to Set values
      * */
     public void setValues(){
-        m_TextView_Activity_Title.setText("My Profile");
+        m_TextView_Activity_Title.setText(getResources().getString(R.string.my_profile));
         m_User_Bundle = getIntent().getExtras();
         m_User_Id = m_User_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_User_Bundle.getString("username", "User Name");
@@ -359,7 +359,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("username", m_User_Id);
                 return params;
             }
@@ -420,17 +420,21 @@ public class UpdateProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
+
             try {
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                mImageView_UserProfilePhoto.setImageBitmap(imageBitmap);
 
-                Bitmap lastBitmap = null;
-                lastBitmap = imageBitmap;
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    mImageView_UserProfilePhoto.setImageBitmap(imageBitmap);
 
-                //encoding image to string
-                mUserUpdatedImage = getStringImage(lastBitmap);
-                photoUpdateFlag = true;
+                    Bitmap lastBitmap;
+                    lastBitmap = imageBitmap;
+
+                    //encoding image to string
+                    mUserUpdatedImage = getStringImage(lastBitmap);
+                    photoUpdateFlag = true;
+
+
 
             } catch (Exception e) {
                 Log.e("Camera Error:", e.getMessage());
@@ -487,9 +491,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                             JSONObject userJSON = new JSONObject(response);
 
-                            String status;
-                            status = userJSON.getString("user_data");
-
                             if (userJSON.getString("user_data").equals("Successful")) {
                                 Toast.makeText(getApplicationContext(), "Your update has been saved successfully.", Toast.LENGTH_LONG).show();
                                 prepareUserData();
@@ -517,7 +518,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("username", m_User_Id);
 
                 params.put("first_name", mEditText_FirstName.getText().toString());
@@ -528,6 +529,12 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 params.put("address", mEditText_Address.getText().toString());
                 params.put("city", mEditText_City.getText().toString());
                 params.put("state", mEditText_State.getText().toString());
+
+               /* String photoName = m_User_Id + ".jpg";
+                //String photoName = "1" + ".jpg";
+                params.put("photoname", photoName);
+                params.put("userphotostring", mUserUpdatedImage);
+                params.put("photo", mEditText_FirstName.getText().toString());*/
 
                 if(photoUpdateFlag){
                     String photoName = m_User_Id + ".jpg";
