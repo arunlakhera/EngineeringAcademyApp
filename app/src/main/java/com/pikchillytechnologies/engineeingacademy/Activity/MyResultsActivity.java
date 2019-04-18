@@ -34,6 +34,7 @@ import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
 import com.pikchillytechnologies.engineeingacademy.Model.DownloadedFileModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
+import com.pikchillytechnologies.engineeingacademy.PdfActivity;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import java.io.File;
@@ -238,14 +239,12 @@ public class MyResultsActivity extends AppCompatActivity {
     // Method for opening a pdf file
     private void viewPdf(String pdfFileName) {
 
-        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAExamResults");
-        File pdfFile = new File(ea_folder + File.separator + pdfFileName);
-        Uri path = Uri.fromFile(pdfFile);
+        Intent pdfIntent = new Intent(MyResultsActivity.this, PdfActivity.class);
+        pdfIntent.putExtra("pdf_File",pdfFileName);
+        pdfIntent.putExtra("pdf_Type","Result");
+        pdfIntent.putExtra(getResources().getString(R.string.userid),m_User_Id);
+        pdfIntent.putExtra("username",m_User_Name);
 
-        // Setting the intent for pdf reader
-        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
-        pdfIntent.setDataAndType(path, "application/pdf");
-        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(pdfIntent);
 
     }

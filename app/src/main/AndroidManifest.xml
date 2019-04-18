@@ -14,10 +14,10 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
-
 
     <application
         android:allowBackup="true"
@@ -26,20 +26,49 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MyCartActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.UpdateProfileActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.MyResultsActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.MyDownloadsActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.ArticlesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.AnswersActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.ResultActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.ExamActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.ExamInstructionActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.ExamListActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.SubCoursesActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.CoursesActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.SignUpActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.SignInActivity" android:screenOrientation="portrait">
+        <activity android:name=".PdfActivity"></activity>
+        <activity
+            android:name=".Activity.MyCartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.UpdateProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MyResultsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MyDownloadsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ArticlesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.AnswersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ExamActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ExamInstructionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ExamListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.SubCoursesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.CoursesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.SignInActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

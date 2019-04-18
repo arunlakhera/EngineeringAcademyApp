@@ -72,7 +72,6 @@ public class CoursesActivity extends AppCompatActivity {
 
     private SessionHandler session;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
