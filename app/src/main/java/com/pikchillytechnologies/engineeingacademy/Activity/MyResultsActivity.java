@@ -1,17 +1,9 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.Manifest;
-import android.app.Activity;
-import instamojo.library.InstapayListener;
-import instamojo.library.InstamojoPay;
-import instamojo.library.Config;
-import org.json.JSONObject;
-import org.json.JSONException;
-import android.content.IntentFilter;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -34,7 +26,6 @@ import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
 import com.pikchillytechnologies.engineeingacademy.Model.DownloadedFileModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
-import com.pikchillytechnologies.engineeingacademy.PdfActivity;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import java.io.File;

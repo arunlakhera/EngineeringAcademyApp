@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <!--
     <uses-permission-sdk-23 android:name="android.permission.RECEIVE_SMS" />
     <uses-permission-sdk-23 android:name="android.permission.READ_SMS" />
     <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
+-->
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
@@ -26,7 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PdfActivity"></activity>
+        <activity android:name=".Activity.PdfActivity"></activity>
         <activity
             android:name=".Activity.MyCartActivity"
             android:screenOrientation="portrait" />

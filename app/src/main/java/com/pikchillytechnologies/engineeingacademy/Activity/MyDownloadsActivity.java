@@ -1,18 +1,14 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.Manifest;
-import android.app.Application;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,13 +21,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pikchillytechnologies.engineeingacademy.Adapter.CoursesAdapter;
 import com.pikchillytechnologies.engineeingacademy.Adapter.MyDownloadsAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
-import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.Model.DownloadedFileModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
-import com.pikchillytechnologies.engineeingacademy.PdfActivity;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import java.io.File;

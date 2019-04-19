@@ -1,4 +1,4 @@
-package com.pikchillytechnologies.engineeingacademy;
+package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -30,6 +30,7 @@ import com.pikchillytechnologies.engineeingacademy.Activity.MyResultsActivity;
 import com.pikchillytechnologies.engineeingacademy.Activity.SignInActivity;
 import com.pikchillytechnologies.engineeingacademy.Activity.UpdateProfileActivity;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
+import com.pikchillytechnologies.engineeingacademy.R;
 
 import java.io.File;
 

@@ -433,6 +433,4 @@ public class MyCartActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, MY_PERMISSIONS_RECEIVE_SMS);
 
     }
-
-
 }
