@@ -101,7 +101,6 @@ public class PdfActivity extends AppCompatActivity {
             pdf="NoFile";
         }
 
-
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

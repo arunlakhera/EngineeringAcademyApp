@@ -1,11 +1,17 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -77,8 +83,10 @@ public class MyCartActivity extends AppCompatActivity {
     private String txnId;
     private String paymentId;
     private String token;
-
+    private Context m_Context;
     private SessionHandler session;
+    private int MY_PERMISSIONS_READ_SMS= 101;
+    private int MY_PERMISSIONS_RECEIVE_SMS= 102;
 
     //private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
     //private static String userSubscriptionURL = "https://pikchilly.com/api/save_user_subscription.php";
@@ -126,7 +134,12 @@ public class MyCartActivity extends AppCompatActivity {
 
         if (m_Helper.isNetworkAvailable(MyCartActivity.this)) {
 
-            prepareUserData();
+            if(isSmsPermissionGranted()){
+                prepareUserData();
+            }else{
+                Toast.makeText(getApplicationContext(),"Please provide permission to Send / Receive OTP SMS", Toast.LENGTH_LONG).show();
+                requestReadSmsPermission();
+            }
 
         } else {
             Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
@@ -275,55 +288,7 @@ public class MyCartActivity extends AppCompatActivity {
             }
         };
     }
-/*
-    private void callInstamojoPay(String email, String phone, String amount, String purpose, String buyername) {
-        final Activity activity = this;
-        InstamojoPay instamojoPay = new InstamojoPay();
-        IntentFilter filter = new IntentFilter("ai.devsupport.instamojo");
-        registerReceiver(instamojoPay, filter);
-        JSONObject pay = new JSONObject();
-        try {
-            pay.put("email", email);
-            pay.put("phone", phone);
-            pay.put("purpose", purpose);
-            pay.put("amount", amount);
-            pay.put("name", buyername);
-            pay.put("send_sms", true);
-            pay.put("send_email", true);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        initListener();
-        instamojoPay.start(activity, pay, listener);
-    }
 
-    InstapayListener listener;
-
-    private void initListener() {
-        listener = new InstapayListener() {
-            @Override
-            public void onSuccess(String response) {
-
-                String[] responseArray = response.split(":");
-
-                status = responseArray[0].substring(responseArray[0].indexOf("=")+1);
-                orderId = responseArray[1].substring(responseArray[1].indexOf("=")+1);
-                txnId = responseArray[2].substring(responseArray[2].indexOf("=")+1);
-                paymentId = responseArray[3].substring(responseArray[3].indexOf("=")+1);
-                token = responseArray[4].substring(responseArray[4].indexOf("=")+1);
-
-                Log.d("Response:", response);
-
-                saveUserSubscription();
-            }
-
-            @Override
-            public void onFailure(int code, String reason) {
-                Toast.makeText(getApplicationContext(), "Failed: " + reason, Toast.LENGTH_LONG).show();
-            }
-        };
-    }
-*/
     // Function to Prepare user data
     public void prepareUserData() {
 
@@ -436,6 +401,24 @@ public class MyCartActivity extends AppCompatActivity {
 
         loadRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         m_Queue.add(loadRequest);
+    }
+
+    /**
+     * Function to Check Permission
+     * */
+    public boolean isSmsPermissionGranted() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    /**
+     * Request runtime SMS permission
+     */
+    private void requestReadSmsPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_SMS)) {
+            // You may display a non-blocking explanation here, read more in the documentation:
+            // https://developer.android.com/training/permissions/requesting.html
+        }
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, MY_PERMISSIONS_READ_SMS);
     }
 
 
