@@ -134,10 +134,10 @@ public class MyCartActivity extends AppCompatActivity {
 
         if (m_Helper.isNetworkAvailable(MyCartActivity.this)) {
 
-            if(isSmsPermissionGranted()){
+            if(isSmsReadPermissionGranted() && isSmsReceivePermissionGranted()){
                 prepareUserData();
             }else{
-                Toast.makeText(getApplicationContext(),"Please provide permission to Send / Receive OTP SMS", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Please provide permission to Read / Receive OTP SMS", Toast.LENGTH_LONG).show();
                 requestReadSmsPermission();
             }
 
@@ -406,8 +406,12 @@ public class MyCartActivity extends AppCompatActivity {
     /**
      * Function to Check Permission
      * */
-    public boolean isSmsPermissionGranted() {
+    public boolean isSmsReadPermissionGranted() {
         return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public boolean isSmsReceivePermissionGranted() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED;
     }
 
     /**
@@ -418,7 +422,16 @@ public class MyCartActivity extends AppCompatActivity {
             // You may display a non-blocking explanation here, read more in the documentation:
             // https://developer.android.com/training/permissions/requesting.html
         }
+
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, MY_PERMISSIONS_READ_SMS);
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS)) {
+            // You may display a non-blocking explanation here, read more in the documentation:
+            // https://developer.android.com/training/permissions/requesting.html
+        }
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, MY_PERMISSIONS_RECEIVE_SMS);
+
     }
 
 
