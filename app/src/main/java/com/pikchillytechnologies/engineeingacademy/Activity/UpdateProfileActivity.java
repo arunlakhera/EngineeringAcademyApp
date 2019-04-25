@@ -132,13 +132,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                 if (m_Helper.isNetworkAvailable(getApplicationContext())) {
                     checkPermissions();
-                    //changeUserPhoto();
-
-                    //if(cameraPermissionFlag){
-
-                        //updateUserPhoto();
-                    //}
-
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
