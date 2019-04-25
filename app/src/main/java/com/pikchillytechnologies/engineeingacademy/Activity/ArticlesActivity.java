@@ -1,11 +1,15 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -74,6 +78,9 @@ public class ArticlesActivity extends AppCompatActivity {
     private String articleURL;
     private String articleName;
 
+    private int MY_PERMISSIONS_REQUEST_WRITE = 100;
+    private int MY_PERMISSIONS_REQUEST_READ = 200;
+
     private String url = "http://onlineengineeringacademy.co.in/api/all_article_request";
     //private String url = "https://pikchilly.com/api/get_all_articles.php";
 
@@ -102,6 +109,23 @@ public class ArticlesActivity extends AppCompatActivity {
         m_RecyclerView_Articles.setHasFixedSize(true);
         m_RecyclerView_Articles.setLayoutManager(m_Layout_Manager);
         m_RecyclerView_Articles.setAdapter(m_Articles_Adapter);
+
+        // Check if app has read and write permissions
+        if (ContextCompat.checkSelfPermission(ArticlesActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+
+            ActivityCompat.requestPermissions(ArticlesActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE);
+        }
+
+        if (ContextCompat.checkSelfPermission(ArticlesActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+
+            ActivityCompat.requestPermissions(ArticlesActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ);
+        }
 
         if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
