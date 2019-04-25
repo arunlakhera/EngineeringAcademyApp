@@ -4,10 +4,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.pikchillytechnologies.engineeingacademy"
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 28
-        versionCode 3
-        versionName "3.0"
+        versionCode 4
+        versionName "3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -54,7 +54,6 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.9.0' // added for volley
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' // added for volley
-
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3' // added for chart
 
 }

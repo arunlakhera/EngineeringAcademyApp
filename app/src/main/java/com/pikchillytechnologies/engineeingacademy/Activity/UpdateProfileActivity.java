@@ -1,22 +1,24 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,14 +29,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
@@ -42,28 +41,18 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
-import com.pikchillytechnologies.engineeingacademy.Model.CoursesModel;
 import com.pikchillytechnologies.engineeingacademy.Model.UserModel;
 import com.pikchillytechnologies.engineeingacademy.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class UpdateProfileActivity extends AppCompatActivity {
-
-   // private static String userDataURL = "https://pikchilly.com/api/get_user_profile.php";
-   // private static String updateUserDataURL = "https://pikchilly.com/api/update_user_profile.php";
 
     private static String userDataURL = "http://onlineengineeringacademy.co.in/api/get_update_user_profile";
     private static String updateUserDataURL = "http://onlineengineeringacademy.co.in/api/user_profile_update_2";
@@ -113,7 +102,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private SessionHandler session;
     boolean mAlert_Action;
     private final int REQUEST_IMAGE_CAPTURE = 1;
+    private int REQUEST_CAMERA_PERMISSIONS = 12;
     private boolean photoUpdateFlag;
+    private boolean cameraPermissionFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,9 +131,14 @@ public class UpdateProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (m_Helper.isNetworkAvailable(getApplicationContext())) {
-
+                    checkPermissions();
                     //changeUserPhoto();
-                    updateUserPhoto();
+
+                    //if(cameraPermissionFlag){
+
+                        //updateUserPhoto();
+                    //}
+
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
@@ -156,7 +152,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                 if (m_Helper.isNetworkAvailable(getApplicationContext())) {
 
-                    showAlertDialog();
+                        showAlertDialog();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
@@ -232,6 +228,58 @@ public class UpdateProfileActivity extends AppCompatActivity {
         });
     }
 
+
+    public void checkPermissions(){
+
+        if(ContextCompat.checkSelfPermission(UpdateProfileActivity.this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(UpdateProfileActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSIONS);
+            //showAlert();
+        }else{
+            updateUserPhoto();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == REQUEST_CAMERA_PERMISSIONS){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this,"Granted", Toast.LENGTH_LONG).show();
+                updateUserPhoto();
+            }else{
+                Toast.makeText(this,"NotGranted", Toast.LENGTH_LONG).show();
+                showAlert();
+
+            }
+        }
+    }
+
+    private void showAlert() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage("Engineering Academy needs to access the Camera to take photo.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DONT ALLOW",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        ActivityCompat.requestPermissions(UpdateProfileActivity.this,
+                                new String[]{Manifest.permission.CAMERA},
+                                REQUEST_CAMERA_PERMISSIONS);
+
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ALLOW",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        checkPermissions();
+                    }
+                });
+        alertDialog.show();
+    }
+
     /**
      * Function to initialize values
      * */
@@ -261,6 +309,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         userPhotoChangeFlag = false;
         pd = new ProgressDialog(UpdateProfileActivity.this);
         photoUpdateFlag = false;
+        cameraPermissionFlag = false;
     }
 
     /**
@@ -287,9 +336,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 updateUserData();
-
-                //Toast.makeText(getApplicationContext(), "Changes Saved Successfully!", Toast.LENGTH_LONG).show();
-
             }
         });
 
@@ -530,15 +576,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 params.put("city", mEditText_City.getText().toString());
                 params.put("state", mEditText_State.getText().toString());
 
-               /* String photoName = m_User_Id + ".jpg";
-                //String photoName = "1" + ".jpg";
-                params.put("photoname", photoName);
-                params.put("userphotostring", mUserUpdatedImage);
-                params.put("photo", mEditText_FirstName.getText().toString());*/
-
                 if(photoUpdateFlag){
                     String photoName = m_User_Id + ".jpg";
-                    //String photoName = "1" + ".jpg";
                     params.put("photoname", photoName);
                     params.put("userphotostring", mUserUpdatedImage);
                     params.put("photo", mEditText_FirstName.getText().toString());
