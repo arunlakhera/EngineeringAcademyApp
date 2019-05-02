@@ -246,7 +246,7 @@
 
                     <TextView
                         android:id="@+id/textView_Res_Total_Score"
-                        android:layout_width="40dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:background="@drawable/score_green_base"
                         android:gravity="center"

@@ -1,9 +1,11 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,6 +15,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -181,7 +184,7 @@ public class AnswersActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private Button m_Button_Download;
 
-   // private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
+    //private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
     private String getUserResponseURL = "http://onlineengineeringacademy.co.in/api/get_response_request";
     private SessionHandler session;
 
@@ -199,7 +202,7 @@ public class AnswersActivity extends AppCompatActivity {
         //Function to Set Values
         setValues();
 
-        // Check if app has read and write permissions
+       /* // Check if app has read and write permissions
         if (ContextCompat.checkSelfPermission(AnswersActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
@@ -214,7 +217,7 @@ public class AnswersActivity extends AppCompatActivity {
 
             ActivityCompat.requestPermissions(AnswersActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST_READ);
-        }
+        }*/
 
         // Check if internet is available
         if(m_Helper.isNetworkAvailable(getApplicationContext())){
@@ -230,28 +233,7 @@ public class AnswersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(m_Helper.isNetworkAvailable(getApplicationContext())){
-
-                    WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-                    //  Display display = wm.getDefaultDisplay();
-                    DisplayMetrics displaymetrics = new DisplayMetrics();
-
-                    getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-                    float hight = displaymetrics.heightPixels;
-                    float width = displaymetrics.widthPixels;
-
-                    int convertHighet = (int) hight;
-                    int convertWidth = (int) width;
-
-
-                    Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getHeight());
-                    //bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
-                    bitmap = loadBitmapFromView(m_Layout_Result_PDF, convertWidth, (convertHighet * total_Questions));
-                    createPdf();
-
-                }else{
-                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
-                }
+                pdfDownload();
 
             }
         });
@@ -387,6 +369,89 @@ public class AnswersActivity extends AppCompatActivity {
         question_number = 0;
     }
 
+    public void pdfDownload(){
+
+        // Check Api Version.
+        int currentApiVersion = Build.VERSION.SDK_INT;
+        if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {
+            // Kitkat
+            Log.e("SDK_VERSION-->>","Your version is:" + currentApiVersion);
+
+            if ((ContextCompat.checkSelfPermission(AnswersActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(AnswersActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED)) {
+
+                accessLocationDialog();
+
+            }else{
+
+                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+
+                    WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+                    //  Display display = wm.getDefaultDisplay();
+                    DisplayMetrics displaymetrics = new DisplayMetrics();
+
+                    getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                    float hight = displaymetrics.heightPixels;
+                    float width = displaymetrics.widthPixels;
+
+                    int convertHighet = (int) hight;
+                    int convertWidth = (int) width;
+
+                    Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getHeight());
+                    //bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
+                    bitmap = loadBitmapFromView(m_Layout_Result_PDF, convertWidth, (convertHighet * total_Questions));
+                    createPdf();
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+        } else {
+            // Before Kitkat
+            Toast.makeText(getApplicationContext(),"Your android version does not support creation of PDF which is required to Download.",Toast.LENGTH_SHORT).show();
+            Log.e("SDK_VERSION-->>", "Generate PDF is not available for your android version." + currentApiVersion);
+
+        }
+    }
+
+    public void accessLocationDialog(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Permission Required");
+        builder.setMessage("EA App needs permission to save data on your phone.")
+                .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        ActivityCompat.requestPermissions(AnswersActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_WRITE);
+
+                        ActivityCompat.requestPermissions(AnswersActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_READ);
+
+                        pdfDownload();
+
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                accessLocationDialog();
+            }
+        });
+
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Alert! Permission Required");
+        alert.show();
+
+    }
+
+
     /**
      * Function to load exam questions data
      * */
@@ -500,7 +565,6 @@ public class AnswersActivity extends AppCompatActivity {
         Log.d("PDF_Height",String.valueOf(convertHighet));
         Log.d("PDF_QuesHeight",String.valueOf(convertHighet * total_Questions));
 
-
         PdfDocument document = new PdfDocument();
 
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet * total_Questions, total_Questions).create();
@@ -554,6 +618,5 @@ public class AnswersActivity extends AppCompatActivity {
             Log.e("Error:",e.getMessage());
         }
     }
-
 
 }

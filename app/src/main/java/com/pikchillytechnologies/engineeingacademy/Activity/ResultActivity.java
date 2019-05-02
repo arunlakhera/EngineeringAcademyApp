@@ -1,9 +1,11 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,6 +15,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -52,6 +55,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class ResultActivity extends AppCompatActivity {
@@ -100,6 +104,8 @@ public class ResultActivity extends AppCompatActivity {
     private int MY_PERMISSIONS_REQUEST_WRITE = 100;
     private int MY_PERMISSIONS_REQUEST_READ = 200;
 
+    final private int REQUEST_MULTIPLE_PERMISSIONS = 124;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,7 +146,7 @@ public class ResultActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         menuButton = findViewById(R.id.button_Menu);
 
-        if (ContextCompat.checkSelfPermission(ResultActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+       /* if (ContextCompat.checkSelfPermission(ResultActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
 
@@ -154,7 +160,7 @@ public class ResultActivity extends AppCompatActivity {
 
             ActivityCompat.requestPermissions(ResultActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST_READ);
-        }
+        }*/
 
         progressDialog.show();
         updateUI();
@@ -185,8 +191,32 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getWidth());
-                bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
-                createPdf();
+
+                // Check Api Version.
+                int currentApiVersion = Build.VERSION.SDK_INT;
+                if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {
+                    // Kitkat
+                    Log.e("SDK_VERSION-->>","Your version is:" + currentApiVersion);
+
+                    bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
+
+                    if ((ContextCompat.checkSelfPermission(ResultActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(ResultActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED)) {
+
+                        accessLocationDialog();
+                    }else{
+
+                        createPdf();
+                    }
+
+
+                } else {
+                    // Before Kitkat
+                    Toast.makeText(getApplicationContext(),"Your android version does not support creation of PDF which is required to share.",Toast.LENGTH_SHORT).show();
+                    Log.e("SDK_VERSION-->>", "Generate PDF is not available for your android version." + currentApiVersion);
+
+                }
             }
         });
 
@@ -263,6 +293,39 @@ public class ResultActivity extends AppCompatActivity {
         v.draw(c);
         return b;
     }
+
+    public void accessLocationDialog(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Permission Required");
+        builder.setMessage("EA App needs permission to save data on your phone.")
+        .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                ActivityCompat.requestPermissions(ResultActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE);
+
+                ActivityCompat.requestPermissions(ResultActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ);
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        accessLocationDialog();
+                    }
+                });
+
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Alert! Permission Required");
+        alert.show();
+
+    }
+
 
     private void createPdf(){
 

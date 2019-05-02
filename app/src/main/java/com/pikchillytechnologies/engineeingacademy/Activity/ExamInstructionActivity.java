@@ -261,7 +261,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
                                 m_TextView_Marks.setText(m_Marks + " marks for correct answer");
                                 m_Negative_Marks = examInstructionObject.getString("negative_marks");
                                 m_TextView_Negative_Marks.setText( m_Negative_Marks + " marks for wrong answer");
-                                m_TextView_Duration.setText(m_Exam_Duration + " Hours");
+                                m_TextView_Duration.setText(m_Exam_Duration + " Min");
 
                                 m_Total_Questions = examInstructionObject.getString("total_questions");
                                 m_TextView_Total_Questions.setText( m_Total_Questions + " Questions");

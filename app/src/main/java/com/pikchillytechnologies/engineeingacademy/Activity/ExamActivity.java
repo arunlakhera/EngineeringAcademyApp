@@ -121,7 +121,7 @@ public class ExamActivity extends AppCompatActivity {
     private int m_NotAttempted;
     private String m_Marks;
     private String m_Negative_Marks;
-    private int total_marks;
+    private Float total_marks;
 
     private Boolean isSubmitPressed;
     private ProgressDialog progressDialog;
@@ -448,7 +448,7 @@ public class ExamActivity extends AppCompatActivity {
             }
         }
 
-        total_marks = ((Integer.valueOf(m_Marks) * m_Correct) - Integer.valueOf(m_Negative_Marks));
+        total_marks = ((Float.valueOf(m_Marks) * m_Correct) - Float.valueOf(m_Negative_Marks) * m_Wrong);
 
         progressDialog.show();
 
@@ -578,6 +578,7 @@ public class ExamActivity extends AppCompatActivity {
     }
 
     public void showResult(){
+
         Intent destinationDetailIntent = new Intent(ExamActivity.this, ResultActivity.class);
         destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
         destinationDetailIntent.putExtra("username", m_User_Name);
@@ -588,7 +589,6 @@ public class ExamActivity extends AppCompatActivity {
         destinationDetailIntent.putExtra("wrong", String.valueOf(m_Wrong));
         destinationDetailIntent.putExtra("not_attempted", String.valueOf(m_NotAttempted));
         destinationDetailIntent.putExtra("total_marks", String.valueOf(total_marks));
-
 
         startActivity(destinationDetailIntent);
     }

@@ -126,7 +126,7 @@ public class ExamListActivity extends AppCompatActivity {
                     // Condition to allow student to take exam only if not attempted before.
                     int attempt_number = Integer.valueOf(exam.getM_No_Of_Attempts().trim());
 
-                    if(attempt_number < 1){
+                    if(attempt_number < 20){
 
                         Intent destinationDetailIntent = new Intent(ExamListActivity.this, ExamInstructionActivity.class);
                         destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
@@ -144,7 +144,6 @@ public class ExamListActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"You have already taken the exam. Only 1 attempt is allowed per exam.", Toast.LENGTH_LONG).show();
 
                     }
-
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
