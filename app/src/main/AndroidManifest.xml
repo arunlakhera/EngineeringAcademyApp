@@ -37,9 +37,6 @@
         </provider>
 
         <activity
-            android:name=".Activity.MyCartActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Activity.UpdateProfileActivity"
             android:screenOrientation="portrait" />
         <activity

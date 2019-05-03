@@ -1,7 +1,6 @@
 package com.pikchillytechnologies.engineeingacademy.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,11 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.pikchillytechnologies.engineeingacademy.Activity.ExamListActivity;
-import com.pikchillytechnologies.engineeingacademy.Activity.MyCartActivity;
-import com.pikchillytechnologies.engineeingacademy.Activity.SubCoursesActivity;
 import com.pikchillytechnologies.engineeingacademy.R;
 import com.pikchillytechnologies.engineeingacademy.Model.SubCoursePackage;
 
@@ -84,7 +79,7 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
             @Override
             public void onClick(View view) {
 
-                Intent destinationDetailIntent = new Intent(mContext, MyCartActivity.class);
+               /* Intent destinationDetailIntent = new Intent(mContext, MyCartActivity.class);
                 destinationDetailIntent.putExtra(mContext.getResources().getString(R.string.userid), m_User_Id);
                 destinationDetailIntent.putExtra("category_title", mCategoryName);
                 destinationDetailIntent.putExtra("sub_category_title", subCourse.getM_Sub_Course_Name());
@@ -94,7 +89,7 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
                 destinationDetailIntent.putExtra(mContext.getResources().getString(R.string.title), m_Title);
                 destinationDetailIntent.putExtra("total_exams", subCourse.getM_Total_Exams());
                 mContext.startActivity(destinationDetailIntent);
-
+*/
             }
         });
 

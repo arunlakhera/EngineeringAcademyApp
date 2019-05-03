@@ -2,9 +2,6 @@ package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.app.ProgressDialog;
 import android.app.Activity;
-import instamojo.library.InstapayListener;
-import instamojo.library.InstamojoPay;
-import instamojo.library.Config;
 import android.content.IntentFilter;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -74,8 +71,6 @@ public class SubCoursesActivity extends AppCompatActivity {
 
     private RecyclerView.LayoutManager m_Layout_Manager;
     private String url = "http://onlineengineeringacademy.co.in/api/sub_category_request";
-
-    //private String url = "https://pikchilly.com/api/sub_category.php";
 
     private String m_Category_Id;
     private SessionHandler session;
