@@ -127,10 +127,6 @@ public class ExamActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Button menuButton;
 
-    //private String url = "https://pikchilly.com/api/exam_question.php";
-    //private String getUserResponseURL = "https://pikchilly.com/api/get_user_response.php";
-    //private String addUserResponseURL = "https://pikchilly.com/api/add_user_result.php";
-
     private String url = "http://onlineengineeringacademy.co.in/api/exam_question";
     private String getUserResponseURL = "http://onlineengineeringacademy.co.in/api/user_response";
     private String addUserResponseURL = "http://onlineengineeringacademy.co.in/api/add_user_result";
@@ -418,8 +414,6 @@ public class ExamActivity extends AppCompatActivity {
         ExamQuestionModel examQues;
         UserResponseModel userResp;
 
-        //int total_Questions = m_Question_List.size();
-
         for (int i = 0; i < m_Question_List.size(); i++) {
 
             examQues = m_Question_List.get(i);
@@ -687,9 +681,6 @@ public class ExamActivity extends AppCompatActivity {
         String questionType = examQuestion.getM_Question_Type();
         String answerType = examQuestion.getM_Answer_Type();
 
-       // Toast.makeText(getApplicationContext(), "Img URL" + examQuestion.getM_Question_Eng(), Toast.LENGTH_LONG).show();
-
-
         if (m_English_Flag) {
 
             m_Button_Eng.setBackgroundResource(R.drawable.button_red_flat);
@@ -782,8 +773,6 @@ public class ExamActivity extends AppCompatActivity {
 
                     m_TextView_Question.setVisibility(View.GONE);
                     m_ImageView_Question_Image.setVisibility(View.VISIBLE);
-
-                    //m_TextView_Question.setText(examQuestion.getM_Question_Eng());
 
                     try {
                         Glide.with(this)
@@ -950,7 +939,6 @@ public class ExamActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                        //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                         prepareJson(response);
                         updateUI(currentQuestion);
 
@@ -1009,7 +997,6 @@ public class ExamActivity extends AppCompatActivity {
                 m_User_Response_List.add(userResponse);
 
                 m_Question_List.add(exam);
-
 
             }
 

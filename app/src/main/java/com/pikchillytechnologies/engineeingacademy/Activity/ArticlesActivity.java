@@ -82,7 +82,6 @@ public class ArticlesActivity extends AppCompatActivity {
     private int MY_PERMISSIONS_REQUEST_READ = 200;
 
     private String url = "http://onlineengineeringacademy.co.in/api/all_article_request";
-    //private String url = "https://pikchilly.com/api/get_all_articles.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +149,6 @@ public class ArticlesActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
                 }
-
             }
 
             @Override
@@ -319,16 +317,11 @@ public class ArticlesActivity extends AppCompatActivity {
                 // getting file length
                 int lengthOfFile = connection.getContentLength();
 
-
                 // input stream to read file - with 8k buffer
                 InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
                 Date date = new Date();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_mmss", Locale.ENGLISH).format(date);
-
-                //Extract file name from URL
-                //fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
-
 
                 //Append timestamp to file name
                 fileName = timeStamp + "_" + articleName + ".pdf";
@@ -383,7 +376,6 @@ public class ArticlesActivity extends AppCompatActivity {
             // setting progress percentage
             progressDialog.setProgress(Integer.parseInt(progress[0]));
         }
-
 
         @Override
         protected void onPostExecute(String message) {

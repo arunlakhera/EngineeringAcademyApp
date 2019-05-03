@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
@@ -30,11 +31,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -204,30 +207,13 @@ public class AnswersActivity extends AppCompatActivity {
         //Function to Set Values
         setValues();
 
-       /* // Check if app has read and write permissions
-        if (ContextCompat.checkSelfPermission(AnswersActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-
-            ActivityCompat.requestPermissions(AnswersActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_WRITE);
-        }
-
-        if (ContextCompat.checkSelfPermission(AnswersActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-
-            ActivityCompat.requestPermissions(AnswersActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_READ);
-        }*/
-
         // Check if internet is available
-        if(m_Helper.isNetworkAvailable(getApplicationContext())){
+        if (m_Helper.isNetworkAvailable(getApplicationContext())) {
 
             prepareExamQuestionsData();
 
-        }else{
-            Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
         }
 
         // Action to perform when Download button is pressed
@@ -235,6 +221,7 @@ public class AnswersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                m_RecyclerView_Answers_List.getLayoutManager().scrollToPosition(0);
                 pdfDownload();
 
             }
@@ -277,34 +264,34 @@ public class AnswersActivity extends AppCompatActivity {
                 // set item as selected to persist highlight
                 menuItem.setChecked(true);
 
-                if(menuItem.getTitle().equals("Courses")){
+                if (menuItem.getTitle().equals("Courses")) {
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), CoursesActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
-                }else if(menuItem.getTitle().equals("Articles")){
+                } else if (menuItem.getTitle().equals("Articles")) {
                     startActivity(new Intent(getApplicationContext(), ArticlesActivity.class));
-                }else if(menuItem.getTitle().equals("My Downloads")){
+                } else if (menuItem.getTitle().equals("My Downloads")) {
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), MyDownloadsActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
 
-                }else if(menuItem.getTitle().equals("My Results")){
+                } else if (menuItem.getTitle().equals("My Results")) {
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), MyResultsActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
 
-                }else if(menuItem.getTitle().equals("Update Profile")){
+                } else if (menuItem.getTitle().equals("Update Profile")) {
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
-                }else if(menuItem.getTitle().equals("Logout")){
+                } else if (menuItem.getTitle().equals("Logout")) {
 
                     session.logoutUser();
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
@@ -322,8 +309,8 @@ public class AnswersActivity extends AppCompatActivity {
 
     /**
      * Function to initialize the values
-     * */
-    public void initValues(){
+     */
+    public void initValues() {
         m_TextView_Activity_Title = findViewById(R.id.textView_Activity_Title);
         m_RecyclerView_Answers_List = findViewById(R.id.recyclerView_Answers);
         m_Button_Back = findViewById(R.id.button_Back);
@@ -333,8 +320,6 @@ public class AnswersActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         menuButton = findViewById(R.id.button_Menu);
-
-        m_ScrollView_Result_PDF = findViewById(R.id.scrollView_Result);
 
         session = new SessionHandler(getApplicationContext());
         m_Helper = new EAHelper();
@@ -349,8 +334,8 @@ public class AnswersActivity extends AppCompatActivity {
 
     /**
      * Function to set values
-     * */
-    public void setValues(){
+     */
+    public void setValues() {
         m_Exam_Answer_Bundle = getIntent().getExtras();
         m_User_Id = m_Exam_Answer_Bundle.getString(getResources().getString(R.string.userid), "User Id");
         m_User_Name = m_Exam_Answer_Bundle.getString("username", "User Name");
@@ -373,13 +358,13 @@ public class AnswersActivity extends AppCompatActivity {
         question_number = 0;
     }
 
-    public void pdfDownload(){
+    public void pdfDownload() {
 
         // Check Api Version.
         int currentApiVersion = Build.VERSION.SDK_INT;
         if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {
             // Kitkat
-            Log.e("SDK_VERSION-->>","Your version is:" + currentApiVersion);
+            Log.e("SDK_VERSION-->>", "Your version is:" + currentApiVersion);
 
             if ((ContextCompat.checkSelfPermission(AnswersActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(AnswersActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -387,46 +372,32 @@ public class AnswersActivity extends AppCompatActivity {
 
                 accessLocationDialog();
 
-            }else{
+            } else {
 
-                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+                if (m_Helper.isNetworkAvailable(getApplicationContext())) {
 
-                    WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-                    //  Display display = wm.getDefaultDisplay();
-                    DisplayMetrics displaymetrics = new DisplayMetrics();
+                    m_RecyclerView_Answers_List.measure(
+                            View.MeasureSpec.makeMeasureSpec(m_RecyclerView_Answers_List.getWidth(), View.MeasureSpec.EXACTLY),
+                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 
-                    getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-                    float hight = displaymetrics.heightPixels;
-                    float width = displaymetrics.widthPixels;
+                    bitmap = loadBitmapFromView(m_RecyclerView_Answers_List, m_RecyclerView_Answers_List.getWidth(), m_RecyclerView_Answers_List.getMeasuredHeight());
 
-                    int convertHighet = (int) hight;
-                    int convertWidth = (int) width;
-
-                    Log.d("size"," "+m_ScrollView_Result_PDF.getWidth() +"  "+m_ScrollView_Result_PDF.getHeight());
-                    //bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
-                    //bitmap = loadBitmapFromView(m_Layout_Result_PDF, convertWidth, (convertHighet * total_Questions));
-                    //bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight() * total_Questions);
-
-                    bitmap = loadBitmapFromView(m_ScrollView_Result_PDF, m_ScrollView_Result_PDF.getWidth(), m_ScrollView_Result_PDF.getHeight());
-                    //bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
-                    //bitmap = loadBitmapFromView(m_ScrollView_Result_PDF, convertWidth, (convertHighet * total_Questions));
                     createPdf();
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
                 }
-
             }
 
         } else {
             // Before Kitkat
-            Toast.makeText(getApplicationContext(),"Your android version does not support creation of PDF which is required to Download.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Your android version does not support creation of PDF which is required to Download.", Toast.LENGTH_SHORT).show();
             Log.e("SDK_VERSION-->>", "Generate PDF is not available for your android version." + currentApiVersion);
 
         }
     }
 
-    public void accessLocationDialog(){
+    public void accessLocationDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Permission Required");
@@ -460,10 +431,9 @@ public class AnswersActivity extends AppCompatActivity {
 
     }
 
-
     /**
      * Function to load exam questions data
-     * */
+     */
     public void prepareExamQuestionsData() {
 
         progressDialog.show();
@@ -473,7 +443,7 @@ public class AnswersActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         //hiding the progressbar after completion
-                        Log.e("USERRESPONSE--->>" , response);
+                        Log.e("USERRESPONSE--->>", response);
 
                         response = response.trim();
                         try {
@@ -484,7 +454,7 @@ public class AnswersActivity extends AppCompatActivity {
                             JSONArray examArray = obj.getJSONArray("user_response");
 
                             //now looping through all the elements of the json array
-                            for (int i = (examArray.length() - 1); i >= 0 ; i--) {
+                            for (int i = 0; i < examArray.length(); i++) {
                                 //getting the json object of the particular index inside the array
                                 JSONObject examObject = examArray.getJSONObject(i);
                                 question_number = question_number + 1;
@@ -511,7 +481,6 @@ public class AnswersActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
 
                 },
@@ -539,7 +508,9 @@ public class AnswersActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+
     public static Bitmap loadBitmapFromView(View v, int width, int height) {
+
         Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
 
@@ -553,30 +524,21 @@ public class AnswersActivity extends AppCompatActivity {
         v.draw(c);
 
         return b;
+
     }
 
-    /**
-     * Function to create PDF File
-     * */
     private void createPdf(){
-
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        //  Display display = wm.getDefaultDisplay();
         DisplayMetrics displaymetrics = new DisplayMetrics();
-
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        float hight = displaymetrics.heightPixels;
-        float width = displaymetrics.widthPixels;
 
-        int convertHighet = (int) hight;
-        int convertWidth = (int) width;
+        float hight = m_RecyclerView_Answers_List.getMeasuredHeight() ;
+        float width = m_RecyclerView_Answers_List.getWidth() ;
 
-        Log.d("PDF_Height",String.valueOf(convertHighet));
-        Log.d("PDF_QuesHeight",String.valueOf(convertHighet * total_Questions));
+        int convertHighet = (int) hight, convertWidth = (int) width;
 
         PdfDocument document = new PdfDocument();
-
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet * total_Questions, total_Questions).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(m_RecyclerView_Answers_List.getWidth(), m_RecyclerView_Answers_List.getMeasuredHeight(), total_Questions).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Canvas canvas = page.getCanvas();
@@ -584,48 +546,45 @@ public class AnswersActivity extends AppCompatActivity {
         Paint paint = new Paint();
         canvas.drawPaint(paint);
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHighet * total_Questions, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, m_RecyclerView_Answers_List.getWidth(), m_RecyclerView_Answers_List.getMeasuredHeight(), true);
 
         paint.setColor(Color.BLUE);
         canvas.drawBitmap(bitmap, 0, 0 , null);
         document.finishPage(page);
 
-        try{
+        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAAnswers");
+        boolean success = true;
 
-            File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAAnswers");
-            boolean success = true;
-
-            if (!ea_folder.exists()) {
-                success = ea_folder.mkdirs();
-            }
-
-            if(success){
-                Date date = new Date();
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_mmss", Locale.ENGLISH).format(date);
-
-                // write the document content
-                File filePath;
-                filePath = new File(ea_folder + File.separator + m_Title + timeStamp + ".pdf");
-
-                try {
-                    document.writeTo(new FileOutputStream(filePath));
-
-                    // close the document
-                    document.close();
-                    Toast.makeText(this, "PDF Downloaded Successfully!!!", Toast.LENGTH_SHORT).show();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Error Occurred while Creating PDF " + e.toString(), Toast.LENGTH_LONG).show();
-                }
-
-            }else{
-                Toast.makeText(this, "Could not find Directory!!!" + ea_folder, Toast.LENGTH_SHORT).show();
-            }
-
-        }catch (Exception e){
-            Log.e("Error:",e.getMessage());
+        if (!ea_folder.exists()) {
+            success = ea_folder.mkdirs();
         }
+
+        if(success){
+            Date date = new Date();
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_mmss", Locale.ENGLISH).format(date);
+
+            // write the document content
+            File filePath;
+            filePath = new File(ea_folder + File.separator + m_Title + timeStamp + ".pdf");
+
+            try {
+                document.writeTo(new FileOutputStream(filePath));
+
+                // close the document
+                document.close();
+                Toast.makeText(this, "PDF Downloaded Successfully!!!", Toast.LENGTH_SHORT).show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error Occurred while Creating PDF " + e.toString(), Toast.LENGTH_LONG).show();
+            }
+
+        }else{
+            Toast.makeText(this, "Could not find Directory!!!" + ea_folder, Toast.LENGTH_SHORT).show();
+        }
+
+        // close the document
+        document.close();
     }
 
 }

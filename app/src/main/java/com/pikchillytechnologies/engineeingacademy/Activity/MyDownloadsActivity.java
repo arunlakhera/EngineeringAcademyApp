@@ -225,20 +225,6 @@ public class MyDownloadsActivity extends AppCompatActivity {
         progressDialog.dismiss();
     }
 
-
-    // Method for opening a pdf file
-    private void viewPdf(String pdfFileName) {
-
-        Intent pdfIntent = new Intent(MyDownloadsActivity.this, PdfActivity.class);
-        pdfIntent.putExtra("pdf_File",pdfFileName);
-        pdfIntent.putExtra("pdf_Type","Answers");
-        pdfIntent.putExtra(getResources().getString(R.string.userid),m_User_Id);
-        pdfIntent.putExtra("username",m_User_Name);
-
-        startActivity(pdfIntent);
-
-    }
-
     private void openGeneratedPDF(String pdfFileName){
 
         File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAAnswers/" + pdfFileName);

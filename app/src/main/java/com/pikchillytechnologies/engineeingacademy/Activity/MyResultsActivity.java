@@ -127,7 +127,6 @@ public class MyResultsActivity extends AppCompatActivity {
             }
         }));
 
-
         m_Button_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -232,31 +231,16 @@ public class MyResultsActivity extends AppCompatActivity {
         progressDialog.dismiss();
     }
 
-    // Method for opening a pdf file
-    private void viewPdf(String pdfFileName) {
-
-        Intent pdfIntent = new Intent(MyResultsActivity.this, PdfActivity.class);
-        pdfIntent.putExtra("pdf_File",pdfFileName);
-        pdfIntent.putExtra("pdf_Type","Result");
-        pdfIntent.putExtra(getResources().getString(R.string.userid),m_User_Id);
-        pdfIntent.putExtra("username",m_User_Name);
-
-        startActivity(pdfIntent);
-
-    }
-
     private void openGeneratedPDF(String pdfFileName){
 
         File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAExamResults/" + pdfFileName);
         String path = ea_folder.toString();
         File file = new File(path);
 
-        //File file = new File("/sdcard/pdffromlayout.pdf");
         if (file.exists())
         {
 
             Intent intent=new Intent(Intent.ACTION_VIEW);
-            //Uri uri = Uri.fromFile(file);
             Uri uri = FileProvider.getUriForFile(MyResultsActivity.this, BuildConfig.APPLICATION_ID + ".provider",file);
 
             intent.setDataAndType(uri, "application/pdf");

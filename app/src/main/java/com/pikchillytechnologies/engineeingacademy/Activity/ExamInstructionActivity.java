@@ -66,9 +66,7 @@ public class ExamInstructionActivity extends AppCompatActivity {
     private String m_Category_Title;
     private String m_Sub_Category_Title;
 
-    //private String url = "https://pikchilly.com/api/exam_instruction.php";
     private String url = "http://onlineengineeringacademy.co.in/api/exam_instruction_request";
-
     private SessionHandler session;
 
     @Override

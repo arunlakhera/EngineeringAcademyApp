@@ -4,7 +4,7 @@
     android:id="@+id/layout_Question"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/answer_base"
+    android:background="@drawable/ea_bg_small"
     android:layout_margin="@dimen/margin_default"
     android:orientation="vertical">
 
@@ -29,6 +29,7 @@
             android:layout_marginStart="@dimen/margin_default"
             android:layout_marginEnd="@dimen/margin_default"
             android:layout_marginRight="@dimen/margin_default"
+            android:layout_gravity="center"
             android:scrollbars="vertical"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_small" />

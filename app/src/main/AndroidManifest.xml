@@ -36,7 +36,6 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <activity android:name=".Activity.PdfActivity"></activity>
         <activity
             android:name=".Activity.MyCartActivity"
             android:screenOrientation="portrait" />

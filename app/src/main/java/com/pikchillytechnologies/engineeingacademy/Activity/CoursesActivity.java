@@ -68,7 +68,6 @@ public class CoursesActivity extends AppCompatActivity {
     private CoursesAdapter m_Courses_Adapter;
 
     private String url = "http://onlineengineeringacademy.co.in/api/category_request";
-    //private String url = "https://pikchilly.com/api/category.php";
 
     private SessionHandler session;
 
