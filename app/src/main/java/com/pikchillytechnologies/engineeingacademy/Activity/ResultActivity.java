@@ -326,7 +326,6 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
-
     private void createPdf(){
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);

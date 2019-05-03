@@ -2,13 +2,16 @@ package com.pikchillytechnologies.engineeingacademy.Activity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pikchillytechnologies.engineeingacademy.Adapter.MyDownloadsAdapter;
+import com.pikchillytechnologies.engineeingacademy.BuildConfig;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.DownloadedFileModel;
 import com.pikchillytechnologies.engineeingacademy.Model.RecyclerTouchListener;
@@ -106,7 +110,8 @@ public class MyDownloadsActivity extends AppCompatActivity {
             public void onClick(View view, int position) {
 
                 String selectedFileName = m_DownloadedFile_List.get(position).getM_DownloadedFileName();
-                viewPdf(selectedFileName);
+                //viewPdf(selectedFileName);
+                openGeneratedPDF(selectedFileName);
             }
 
             @Override
@@ -232,6 +237,35 @@ public class MyDownloadsActivity extends AppCompatActivity {
 
         startActivity(pdfIntent);
 
+    }
+
+    private void openGeneratedPDF(String pdfFileName){
+
+        File ea_folder = new File(Environment.getExternalStorageDirectory() + File.separator + "EAAnswers/" + pdfFileName);
+        String path = ea_folder.toString();
+        File file = new File(path);
+
+        //File file = new File("/sdcard/pdffromlayout.pdf");
+        if (file.exists())
+        {
+
+            Intent intent=new Intent(Intent.ACTION_VIEW);
+            //Uri uri = Uri.fromFile(file);
+            Uri uri = FileProvider.getUriForFile(MyDownloadsActivity.this, BuildConfig.APPLICATION_ID + ".provider",file);
+
+            intent.setDataAndType(uri, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            try
+            {
+                startActivity(intent);
+            }
+            catch(ActivityNotFoundException e)
+            {
+                Toast.makeText(MyDownloadsActivity.this, "No Application available to view pdf", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
 }

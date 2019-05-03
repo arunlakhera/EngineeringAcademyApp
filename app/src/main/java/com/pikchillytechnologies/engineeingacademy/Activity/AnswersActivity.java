@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -181,6 +182,7 @@ public class AnswersActivity extends AppCompatActivity {
     private Button menuButton;
 
     private LinearLayout m_Layout_Result_PDF;
+    private ScrollView m_ScrollView_Result_PDF;
     private Bitmap bitmap;
     private Button m_Button_Download;
 
@@ -332,6 +334,8 @@ public class AnswersActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         menuButton = findViewById(R.id.button_Menu);
 
+        m_ScrollView_Result_PDF = findViewById(R.id.scrollView_Result);
+
         session = new SessionHandler(getApplicationContext());
         m_Helper = new EAHelper();
         m_Answer_List = new ArrayList<>();
@@ -398,9 +402,14 @@ public class AnswersActivity extends AppCompatActivity {
                     int convertHighet = (int) hight;
                     int convertWidth = (int) width;
 
-                    Log.d("size"," "+m_Layout_Result_PDF.getWidth() +"  "+m_Layout_Result_PDF.getHeight());
+                    Log.d("size"," "+m_ScrollView_Result_PDF.getWidth() +"  "+m_ScrollView_Result_PDF.getHeight());
                     //bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
-                    bitmap = loadBitmapFromView(m_Layout_Result_PDF, convertWidth, (convertHighet * total_Questions));
+                    //bitmap = loadBitmapFromView(m_Layout_Result_PDF, convertWidth, (convertHighet * total_Questions));
+                    //bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight() * total_Questions);
+
+                    bitmap = loadBitmapFromView(m_ScrollView_Result_PDF, m_ScrollView_Result_PDF.getWidth(), m_ScrollView_Result_PDF.getHeight());
+                    //bitmap = loadBitmapFromView(m_Layout_Result_PDF, m_Layout_Result_PDF.getWidth(), m_Layout_Result_PDF.getHeight());
+                    //bitmap = loadBitmapFromView(m_ScrollView_Result_PDF, convertWidth, (convertHighet * total_Questions));
                     createPdf();
 
                 }else{

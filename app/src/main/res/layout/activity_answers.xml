@@ -19,6 +19,7 @@
             layout="@layout/toolbar_layout" />
 
         <ScrollView
+            android:id="@+id/scrollView_Result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar">
@@ -26,7 +27,7 @@
             <LinearLayout
                 android:id="@+id/layout_All_Answers"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/ea_bg"
                 android:orientation="vertical">
 
