@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     -->
 
+    <!-- UsesCleartextTraffic has been added as a workaround for HTTPS issue related to Android version 9 -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
