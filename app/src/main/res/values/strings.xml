@@ -48,5 +48,10 @@
     <string name="my_profile">My Profile</string>
     <string name="answer_pdf">Answers PDF</string>
     <string name="result_pdf">Results PDF</string>
+    <string name="forgot_password"><u>Forgot Password</u></string>
+    <string name="enter_your_registered_email_id_here">Enter your Registered email ID here...</string>
+    <string name="send">Send</string>
+    <string name="cancel">Cancel</string>
+    <string name="country_code">+91</string>
 
 </resources>

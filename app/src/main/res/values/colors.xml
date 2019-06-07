@@ -8,4 +8,8 @@
     <color name="textColorYellow">#F8E71C</color>
     <color name="textColorBlack">#000000</color>
     <color name="textColorWhite">#FFFFFF</color>
+    <color name="colorLightGrey">#AAAAAA</color>
+    <color name="colorDarkGrey">#4A4A4A</color>
+    <color name="colorDarkRed">#CC0000</color>
+    <color name="colorDarkGreen">#669900</color>
 </resources>

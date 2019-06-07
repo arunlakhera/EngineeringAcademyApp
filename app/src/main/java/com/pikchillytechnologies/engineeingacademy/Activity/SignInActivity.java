@@ -1,7 +1,11 @@
 package com.pikchillytechnologies.engineeingacademy.Activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,7 +13,10 @@ import android.support.annotation.MainThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -47,7 +54,10 @@ public class SignInActivity extends AppCompatActivity {
     //private static String loginURL = "https://pikchilly.com/api/login.php";
     private static String loginURL = "http://onlineengineeringacademy.co.in/api/login_request";
     private SessionHandler session;
-
+    private TextView m_Forgot_Password_TextView;
+    private EditText forgotPasswordEditText;
+    private Button cancel_Button;
+    private Button send_Button;
     //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";
 
     @Override
@@ -61,6 +71,7 @@ public class SignInActivity extends AppCompatActivity {
         m_Password_TextView = findViewById(R.id.edittext_Password);
         m_Sign_Up_TextView = findViewById(R.id.textview_New_Sign_Up);
         m_Sign_In_Button = findViewById(R.id.button_Sign_In);
+        m_Forgot_Password_TextView = findViewById(R.id.textview_ForgotPassword);
 
         m_Helper = new EAHelper();
         pd = new ProgressDialog(SignInActivity.this);
@@ -71,8 +82,21 @@ public class SignInActivity extends AppCompatActivity {
 
                 if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
-                    m_User_Id = m_Email_Id_TextView.getText().toString();
-                    signInRequest();
+                    String userEmailId = m_Email_Id_TextView.getText().toString();
+                    String userPassword = m_Password_TextView.getText().toString();
+
+                    if(!userEmailId.isEmpty() && !userPassword.isEmpty()){
+
+                        if(m_Helper.isValidEmail(userEmailId)){
+                            m_User_Id = m_Email_Id_TextView.getText().toString();
+                            signInRequest();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Please provide Email Id & Password !", Toast.LENGTH_SHORT).show();
+                    }
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
@@ -87,6 +111,67 @@ public class SignInActivity extends AppCompatActivity {
                 m_Helper.start_Activity(SignInActivity.this, SignUpActivity.class);
             }
         });
+
+        m_Forgot_Password_TextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Please Enter registered email id..", Toast.LENGTH_SHORT).show();
+                callForgotPassword(SignInActivity.this);
+            }
+        });
+
+    }
+
+    public void callForgotPassword(Activity activity){
+
+        // Show popup to take users registered email id for which user forgot password
+
+        final Dialog dialog = new Dialog(activity);
+        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.forgot_password_dialog_box);
+
+        forgotPasswordEditText = dialog.findViewById(R.id.registeredEmailId);
+        cancel_Button = dialog.findViewById(R.id.button_Cancel);
+        send_Button = dialog.findViewById(R.id.button_Send);
+
+        cancel_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        send_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                send_Button.setBackgroundColor(getResources().getColor(R.color.colorDarkGreen));
+                String registeredEmail = forgotPasswordEditText.getText().toString();
+
+                if(!registeredEmail.isEmpty()){
+
+                    if(m_Helper.isValidEmail(registeredEmail)){
+
+                        Toast.makeText(getApplicationContext(),"An Email has been sent to reset Password.", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
+                    }
+                    // Send the provided email id to WEB API to check if this email exists in system
+                    // if email does not exists receive msg "Email_Not_Exists" and show message to user
+                    // if email exists Web API will send email to the user with a link to reset the password/ or send temp password and send msg "Email_Sent" to app
+                    // Show msg to the user that email to reset has been sent to the user.
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please provide registered Email Id !", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        dialog.show();
 
     }
 

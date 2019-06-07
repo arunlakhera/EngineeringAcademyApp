@@ -73,6 +73,20 @@
 
                 </android.support.design.widget.TextInputLayout>
 
+                <TextView
+                    android:id="@+id/textview_ForgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="@dimen/margin_default"
+                    android:layout_marginEnd="@dimen/margin_default"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:textStyle="bold"
+                    android:text="@string/forgot_password"
+                    android:textColor="@android:color/white" />
+
                 <Button
                     android:id="@+id/button_Sign_In"
                     android:layout_width="match_parent"

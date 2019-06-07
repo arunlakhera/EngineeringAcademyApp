@@ -69,8 +69,36 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if(m_Helper.isNetworkAvailable(getApplicationContext())){
 
-                    m_User_Id = m_Email_Id_EditText.getText().toString();
-                    signupRequest();
+                    String userFirstName = m_First_Name_EditText.getText().toString();
+                    String userLastName = m_Last_Name_EditText.getText().toString();
+                    String userPhone = m_Phone_EditText.getText().toString();
+                    String userEmailId = m_Email_Id_EditText.getText().toString();
+                    String userPassword = m_Password_EditText.getText().toString();
+
+                    if(userFirstName.isEmpty()){
+                        Toast.makeText(getApplicationContext(),"Please provide First Name", Toast.LENGTH_SHORT).show();
+                        m_First_Name_EditText.setFocusable(true);
+                    }else if(userLastName.isEmpty()){
+                        Toast.makeText(getApplicationContext(),"Please provide Last Name", Toast.LENGTH_SHORT).show();
+                        m_Last_Name_EditText.setFocusable(true);
+                    }else if(userPhone.isEmpty()){
+                        Toast.makeText(getApplicationContext(),"Please provide Phone Number", Toast.LENGTH_SHORT).show();
+                        m_Phone_EditText.setFocusable(true);
+                    }else if(userEmailId.isEmpty()){
+                        Toast.makeText(getApplicationContext(),"Please provide Email Id", Toast.LENGTH_SHORT).show();
+                        m_Email_Id_EditText.setFocusable(true);
+                    }else if(userPassword.isEmpty()){
+                        Toast.makeText(getApplicationContext(),"Please provide Password", Toast.LENGTH_SHORT).show();
+                        m_Password_EditText.setFocusable(true);
+                    }else {
+
+                        if(m_Helper.isValidEmail(userEmailId)){
+                            m_User_Id = m_Email_Id_EditText.getText().toString();
+                            signupRequest();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
