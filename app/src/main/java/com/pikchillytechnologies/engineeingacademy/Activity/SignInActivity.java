@@ -49,16 +49,17 @@ public class SignInActivity extends AppCompatActivity {
     private Button m_Sign_In_Button;
     private TextView m_Sign_Up_TextView;
     private EAHelper m_Helper;
-
     private ProgressDialog pd;
-    //private static String loginURL = "https://pikchilly.com/api/login.php";
-    private static String loginURL = "http://onlineengineeringacademy.co.in/api/login_request";
+
     private SessionHandler session;
     private TextView m_Forgot_Password_TextView;
     private EditText forgotPasswordEditText;
     private Button cancel_Button;
     private Button send_Button;
+
     //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";
+    private static String loginURL = "http://onlineengineeringacademy.co.in/api/login_request";
+    private static String forgotPasswordURL = "http://onlineengineeringacademy.co.in/api/forgot_password_request";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,16 +154,19 @@ public class SignInActivity extends AppCompatActivity {
 
                     if(m_Helper.isValidEmail(registeredEmail)){
 
-                        Toast.makeText(getApplicationContext(),"An Email has been sent to reset Password.", Toast.LENGTH_SHORT).show();
+                        // Send the provided email id to WEB API to check if this email exists in system
+                        // if email does not exists receive msg "Email_Not_Exists" and show message to user
+                        // if email exists Web API will send email to the user with a link to reset the password/ or send temp password and send msg "Email_Sent" to app
+                        // Show msg to the user that email to reset has been sent to the user.
+
+                        setPasswordRequest();
+                        Toast.makeText(getApplicationContext(),"----An Email has been sent to reset Password.", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
 
                     }else{
                         Toast.makeText(getApplicationContext(),"Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
                     }
-                    // Send the provided email id to WEB API to check if this email exists in system
-                    // if email does not exists receive msg "Email_Not_Exists" and show message to user
-                    // if email exists Web API will send email to the user with a link to reset the password/ or send temp password and send msg "Email_Sent" to app
-                    // Show msg to the user that email to reset has been sent to the user.
+
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Please provide registered Email Id !", Toast.LENGTH_SHORT).show();
@@ -173,6 +177,60 @@ public class SignInActivity extends AppCompatActivity {
 
         dialog.show();
 
+    }
+
+    private void setPasswordRequest() {
+
+        pd.setMessage("Processing request . . .");
+        pd.show();
+
+        RequestQueue m_Queue = Volley.newRequestQueue(SignInActivity.this);
+        String response = null;
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, forgotPasswordURL,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+
+                        pd.hide();
+                        response = response.trim();
+
+                        if(response.equals("EMAIL_NOT_EXIST")){
+
+                            Toast.makeText(getApplicationContext(),"No user exists with this Email Id.",Toast.LENGTH_LONG).show();
+                        }else if(response.equals("EMAIL_SENT")){
+
+                            Toast.makeText(getApplicationContext(),"An Email has been sent to reset Password",Toast.LENGTH_LONG).show();
+                        }else {
+                            Toast.makeText(getApplicationContext(),"Could not sent Password reset email. Please try again!",Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        pd.hide();
+                        String err = (error.getMessage()==null)?"Error is:":error.getMessage();
+                        Log.d("ErrorResponse", err);
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("username", forgotPasswordEditText.getText().toString());
+                return params;
+            }
+        };
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        m_Queue.add(postRequest);
     }
 
     public void signInRequest(){
@@ -247,6 +305,5 @@ public class SignInActivity extends AppCompatActivity {
         m_Queue.add(postRequest);
 
     }
-
-
+    
 }
