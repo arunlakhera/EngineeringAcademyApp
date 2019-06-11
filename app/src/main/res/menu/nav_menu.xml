@@ -2,16 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/courses"
-        android:title="Courses"/>
+        android:title="@string/courses"/>
     <item android:id="@+id/articles"
-        android:title="Articles"/>
+        android:title="@string/articles"/>
     <item android:id="@+id/myDownloads"
-        android:title="My Downloads"/>
+        android:title="@string/my_downloads"/>
     <item android:id="@+id/myResults"
-        android:title="My Results"/>
+        android:title="@string/my_results"/>
     <item android:id="@+id/updateProfile"
-        android:title="Update Profile"/>
+        android:title="@string/update_profile"/>
+    <item android:id="@+id/shareApp"
+        android:title="@string/share_app"/>
     <item android:id="@+id/logout"
-        android:title="Logout"/>
+        android:title="@string/logout"/>
 
 </menu>

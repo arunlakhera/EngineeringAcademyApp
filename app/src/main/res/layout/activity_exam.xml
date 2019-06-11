@@ -15,8 +15,8 @@
         android:layout_height="match_parent"
         android:src="@drawable/ea_bg"
         android:layout_below="@id/toolbar"
-        android:scaleType="center"
-        android:alpha="0.5"
+        android:scaleType="fitXY"
+        android:alpha="0.9"
         />
 
     <!-- Replace with Recycler view horizontal-->
@@ -33,7 +33,7 @@
         android:id="@+id/layout_Information"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:background="@drawable/course_red_bg"
+        android:background="@drawable/button_red_flat"
         android:layout_below="@id/recyclerView_question_List"
         android:layout_gravity="center"
         android:orientation="horizontal">
@@ -97,7 +97,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ea_bg"
             >
 
             <LinearLayout
@@ -105,8 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-
-                android:layout_margin="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
                 >
 
                 <LinearLayout
@@ -474,19 +472,18 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_marginStart="@dimen/margin_small"
-        android:layout_marginLeft="@dimen/margin_small"
-        android:layout_marginRight="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_small"
-        android:layout_marginTop="@dimen/margin_default"
-        android:layout_marginBottom="@dimen/margin_default"
         android:background="@drawable/nav_base"
+        android:layout_marginBottom="@dimen/margin_small"
         >
 
         <Button
             android:id="@+id/button_Previous"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
             android:background="@drawable/nav_prev" />
 
         <Button
@@ -508,6 +505,10 @@
             android:id="@+id/button_Next"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_marginLeft="@dimen/margin_default"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
             android:background="@drawable/nav_next" />
     </LinearLayout>
 </RelativeLayout>

@@ -9,7 +9,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.annotation.MainThread;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +31,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -60,6 +70,17 @@ public class SignInActivity extends AppCompatActivity {
     //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";
     private static String loginURL = "http://onlineengineeringacademy.co.in/api/login_request";
     private static String forgotPasswordURL = "http://onlineengineeringacademy.co.in/api/forgot_password_request";
+    private static String signupURL = "http://onlineengineeringacademy.co.in/api/user_profile";
+
+    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleApiClient googleApiClient;
+    private static final int RC_SIGN_IN = 1;
+    private String google_FirstName;
+    private String google_LastName;
+    private String google_Phone;
+    private String google_EmailId;
+    private String google_Password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +94,33 @@ public class SignInActivity extends AppCompatActivity {
         m_Sign_Up_TextView = findViewById(R.id.textview_New_Sign_Up);
         m_Sign_In_Button = findViewById(R.id.button_Sign_In);
         m_Forgot_Password_TextView = findViewById(R.id.textview_ForgotPassword);
+        m_Sign_In_Button.setSelected(true);
 
         m_Helper = new EAHelper();
         pd = new ProgressDialog(SignInActivity.this);
+
+        // Google Sign In Option
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleApiClient=new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+
+        // Set the dimensions of the sign-in button.
+        SignInButton googleSignInButton = findViewById(R.id.sign_in_button);
+        googleSignInButton.setSize(SignInButton.SIZE_STANDARD);
+
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+                startActivityForResult(intent,RC_SIGN_IN);
+            }
+        });
 
         m_Sign_In_Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +165,101 @@ public class SignInActivity extends AppCompatActivity {
                 callForgotPassword(SignInActivity.this);
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==RC_SIGN_IN){
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+
+    }
+
+    private void handleSignInResult(GoogleSignInResult result){
+        if(result.isSuccess()){
+            //gotoProfile();
+
+            google_FirstName = result.getSignInAccount().getGivenName();
+            google_LastName = result.getSignInAccount().getFamilyName();
+            google_Phone="";
+            google_EmailId = result.getSignInAccount().getEmail();
+            google_Password ="";
+            signupRequest();
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Sign in cancel",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void signupRequest() {
+
+        pd.setMessage("Signing In . . .");
+        pd.show();
+
+        RequestQueue queue = Volley.newRequestQueue(SignInActivity.this);
+        String response = null;
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, signupURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        pd.hide();
+
+                        response = response.trim();
+                        if (response.equals("SignUpSuccess") || response.equals("UsernameExists")) {
+
+                            String firstName = google_FirstName;
+                            String lastName = google_LastName;
+                            String userName = firstName + " " + lastName;
+                            m_User_Id = google_EmailId;
+
+                            session.loginUser(m_User_Id);
+
+                            Intent destinationDetailIntent = new Intent(SignInActivity.this, CoursesActivity.class);
+                            destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                            destinationDetailIntent.putExtra("username", userName);
+                            startActivity(destinationDetailIntent);
+
+                        } else if (response.equals("SignUpFailed")) {
+
+                            Toast.makeText(getApplicationContext(), "Could not Sign Up", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Response:" + response, Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("ErrorResponse", error.getMessage());
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("firstname", google_FirstName);
+                params.put("lastname", google_LastName);
+                params.put("phone", google_Phone);
+                params.put("username", google_EmailId);
+                params.put("password", google_Password);
+
+                return params;
+
+            }
+        };
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(postRequest);
 
     }
 
@@ -307,3 +447,6 @@ public class SignInActivity extends AppCompatActivity {
     }
     
 }
+
+// CLIENT ID : 469104860820-17pf2gba7n8tb9na3j1n32ut2fuq85gk.apps.googleusercontent.com
+// Client SECRET : pC5PMcOLq81KICc1XcUy8G3c

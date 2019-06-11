@@ -20,6 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -67,6 +70,8 @@ public class ExamInstructionActivity extends AppCompatActivity {
     private String m_Sub_Category_Title;
 
     private String url = "http://onlineengineeringacademy.co.in/api/exam_instruction_request";
+    private String appLink = "https://play.google.com/store/apps/details?id=com.pikchillytechnologies.engineeingacademy";
+
     private SessionHandler session;
 
     @Override
@@ -177,38 +182,57 @@ public class ExamInstructionActivity extends AppCompatActivity {
                 // set item as selected to persist highlight
                 menuItem.setChecked(true);
 
-                if(menuItem.getTitle().equals("Courses")){
+                if(menuItem.getTitle().equals(getResources().getString(R.string.courses))){
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), CoursesActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
 
-                }else if(menuItem.getTitle().equals("Articles")){
-                    startActivity(new Intent(getApplicationContext(), ArticlesActivity.class));
-                }else if(menuItem.getTitle().equals("My Downloads")){
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.articles))){
+                    Intent destinationDetailIntent = new Intent(getApplicationContext(), ArticlesActivity.class);
+                    destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
+                    destinationDetailIntent.putExtra("username", m_User_Name);
+                    startActivity(destinationDetailIntent);
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.my_downloads))){
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), MyDownloadsActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
 
-                }else if(menuItem.getTitle().equals("My Results")){
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.my_results))){
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), MyResultsActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
 
-                }else if(menuItem.getTitle().equals("Update Profile")){
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.update_profile))){
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
-                }else if(menuItem.getTitle().equals("Logout")){
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.share_app))){
+
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Engineering Academy Dehradun App");
+                    String message = "\nLet me recommend you this application: \n" + appLink;
+
+                    i.putExtra(Intent.EXTRA_TEXT, message);
+                    startActivity(Intent.createChooser(i, "Select one.."));
+
+
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.logout))){
 
                     session.logoutUser();
+
+                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+                    GoogleSignInClient signedClient = GoogleSignIn.getClient(ExamInstructionActivity.this, gso);
+
+                    signedClient.signOut();
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
                     startActivity(destinationDetailIntent);
 

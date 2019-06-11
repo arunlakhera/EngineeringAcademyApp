@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,13 +14,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            >
 
             <LinearLayout
                 android:id="@+id/layout_Sign_In"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginLeft="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_large"
@@ -34,7 +35,6 @@
                     android:layout_gravity="center"
                     android:contentDescription="@string/logo_description"
                     android:src="@drawable/logo"
-
                     />
 
                 <android.support.design.widget.TextInputLayout
@@ -90,7 +90,7 @@
                 <Button
                     android:id="@+id/button_Sign_In"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_marginTop="@dimen/margin_small"
                     android:background="@drawable/button_signin"
                     android:text="@string/sign_in"
@@ -99,11 +99,40 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/layout_google"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout_Sign_In"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_large"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/or_you_can_use"
+                    android:textAlignment="center"
+                    android:layout_margin="@dimen/margin_small"
+                    android:textStyle="bold"
+                    android:textColor="@color/textColorWhite"
+                    android:textSize="@dimen/text_default"
+                    />
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_small"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_Bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+                android:layout_below="@id/layout_google"
                 android:layout_marginLeft="@dimen/margin_large"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_large"
@@ -131,4 +160,4 @@
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

@@ -24,6 +24,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.pikchillytechnologies.engineeingacademy.Adapter.MyDownloadsAdapter;
 import com.pikchillytechnologies.engineeingacademy.BuildConfig;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
@@ -63,6 +66,7 @@ public class MyResultsActivity extends AppCompatActivity {
 
     //TEST
     private ArrayList<AnswersModel> m_UserAnswer_List;
+    private String appLink = "https://play.google.com/store/apps/details?id=com.pikchillytechnologies.engineeingacademy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,36 +157,53 @@ public class MyResultsActivity extends AppCompatActivity {
                 // set item as selected to persist highlight
                 menuItem.setChecked(true);
 
-                if(menuItem.getTitle().equals("Courses")){
+                if(menuItem.getTitle().equals(getResources().getString(R.string.courses))){
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), CoursesActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
-                }else if(menuItem.getTitle().equals("Articles")){
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.articles))){
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), ArticlesActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
-                }else if(menuItem.getTitle().equals("My Downloads")){
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.my_downloads))){
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), MyDownloadsActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
 
-                }else if(menuItem.getTitle().equals("My Results")){
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.my_results))){
 
                     mDrawerLayout.closeDrawers();
 
-                }else if(menuItem.getTitle().equals("Update Profile")){
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.update_profile))){
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
                     destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
                     destinationDetailIntent.putExtra("username", m_User_Name);
                     startActivity(destinationDetailIntent);
-                }else if(menuItem.getTitle().equals("Logout")){
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.share_app))){
+
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Engineering Academy Dehradun App");
+                    String message = "\nLet me recommend you this application: \n" + appLink;
+
+                    i.putExtra(Intent.EXTRA_TEXT, message);
+                    startActivity(Intent.createChooser(i, "Select one.."));
+
+
+                }else if(menuItem.getTitle().equals(getResources().getString(R.string.logout))){
 
                     session.logoutUser();
+
+                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+                    GoogleSignInClient signedClient = GoogleSignIn.getClient(MyResultsActivity.this, gso);
+
+                    signedClient.signOut();
+
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
                     startActivity(destinationDetailIntent);
 

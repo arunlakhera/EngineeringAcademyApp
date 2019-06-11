@@ -27,21 +27,18 @@ import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    //private static String signupURL ="https://pikchilly.com/api/signup.php";
+    private static String signupURL = "http://onlineengineeringacademy.co.in/api/user_profile";
     private EditText m_First_Name_EditText;
     private EditText m_Last_Name_EditText;
     private EditText m_Phone_EditText;
     private EditText m_Email_Id_EditText;
     private EditText m_Password_EditText;
     private String m_User_Id;
-
     private Button m_Sign_Up_Button;
     private TextView m_Sign_In_TextView;
     private ProgressDialog pd;
     private EAHelper m_Helper;
-
-    //private static String signupURL ="https://pikchilly.com/api/signup.php";
-    private static String signupURL ="http://onlineengineeringacademy.co.in/api/user_profile";
-
     private SessionHandler session;
 
     @Override
@@ -67,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+                if (m_Helper.isNetworkAvailable(getApplicationContext())) {
 
                     String userFirstName = m_First_Name_EditText.getText().toString();
                     String userLastName = m_Last_Name_EditText.getText().toString();
@@ -75,33 +72,33 @@ public class SignUpActivity extends AppCompatActivity {
                     String userEmailId = m_Email_Id_EditText.getText().toString();
                     String userPassword = m_Password_EditText.getText().toString();
 
-                    if(userFirstName.isEmpty()){
-                        Toast.makeText(getApplicationContext(),"Please provide First Name", Toast.LENGTH_SHORT).show();
+                    if (userFirstName.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Please provide First Name", Toast.LENGTH_SHORT).show();
                         m_First_Name_EditText.setFocusable(true);
-                    }else if(userLastName.isEmpty()){
-                        Toast.makeText(getApplicationContext(),"Please provide Last Name", Toast.LENGTH_SHORT).show();
+                    } else if (userLastName.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Please provide Last Name", Toast.LENGTH_SHORT).show();
                         m_Last_Name_EditText.setFocusable(true);
-                    }else if(userPhone.isEmpty()){
-                        Toast.makeText(getApplicationContext(),"Please provide Phone Number", Toast.LENGTH_SHORT).show();
+                    } else if (userPhone.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Please provide Phone Number", Toast.LENGTH_SHORT).show();
                         m_Phone_EditText.setFocusable(true);
-                    }else if(userEmailId.isEmpty()){
-                        Toast.makeText(getApplicationContext(),"Please provide Email Id", Toast.LENGTH_SHORT).show();
+                    } else if (userEmailId.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Please provide Email Id", Toast.LENGTH_SHORT).show();
                         m_Email_Id_EditText.setFocusable(true);
-                    }else if(userPassword.isEmpty()){
-                        Toast.makeText(getApplicationContext(),"Please provide Password", Toast.LENGTH_SHORT).show();
+                    } else if (userPassword.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Please provide Password", Toast.LENGTH_SHORT).show();
                         m_Password_EditText.setFocusable(true);
-                    }else {
+                    } else {
 
-                        if(m_Helper.isValidEmail(userEmailId)){
+                        if (m_Helper.isValidEmail(userEmailId)) {
                             m_User_Id = m_Email_Id_EditText.getText().toString();
                             signupRequest();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
                         }
                     }
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -116,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    public void signupRequest(){
+    public void signupRequest() {
 
         pd.setMessage("Signing Up . . .");
         pd.show();
@@ -125,15 +122,14 @@ public class SignUpActivity extends AppCompatActivity {
         String response = null;
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, signupURL,
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         pd.hide();
 //                        Toast.makeText(getApplicationContext(),"Response" + response,Toast.LENGTH_LONG).show();
                         response = response.trim();
-                        if(response.equals("SignUpSuccess")) {
+                        if (response.equals("SignUpSuccess")) {
 
                             String firstName = m_First_Name_EditText.getText().toString();
                             String lastName = m_Last_Name_EditText.getText().toString();
@@ -146,20 +142,19 @@ public class SignUpActivity extends AppCompatActivity {
                             destinationDetailIntent.putExtra("username", userName);
                             startActivity(destinationDetailIntent);
 
-                        }else if(response.equals("SignUpFailed")){
+                        } else if (response.equals("SignUpFailed")) {
 
-                            Toast.makeText(getApplicationContext(),"Could not Sign Up",Toast.LENGTH_LONG).show();
-                        }else if(response.equals("UsernameExists")){
-                            Toast.makeText(getApplicationContext(),"User with this email already exists!",Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"Response:" + response,Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Could not Sign Up", Toast.LENGTH_LONG).show();
+                        } else if (response.equals("UsernameExists")) {
+                            Toast.makeText(getApplicationContext(), "User with this email already exists!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Response:" + response, Toast.LENGTH_LONG).show();
                         }
 
                     }
 
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
@@ -169,9 +164,8 @@ public class SignUpActivity extends AppCompatActivity {
                 }
         ) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
 
                 params.put("firstname", m_First_Name_EditText.getText().toString());
                 params.put("lastname", m_Last_Name_EditText.getText().toString());
