@@ -408,7 +408,6 @@ public class SignInActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
                     }
 
-
                 }else{
                     Toast.makeText(getApplicationContext(),"Please provide registered Email Id !", Toast.LENGTH_SHORT).show();
                 }
@@ -548,6 +547,3 @@ public class SignInActivity extends AppCompatActivity {
     }
     
 }
-
-// CLIENT ID : 469104860820-17pf2gba7n8tb9na3j1n32ut2fuq85gk.apps.googleusercontent.com
-// Client SECRET : pC5PMcOLq81KICc1XcUy8G3c
