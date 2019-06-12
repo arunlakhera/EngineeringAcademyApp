@@ -119,11 +119,29 @@
                     android:textSize="@dimen/text_default"
                     />
                 <com.google.android.gms.common.SignInButton
-                    android:id="@+id/sign_in_button"
+                    android:id="@+id/google_sign_in_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_small"
                     />
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/facebook_sign_in_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/margin_small" />
+
+                <Button
+                    android:id="@+id/fb"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#416BC1"
+                    android:onClick="onClick"
+                    android:text="FaceBook"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
             <LinearLayout
