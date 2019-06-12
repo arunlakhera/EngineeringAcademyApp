@@ -9,7 +9,8 @@
         android:id="@+id/imageview_Background"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:contentDescription="TODO" android:scaleType="fitXY"
+        android:contentDescription="TODO"
+        android:scaleType="fitXY"
         android:src="@drawable/mechanical"
         />
 
@@ -39,9 +40,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center|start"
-                android:text="Course"
                 android:textColor="@color/colorOffWhiteBg"
-                android:textSize="@dimen/text_medium"
+                android:textSize="@dimen/text_small"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

@@ -48,8 +48,11 @@ public class SubCoursesPackageAdapter extends RecyclerView.Adapter<SubCoursesPac
 
         final SubCoursePackage subCourse = m_Sub_Course_Packages_List.get(position);
         holder.m_TextView_Sub_Category.setText(subCourse.getM_Sub_Course_Name());
-        holder.m_TextView_Cost.setText("Rs." + subCourse.getM_Cost());
-        holder.m_TextView_Total_Exams.setText(subCourse.getM_Total_Exams());
+        if(subCourse.getM_Cost().equals("0")){
+            holder.m_TextView_Cost.setText("FREE");
+        }
+        //holder.m_TextView_Cost.setText("Rs." + subCourse.getM_Cost());
+        holder.m_TextView_Total_Exams.setText("Total Exams: " + subCourse.getM_Total_Exams());
 
         if(mCategoryName.equals("Mechanical")){
             holder.m_Background_ImageView.setImageResource(R.drawable.mechanical);

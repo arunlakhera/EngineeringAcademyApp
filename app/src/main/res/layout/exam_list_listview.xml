@@ -20,7 +20,7 @@
         android:gravity="center"
         android:text="Exam 01"
         android:textColor="@color/colorOffWhiteBg"
-        android:textSize="@dimen/text_medium"
+        android:textSize="@dimen/text_small"
         android:textStyle="bold" />
 
     <LinearLayout

@@ -41,20 +41,11 @@
                 android:layout_weight="1"
                 android:gravity="center|start"
                 android:text="Package"
-                android:textColor="@color/colorOffWhiteBg"
-                android:textSize="@dimen/text_medium"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView_Cost"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center|end"
-                android:text="Rs. 200"
+                android:textAllCaps="false"
                 android:textColor="@color/colorOffWhiteBg"
                 android:textSize="@dimen/text_small"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <ImageView
@@ -90,6 +81,21 @@
                 android:textSize="@dimen/text_small"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/textView_Cost"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|end"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
+                android:text="Rs. 200"
+                android:textColor="@color/colorOffWhiteBg"
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold" />
+
             <Button
                 android:id="@+id/button_Buy"
                 android:layout_width="80dp"
@@ -101,6 +107,7 @@
                 android:layout_marginBottom="@dimen/margin_small"
                 android:background="@drawable/button_base_red_full"
                 android:gravity="center"
+                android:visibility="gone"
                 android:text="Buy"
                 android:textColor="@color/colorOffWhiteBg"
                 android:textSize="15sp" />

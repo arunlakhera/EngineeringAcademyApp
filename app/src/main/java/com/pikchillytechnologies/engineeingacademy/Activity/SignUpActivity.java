@@ -73,19 +73,23 @@ public class SignUpActivity extends AppCompatActivity {
                     String userPassword = m_Password_EditText.getText().toString();
 
                     if (userFirstName.isEmpty()) {
-                        Toast.makeText(getApplicationContext(), "Please provide First Name", Toast.LENGTH_SHORT).show();
+                        m_First_Name_EditText.setError("Please provide First Name");
                         m_First_Name_EditText.setFocusable(true);
                     } else if (userLastName.isEmpty()) {
-                        Toast.makeText(getApplicationContext(), "Please provide Last Name", Toast.LENGTH_SHORT).show();
+                        m_Last_Name_EditText.setError("Please provide Last Name");
                         m_Last_Name_EditText.setFocusable(true);
                     } else if (userPhone.isEmpty()) {
-                        Toast.makeText(getApplicationContext(), "Please provide Phone Number", Toast.LENGTH_SHORT).show();
+                        m_Phone_EditText.setError("Please provide Phone Number");
+                        m_Phone_EditText.setFocusable(true);
+                    }else if(userPhone.length() < 10){
+                        m_Phone_EditText.setError("Please provide valid Phone Number");
                         m_Phone_EditText.setFocusable(true);
                     } else if (userEmailId.isEmpty()) {
-                        Toast.makeText(getApplicationContext(), "Please provide Email Id", Toast.LENGTH_SHORT).show();
+                        m_Email_Id_EditText.setError("Please provide Email ID");
                         m_Email_Id_EditText.setFocusable(true);
                     } else if (userPassword.isEmpty()) {
                         Toast.makeText(getApplicationContext(), "Please provide Password", Toast.LENGTH_SHORT).show();
+                        m_Password_EditText.setError("Please provide Password");
                         m_Password_EditText.setFocusable(true);
                     } else {
 
@@ -93,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
                             m_User_Id = m_Email_Id_EditText.getText().toString();
                             signupRequest();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
+                            m_Email_Id_EditText.setError("Please provide valid Email ID..");
                         }
                     }
 

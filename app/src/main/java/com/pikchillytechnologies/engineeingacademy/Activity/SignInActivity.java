@@ -176,11 +176,12 @@ public class SignInActivity extends AppCompatActivity {
                             m_User_Id = m_Email_Id_TextView.getText().toString();
                             signInRequest();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
+                            m_Email_Id_TextView.setError("Please provide valid Email ID..");
                         }
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "Please provide Email Id & Password !", Toast.LENGTH_SHORT).show();
+
+                        m_Email_Id_TextView.setError("Please provide your registered Email ID..");
                     }
 
                 } else {
@@ -200,7 +201,7 @@ public class SignInActivity extends AppCompatActivity {
         m_Forgot_Password_TextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Please Enter registered email id..", Toast.LENGTH_SHORT).show();
+
                 callForgotPassword(SignInActivity.this);
             }
         });
@@ -395,15 +396,16 @@ public class SignInActivity extends AppCompatActivity {
                     if (m_Helper.isValidEmail(registeredEmail)) {
 
                         setPasswordRequest();
-                        Toast.makeText(getApplicationContext(), "An Email has been sent to reset Password.", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
+                        forgotPasswordEditText.setError("Please provide valid Email ID..");
+                        send_Button.setBackgroundColor(getResources().getColor(R.color.colorDarkRed));
                     }
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please provide registered Email Id !", Toast.LENGTH_SHORT).show();
+                    forgotPasswordEditText.setError("Please provide your registered Email ID..");
+                    send_Button.setBackgroundColor(getResources().getColor(R.color.colorDarkRed));
                 }
 
             }
@@ -434,7 +436,7 @@ public class SignInActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "No user exists with this Email Id.", Toast.LENGTH_LONG).show();
                         } else if (response.equals("EMAIL_SENT")) {
 
-                            Toast.makeText(getApplicationContext(), "An Email has been sent to reset Password", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "An Email has been sent to the registered Email Id to reset Password", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "Could not sent Password reset email. Please try again!", Toast.LENGTH_LONG).show();
                         }
