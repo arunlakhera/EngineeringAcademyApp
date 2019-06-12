@@ -61,41 +61,41 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
 public class SignInActivity extends AppCompatActivity {
 
+    private static final int RC_SIGN_IN = 1;
+    //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";
+    private static String loginURL = "http://onlineengineeringacademy.co.in/api/login_request";
+    private static String forgotPasswordURL = "http://onlineengineeringacademy.co.in/api/forgot_password_request";
+    private static String signupURL = "http://onlineengineeringacademy.co.in/api/user_profile";
     private EditText m_Email_Id_TextView;
     private EditText m_Password_TextView;
     private String m_User_Id;
-
     private Button m_Sign_In_Button;
     private TextView m_Sign_Up_TextView;
     private EAHelper m_Helper;
     private ProgressDialog pd;
-
     private SessionHandler session;
     private TextView m_Forgot_Password_TextView;
     private EditText forgotPasswordEditText;
     private Button cancel_Button;
     private Button send_Button;
-
-    //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";
-    private static String loginURL = "http://onlineengineeringacademy.co.in/api/login_request";
-    private static String forgotPasswordURL = "http://onlineengineeringacademy.co.in/api/forgot_password_request";
-    private static String signupURL = "http://onlineengineeringacademy.co.in/api/user_profile";
-
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleApiClient googleApiClient;
-    private static final int RC_SIGN_IN = 1;
     private String google_FirstName;
     private String google_LastName;
     private String google_Phone;
     private String google_EmailId;
     private String google_Password;
 
-    private Button fbSignInButton;
+    private SignInButton googleSignInButton;
+    private LoginButton facebookSignInButton;
+    private Button facebookCustomButton;
+    private Button googleCustomButton;
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
 
@@ -123,27 +123,24 @@ public class SignInActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        googleApiClient=new GoogleApiClient.Builder(this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
         // Set the dimensions of the sign-in button.
-        SignInButton googleSignInButton = findViewById(R.id.google_sign_in_button);
-        googleSignInButton.setSize(SignInButton.SIZE_STANDARD);
+        googleSignInButton = findViewById(R.id.google_sign_in_button);
+        facebookSignInButton = findViewById(R.id.facebook_sign_in_button);
+
+        googleCustomButton = findViewById(R.id.google_custom_button);
+        facebookCustomButton = findViewById(R.id.facebook_custom_button);
 
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-                startActivityForResult(intent,RC_SIGN_IN);
+                startActivityForResult(intent, RC_SIGN_IN);
             }
         });
-
-        // Facebook Button
-        LoginButton facebookSignInButton = findViewById(R.id.facebook_sign_in_button);
-        fbSignInButton = findViewById(R.id.fb);
-
-        facebookSignInButton.setReadPermissions(Arrays.asList("email", "public_profile"));
 
         // Defining the AccessTokenTracker
         accessTokenTracker = new AccessTokenTracker() {
@@ -168,26 +165,26 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(m_Helper.isNetworkAvailable(getApplicationContext())){
+                if (m_Helper.isNetworkAvailable(getApplicationContext())) {
 
                     String userEmailId = m_Email_Id_TextView.getText().toString();
                     String userPassword = m_Password_TextView.getText().toString();
 
-                    if(!userEmailId.isEmpty() && !userPassword.isEmpty()){
+                    if (!userEmailId.isEmpty() && !userPassword.isEmpty()) {
 
-                        if(m_Helper.isValidEmail(userEmailId)){
+                        if (m_Helper.isValidEmail(userEmailId)) {
                             m_User_Id = m_Email_Id_TextView.getText().toString();
                             signInRequest();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
                         }
 
-                    }else{
-                        Toast.makeText(getApplicationContext(),"Please provide Email Id & Password !", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please provide Email Id & Password !", Toast.LENGTH_SHORT).show();
                     }
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Please connect to Internet.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please connect to Internet.", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -203,7 +200,7 @@ public class SignInActivity extends AppCompatActivity {
         m_Forgot_Password_TextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Please Enter registered email id..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Please Enter registered email id..", Toast.LENGTH_SHORT).show();
                 callForgotPassword(SignInActivity.this);
             }
         });
@@ -220,7 +217,7 @@ public class SignInActivity extends AppCompatActivity {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken != null) {
             useLoginInformation(accessToken);
-            //signupRequest();
+            signupRequest();
         }
     }
 
@@ -230,6 +227,7 @@ public class SignInActivity extends AppCompatActivity {
 
         // We stop the tracking before destroying the activity
         accessTokenTracker.stopTracking();
+
     }
 
     @Override
@@ -239,26 +237,26 @@ public class SignInActivity extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==RC_SIGN_IN){
+        if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
 
     }
 
-    private void handleSignInResult(GoogleSignInResult result){
-        if(result.isSuccess()){
+    private void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
             //gotoProfile();
 
             google_FirstName = result.getSignInAccount().getGivenName();
             google_LastName = result.getSignInAccount().getFamilyName();
-            google_Phone="";
+            google_Phone = "";
             google_EmailId = result.getSignInAccount().getEmail();
-            google_Password ="";
+            google_Password = "";
             signupRequest();
 
-        }else{
-            Toast.makeText(getApplicationContext(),"Sign in cancel",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Sign in cancel", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -343,7 +341,7 @@ public class SignInActivity extends AppCompatActivity {
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
 
-                    Log.d("FACEBOOK---->>>>>",object.toString());
+                    Log.d("FACEBOOK---->>>>>", object.toString());
                     google_FirstName = object.getString("first_name");
                     google_LastName = object.getString("last_name");
                     google_Phone = "";
@@ -364,7 +362,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
 
-    public void callForgotPassword(Activity activity){
+    public void callForgotPassword(Activity activity) {
 
         // Show popup to take users registered email id for which user forgot password
 
@@ -391,9 +389,9 @@ public class SignInActivity extends AppCompatActivity {
                 send_Button.setBackgroundColor(getResources().getColor(R.color.colorDarkGreen));
                 String registeredEmail = forgotPasswordEditText.getText().toString();
 
-                if(!registeredEmail.isEmpty()){
+                if (!registeredEmail.isEmpty()) {
 
-                    if(m_Helper.isValidEmail(registeredEmail)){
+                    if (m_Helper.isValidEmail(registeredEmail)) {
 
                         // Send the provided email id to WEB API to check if this email exists in system
                         // if email does not exists receive msg "Email_Not_Exists" and show message to user
@@ -401,15 +399,15 @@ public class SignInActivity extends AppCompatActivity {
                         // Show msg to the user that email to reset has been sent to the user.
 
                         setPasswordRequest();
-                        Toast.makeText(getApplicationContext(),"----An Email has been sent to reset Password.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "----An Email has been sent to reset Password.", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
 
-                    }else{
-                        Toast.makeText(getApplicationContext(),"Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please provide valid Email Id !", Toast.LENGTH_SHORT).show();
                     }
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Please provide registered Email Id !", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please provide registered Email Id !", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -428,43 +426,40 @@ public class SignInActivity extends AppCompatActivity {
         String response = null;
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, forgotPasswordURL,
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         pd.hide();
                         response = response.trim();
 
-                        if(response.equals("EMAIL_NOT_EXIST")){
+                        if (response.equals("EMAIL_NOT_EXIST")) {
 
-                            Toast.makeText(getApplicationContext(),"No user exists with this Email Id.",Toast.LENGTH_LONG).show();
-                        }else if(response.equals("EMAIL_SENT")){
+                            Toast.makeText(getApplicationContext(), "No user exists with this Email Id.", Toast.LENGTH_LONG).show();
+                        } else if (response.equals("EMAIL_SENT")) {
 
-                            Toast.makeText(getApplicationContext(),"An Email has been sent to reset Password",Toast.LENGTH_LONG).show();
-                        }else {
-                            Toast.makeText(getApplicationContext(),"Could not sent Password reset email. Please try again!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "An Email has been sent to reset Password", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Could not sent Password reset email. Please try again!", Toast.LENGTH_LONG).show();
                         }
 
                     }
 
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
                         pd.hide();
-                        String err = (error.getMessage()==null)?"Error is:":error.getMessage();
+                        String err = (error.getMessage() == null) ? "Error is:" : error.getMessage();
                         Log.d("ErrorResponse", err);
 
                     }
                 }
         ) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("username", forgotPasswordEditText.getText().toString());
                 return params;
             }
@@ -473,7 +468,7 @@ public class SignInActivity extends AppCompatActivity {
         m_Queue.add(postRequest);
     }
 
-    public void signInRequest(){
+    public void signInRequest() {
 
         pd.setMessage("Signing In . . .");
         pd.show();
@@ -482,19 +477,18 @@ public class SignInActivity extends AppCompatActivity {
         String response = null;
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, loginURL,
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         pd.hide();
                         response = response.trim();
-                            if(response.equals("SignInFailed")){
+                        if (response.equals("SignInFailed")) {
 
-                                Toast.makeText(getApplicationContext(),"User Name/Password does not match. Try Again.",Toast.LENGTH_LONG).show();
-                            }else{
+                            Toast.makeText(getApplicationContext(), "User Name/Password does not match. Try Again.", Toast.LENGTH_LONG).show();
+                        } else {
 
-                                try{
+                            try {
                                 JSONObject userJSON = new JSONObject(response);
 
                                 JSONArray userArray = userJSON.getJSONArray("user_data");
@@ -511,31 +505,29 @@ public class SignInActivity extends AppCompatActivity {
                                 destinationDetailIntent.putExtra("username", userName);
                                 startActivity(destinationDetailIntent);
 
-                                }catch (Exception e){
+                            } catch (Exception e) {
 
-                                    Log.e("Error:", e.getMessage());
-                                }
+                                Log.e("Error:", e.getMessage());
                             }
+                        }
 
                     }
 
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
                         pd.hide();
-                        String err = (error.getMessage()==null)?"Error is:":error.getMessage();
+                        String err = (error.getMessage() == null) ? "Error is:" : error.getMessage();
                         Log.d("ErrorResponse", err);
 
                     }
                 }
         ) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("username", m_Email_Id_TextView.getText().toString());
                 params.put("password", m_Password_TextView.getText().toString());
                 return params;
@@ -545,5 +537,19 @@ public class SignInActivity extends AppCompatActivity {
         m_Queue.add(postRequest);
 
     }
-    
+
+    public void onClick_FB(View view) {
+        if(view == facebookCustomButton){
+            facebookSignInButton.performClick();
+        }
+    }
+
+    public void onClick_Google(View view) {
+
+        if(view == googleCustomButton){
+            //googleSignInButton.performClick();
+            Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+            startActivityForResult(intent, RC_SIGN_IN);
+        }
+    }
 }

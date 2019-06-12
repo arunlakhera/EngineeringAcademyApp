@@ -28,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -236,6 +237,7 @@ public class ArticlesActivity extends AppCompatActivity {
                     GoogleSignInClient signedClient = GoogleSignIn.getClient(ArticlesActivity.this, gso);
 
                     signedClient.signOut();
+                    LoginManager.getInstance().logOut();
 
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
                     startActivity(destinationDetailIntent);

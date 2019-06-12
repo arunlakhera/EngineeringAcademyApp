@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -269,7 +270,7 @@ public class ResultActivity extends AppCompatActivity {
                     GoogleSignInClient signedClient = GoogleSignIn.getClient(ResultActivity.this, gso);
 
                     signedClient.signOut();
-
+                    LoginManager.getInstance().logOut();
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
                     startActivity(destinationDetailIntent);
 

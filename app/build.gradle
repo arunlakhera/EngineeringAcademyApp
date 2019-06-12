@@ -52,6 +52,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' // added for volley
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3' // added for chart
     implementation 'com.google.android.gms:play-services-auth:16.0.1' //added for google signin
-    implementation 'com.facebook.android:facebook-android-sdk:4.31.0' // added for facebook login
-
+    implementation 'com.facebook.android:facebook-android-sdk:5.0.0' // added for facebook login
 }

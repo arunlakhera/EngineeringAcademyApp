@@ -39,6 +39,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -230,7 +231,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     GoogleSignInClient signedClient = GoogleSignIn.getClient(UpdateProfileActivity.this, gso);
 
                     signedClient.signOut();
-
+                    LoginManager.getInstance().logOut();
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
                     startActivity(destinationDetailIntent);
                 }
