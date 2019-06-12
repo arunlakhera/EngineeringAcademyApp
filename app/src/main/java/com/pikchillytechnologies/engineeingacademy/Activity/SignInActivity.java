@@ -436,7 +436,7 @@ public class SignInActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "No user exists with this Email Id.", Toast.LENGTH_LONG).show();
                         } else if (response.equals("EMAIL_SENT")) {
 
-                            Toast.makeText(getApplicationContext(), "An Email has been sent to the registered Email Id to reset Password", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "An Email has been sent to the registered Email ID to reset Password", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "Could not sent Password reset email. Please try again!", Toast.LENGTH_LONG).show();
                         }
