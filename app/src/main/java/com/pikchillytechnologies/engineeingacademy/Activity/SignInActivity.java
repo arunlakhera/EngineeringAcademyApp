@@ -70,7 +70,7 @@ public class SignInActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     //private static String loginURL ="http://onlineengineeringacademy.co.in/api/login_request";
     private static String loginURL = "http://onlineengineeringacademy.co.in/api/login_request";
-    private static String forgotPasswordURL = "http://onlineengineeringacademy.co.in/api/forgot_password_request";
+    private static String forgotPasswordURL = "http://onlineengineeringacademy.co.in/api/forget_password";
     private static String signupURL = "http://onlineengineeringacademy.co.in/api/user_profile";
     private EditText m_Email_Id_TextView;
     private EditText m_Password_TextView;
@@ -246,7 +246,6 @@ public class SignInActivity extends AppCompatActivity {
 
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            //gotoProfile();
 
             google_FirstName = result.getSignInAccount().getGivenName();
             google_LastName = result.getSignInAccount().getFamilyName();
@@ -256,7 +255,7 @@ public class SignInActivity extends AppCompatActivity {
             signupRequest();
 
         } else {
-            Toast.makeText(getApplicationContext(), "Sign in cancel", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Google Sign in cancelled", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -292,9 +291,11 @@ public class SignInActivity extends AppCompatActivity {
 
                         } else if (response.equals("SignUpFailed")) {
 
-                            Toast.makeText(getApplicationContext(), "Could not Sign Up", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Sign In Failed. Please try again or contact contact us if problem persists.", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Response:" + response, Toast.LENGTH_LONG).show();
+
+                            Toast.makeText(getApplicationContext(), "Error Occured while Sign In. Please try again or contact us if problem persists.", Toast.LENGTH_LONG).show();
+                            Log.e("Error:",response);
                         }
 
                     }
@@ -393,13 +394,8 @@ public class SignInActivity extends AppCompatActivity {
 
                     if (m_Helper.isValidEmail(registeredEmail)) {
 
-                        // Send the provided email id to WEB API to check if this email exists in system
-                        // if email does not exists receive msg "Email_Not_Exists" and show message to user
-                        // if email exists Web API will send email to the user with a link to reset the password/ or send temp password and send msg "Email_Sent" to app
-                        // Show msg to the user that email to reset has been sent to the user.
-
                         setPasswordRequest();
-                        Toast.makeText(getApplicationContext(), "----An Email has been sent to reset Password.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "An Email has been sent to reset Password.", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
 
                     } else {
@@ -547,7 +543,6 @@ public class SignInActivity extends AppCompatActivity {
     public void onClick_Google(View view) {
 
         if(view == googleCustomButton){
-            //googleSignInButton.performClick();
             Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
             startActivityForResult(intent, RC_SIGN_IN);
         }

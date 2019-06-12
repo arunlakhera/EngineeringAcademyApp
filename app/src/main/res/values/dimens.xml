@@ -27,4 +27,8 @@
     <dimen name="back_width">35dp</dimen>
 
     <dimen name="image_height">130dp</dimen>
+    <dimen name="google_btn_width">48dp</dimen>
+    <dimen name="google_btn_height">48dp</dimen>
+    <dimen name="facebook_btn_width">48dp</dimen>
+    <dimen name="facebook_btn_height">48dp</dimen>
 </resources>

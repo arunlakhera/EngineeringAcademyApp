@@ -114,8 +114,8 @@
                     android:text="@string/or_you_can_use"
                     android:textAlignment="center"
                     android:layout_margin="@dimen/margin_small"
-                    android:textStyle="bold"
-                    android:textColor="@color/textColorWhite"
+                    android:textStyle="bold|italic"
+                    android:textColor="@color/colorOffWhiteBg"
                     android:textSize="@dimen/text_default"
                     />
 
@@ -140,16 +140,16 @@
 
                     <Button
                         android:id="@+id/google_custom_button"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/google_btn_width"
+                        android:layout_height="@dimen/google_btn_height"
                         android:layout_margin="@dimen/margin_small"
                         android:background="@drawable/google_icon"
                         android:onClick="onClick_Google" />
 
                     <Button
                         android:id="@+id/facebook_custom_button"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/google_btn_width"
+                        android:layout_height="@dimen/google_btn_height"
                         android:background="@drawable/facebook_icon"
                         android:layout_margin="@dimen/margin_small"
                         android:onClick="onClick_FB"/>
