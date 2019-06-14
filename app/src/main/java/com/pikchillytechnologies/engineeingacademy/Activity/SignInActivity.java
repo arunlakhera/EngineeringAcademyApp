@@ -152,7 +152,6 @@ public class SignInActivity extends AppCompatActivity {
                 if (currentAccessToken != null) {
                     // AccessToken is not null implies user is logged in and hence we sen the GraphRequest
                     useLoginInformation(currentAccessToken);
-                    useLoginInformation(currentAccessToken);
                     signupRequest();
                 }
             }
