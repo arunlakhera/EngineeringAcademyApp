@@ -48,10 +48,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+
 import com.pikchillytechnologies.engineeingacademy.Adapter.AnswersAdapter;
 import com.pikchillytechnologies.engineeingacademy.Adapter.ExamQuestionAdapter;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
@@ -312,11 +309,6 @@ public class AnswersActivity extends AppCompatActivity {
                 }else if (menuItem.getTitle().equals(getResources().getString(R.string.logout))) {
 
                     session.logoutUser();
-                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-                    GoogleSignInClient signedClient = GoogleSignIn.getClient(AnswersActivity.this, gso);
-
-                    signedClient.signOut();
-                    LoginManager.getInstance().logOut();
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
                     startActivity(destinationDetailIntent);
 

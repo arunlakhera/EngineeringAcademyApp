@@ -31,24 +31,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.Login;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
+
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.EAHelper;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -61,9 +44,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -84,20 +64,6 @@ public class SignInActivity extends AppCompatActivity {
     private EditText forgotPasswordEditText;
     private Button cancel_Button;
     private Button send_Button;
-    private GoogleSignInClient mGoogleSignInClient;
-    private GoogleApiClient googleApiClient;
-    private String google_FirstName;
-    private String google_LastName;
-    private String google_Phone;
-    private String google_EmailId;
-    private String google_Password;
-
-    private SignInButton googleSignInButton;
-    private LoginButton facebookSignInButton;
-    private Button facebookCustomButton;
-    private Button googleCustomButton;
-    private CallbackManager callbackManager;
-    private AccessTokenTracker accessTokenTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,50 +81,6 @@ public class SignInActivity extends AppCompatActivity {
 
         m_Helper = new EAHelper();
         pd = new ProgressDialog(SignInActivity.this);
-
-        // Google Sign In Option
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        // Set the dimensions of the sign-in button.
-        googleSignInButton = findViewById(R.id.google_sign_in_button);
-        facebookSignInButton = findViewById(R.id.facebook_sign_in_button);
-
-        googleCustomButton = findViewById(R.id.google_custom_button);
-        facebookCustomButton = findViewById(R.id.facebook_custom_button);
-
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-                startActivityForResult(intent, RC_SIGN_IN);
-            }
-        });
-
-        // Defining the AccessTokenTracker
-        accessTokenTracker = new AccessTokenTracker() {
-            // This method is invoked everytime access token changes
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-
-                // currentAccessToken is null if the user is logged out
-                if (currentAccessToken != null) {
-                    // AccessToken is not null implies user is logged in and hence we sen the GraphRequest
-                    useLoginInformation(currentAccessToken);
-                    signupRequest();
-                }
-            }
-        };
-
-        // Creating CallbackManager
-        callbackManager = CallbackManager.Factory.create();
 
         m_Sign_In_Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,160 +130,11 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        //This starts the access token tracking
-        accessTokenTracker.startTracking();
-
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        if (accessToken != null) {
-            useLoginInformation(accessToken);
-            signupRequest();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // We stop the tracking before destroying the activity
-        accessTokenTracker.stopTracking();
-
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        callbackManager.onActivityResult(requestCode, resultCode, data);
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
-
     }
-
-    private void handleSignInResult(GoogleSignInResult result) {
-        if (result.isSuccess()) {
-
-            google_FirstName = result.getSignInAccount().getGivenName();
-            google_LastName = result.getSignInAccount().getFamilyName();
-            google_Phone = "";
-            google_EmailId = result.getSignInAccount().getEmail();
-            google_Password = "";
-            signupRequest();
-
-        } else {
-            Toast.makeText(getApplicationContext(), "Google Sign in cancelled", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void signupRequest() {
-
-        pd.setMessage("Signing In . . .");
-        pd.show();
-
-        RequestQueue queue = Volley.newRequestQueue(SignInActivity.this);
-        String response = null;
-
-        StringRequest postRequest = new StringRequest(Request.Method.POST, signupURL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        pd.hide();
-
-                        response = response.trim();
-                        if (response.equals("SignUpSuccess") || response.equals("UsernameExists")) {
-
-                            String firstName = google_FirstName;
-                            String lastName = google_LastName;
-                            String userName = firstName + " " + lastName;
-                            m_User_Id = google_EmailId;
-
-                            session.loginUser(m_User_Id);
-
-                            Intent destinationDetailIntent = new Intent(SignInActivity.this, CoursesActivity.class);
-                            destinationDetailIntent.putExtra(getResources().getString(R.string.userid), m_User_Id);
-                            destinationDetailIntent.putExtra("username", userName);
-                            startActivity(destinationDetailIntent);
-
-                        } else if (response.equals("SignUpFailed")) {
-
-                            Toast.makeText(getApplicationContext(), "Sign In Failed. Please try again or contact contact us if problem persists.", Toast.LENGTH_LONG).show();
-                        } else {
-
-                            Toast.makeText(getApplicationContext(), "Error Occured while Sign In. Please try again or contact us if problem persists.", Toast.LENGTH_LONG).show();
-                            Log.e("Error:",response);
-                        }
-
-                    }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("ErrorResponse", error.getMessage());
-
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("firstname", google_FirstName);
-                params.put("lastname", google_LastName);
-                params.put("phone", google_Phone);
-                params.put("username", google_EmailId);
-                params.put("password", google_Password);
-
-                return params;
-
-            }
-        };
-        postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(postRequest);
-
-    }
-
-    // FB User Login Information
-    private void useLoginInformation(AccessToken accessToken) {
-        /**
-         Creating the GraphRequest to fetch user details
-         1st Param - AccessToken
-         2nd Param - Callback (which will be invoked once the request is successful)
-         **/
-        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
-            //OnCompleted is invoked once the GraphRequest is successful
-            @Override
-            public void onCompleted(JSONObject object, GraphResponse response) {
-                try {
-
-                    Log.d("FACEBOOK---->>>>>", object.toString());
-                    google_FirstName = object.getString("first_name");
-                    google_LastName = object.getString("last_name");
-                    google_Phone = "";
-                    google_EmailId = object.getString("email");
-                    google_Password = "";
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        // We set parameters to the GraphRequest using a Bundle.
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,first_name,last_name,email");
-        request.setParameters(parameters);
-        // Initiate the GraphRequest
-        request.executeAsync();
-    }
-
 
     public void callForgotPassword(Activity activity) {
 
@@ -533,19 +306,5 @@ public class SignInActivity extends AppCompatActivity {
         postRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         m_Queue.add(postRequest);
 
-    }
-
-    public void onClick_FB(View view) {
-        if(view == facebookCustomButton){
-            facebookSignInButton.performClick();
-        }
-    }
-
-    public void onClick_Google(View view) {
-
-        if(view == googleCustomButton){
-            Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-            startActivityForResult(intent, RC_SIGN_IN);
-        }
     }
 }

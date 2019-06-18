@@ -37,10 +37,6 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
 import com.pikchillytechnologies.engineeingacademy.Model.UserResultModel;
 import com.pikchillytechnologies.engineeingacademy.R;
@@ -266,11 +262,7 @@ public class ResultActivity extends AppCompatActivity {
                 }else if(menuItem.getTitle().equals(getResources().getString(R.string.logout))){
 
                     session.logoutUser();
-                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-                    GoogleSignInClient signedClient = GoogleSignIn.getClient(ResultActivity.this, gso);
 
-                    signedClient.signOut();
-                    LoginManager.getInstance().logOut();
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
                     startActivity(destinationDetailIntent);
 

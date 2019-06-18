@@ -24,10 +24,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.pikchillytechnologies.engineeingacademy.Adapter.MyDownloadsAdapter;
 import com.pikchillytechnologies.engineeingacademy.BuildConfig;
 import com.pikchillytechnologies.engineeingacademy.HelperFiles.SessionHandler;
@@ -194,11 +190,6 @@ public class MyDownloadsActivity extends AppCompatActivity {
 
                     session.logoutUser();
 
-                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-                    GoogleSignInClient signedClient = GoogleSignIn.getClient(MyDownloadsActivity.this, gso);
-
-                    signedClient.signOut();
-                    LoginManager.getInstance().logOut();
                     Intent destinationDetailIntent = new Intent(getApplicationContext(), SignInActivity.class);
                     startActivity(destinationDetailIntent);
 
