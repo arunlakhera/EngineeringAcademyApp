@@ -469,4 +469,12 @@ public class ResultActivity extends AppCompatActivity {
         pieChart.setHoleRadius(40f);
         pieChart.setData(data);
     }
+
+    @Override
+    public void onBackPressed() {
+
+        Toast.makeText(getApplicationContext(),"Only one attempt per paper is allowed. You have already submitted the Exam!", Toast.LENGTH_SHORT).show();
+        //super.onBackPressed();
+
+    }
 }

@@ -126,6 +126,7 @@ public class ExamActivity extends AppCompatActivity {
     private Boolean isSubmitPressed;
     private ProgressDialog progressDialog;
     private Button menuButton;
+    private CountDownTimer countTime;
 
     private String url = "http://onlineengineeringacademy.co.in/api/exam_question";
     private String getUserResponseURL = "http://onlineengineeringacademy.co.in/api/user_response";
@@ -343,6 +344,7 @@ public class ExamActivity extends AppCompatActivity {
                 if (!isSubmitPressed) {
 
                     saveUserResult();
+                    countTime.cancel();
                     showResult();
                 } else {
 
@@ -384,8 +386,8 @@ public class ExamActivity extends AppCompatActivity {
 
     public void startExamTimer(long noOfMinutes) {
 
-        new CountDownTimer(noOfMinutes, 1000) {
-
+        countTime = new CountDownTimer(noOfMinutes, 1000) {
+            @Override
             public void onTick(long millisUntilFinished) {
 
                 long millis = millisUntilFinished;
@@ -397,9 +399,9 @@ public class ExamActivity extends AppCompatActivity {
 
                 remainingTime = hh + ":" + mm + ":" + ss;
                 m_TextView_Time_Remaining.setText(remainingTime);
-
             }
 
+            @Override
             public void onFinish() {
 
                 m_TextView_Time_Remaining.setText("Time Up!");
@@ -407,6 +409,7 @@ public class ExamActivity extends AppCompatActivity {
                 showResult();
             }
         }.start();
+
     }
 
     public void saveUserResult() {
@@ -932,6 +935,7 @@ public class ExamActivity extends AppCompatActivity {
 
     public void prepareExamQuestionListData() {
 
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
         stringRequest = new StringRequest(Request.Method.POST, url,

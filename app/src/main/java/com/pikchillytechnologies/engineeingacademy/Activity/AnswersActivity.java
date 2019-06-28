@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -144,6 +145,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SimpleTimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class AnswersActivity extends AppCompatActivity {
 
@@ -451,6 +453,9 @@ public class AnswersActivity extends AppCompatActivity {
      */
     public void prepareExamQuestionsData() {
 
+        progressDialog.setMessage("Downloading Result...");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
         progressDialog.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getUserResponseURL,

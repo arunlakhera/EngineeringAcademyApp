@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.Resource;
 import com.pikchillytechnologies.engineeingacademy.Model.AnswersModel;
 import com.pikchillytechnologies.engineeingacademy.Model.ExamQuestionModel;
 import com.pikchillytechnologies.engineeingacademy.Model.UserResponseModel;
@@ -140,6 +141,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         } else {
             holder.mCheckbox_Answer1_Text.setChecked(false);
             holder.mCheckbox_Answer1_Text.setEnabled(false);
+            holder.mCheckbox_Answer1_Text.setBackgroundColor(Color.LTGRAY);
         }
 
         if (m_QuestionAnswer.getM_Answer2_Flag().trim().equals("Y")) {
@@ -153,6 +155,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         } else {
             holder.mCheckbox_Answer2_Text.setChecked(false);
             holder.mCheckbox_Answer2_Text.setEnabled(false);
+            holder.mCheckbox_Answer2_Text.setBackgroundColor(Color.LTGRAY);
         }
 
         if (m_QuestionAnswer.getM_Answer3_Flag().trim().equals("Y")) {
@@ -166,6 +169,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         } else {
             holder.mCheckbox_Answer3_Text.setChecked(false);
             holder.mCheckbox_Answer3_Text.setEnabled(false);
+            holder.mCheckbox_Answer3_Text.setBackgroundColor(Color.LTGRAY);
         }
 
         if (m_QuestionAnswer.getM_Answer4_Flag().trim().equals("Y")) {
@@ -179,6 +183,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         } else {
             holder.mCheckbox_Answer4_Text.setChecked(false);
             holder.mCheckbox_Answer4_Text.setEnabled(false);
+            holder.mCheckbox_Answer4_Text.setBackgroundColor(Color.LTGRAY);
         }
 
         if (m_QuestionAnswer.getM_Answer5_Flag().trim().equals("Y")) {
@@ -192,6 +197,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         } else {
             holder.mCheckbox_Answer5_Text.setChecked(false);
             holder.mCheckbox_Answer5_Text.setEnabled(false);
+            holder.mCheckbox_Answer5_Text.setBackgroundColor(Color.LTGRAY);
         }
 
         if (m_QuestionAnswer.getM_Answer6_Flag().trim().equals("Y")) {
@@ -205,6 +211,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHo
         } else {
             holder.mCheckbox_Answer6_Text.setChecked(false);
             holder.mCheckbox_Answer6_Text.setEnabled(false);
+            holder.mCheckbox_Answer6_Text.setBackgroundColor(Color.LTGRAY);
         }
 
     }
